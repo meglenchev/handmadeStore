@@ -565,6 +565,8 @@ body.homepage-bg1.offcanvas-open {
 
 /* Scroll Up */
 #scrollUp {
+    display: block;
+    position: relative;
     right: 25px;
     bottom: 25px;
     width: 40px;
@@ -572,6 +574,33 @@ body.homepage-bg1.offcanvas-open {
     text-align: center;
     color: var(--text-white);
     background-color: var(--color-primary);
+    text-indent: -100000px;
+}
+
+#scrollUp::before,
+#scrollUp::after {
+    display: block;
+    position: absolute;
+    content: '';
+    height: 15px;
+    width: 2px;
+    background-color: white;
+}
+
+#scrollUp::before {
+    top: 12px;
+    left: 15px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#scrollUp::after {
+    top: 12px;
+    left: 25px;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 #scrollUp:hover {
@@ -1527,11 +1556,11 @@ body.homepage-bg1.offcanvas-open {
 
 .slick-arrow.slick-prev {
     right: auto;
-    left: -40px;
+    left: -20px;
 }
 
 .slick-arrow.slick-next {
-    right: -40px;
+    right: -20px;
     left: auto;
 }
 
@@ -13487,12 +13516,16 @@ body.offcanvas-open .sticky-header {
     padding: 30px;
 }
 
+.quickViewModal .modal-dialog .modal-content .modal-body {
+    padding: 0;
+}
+
 .quickViewModal .modal-dialog .modal-content .close {
     font-size: 30px;
     font-weight: 300;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -30px;
+    right: -30px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;

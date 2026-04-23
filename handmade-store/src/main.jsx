@@ -1,10 +1,9 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
 
 // 1. Vendor CSS
 import './assets/styles/vendor/bootstrap.min.css';
-
 import './assets/styles/vendor/themify-icons.css';
 import './assets/styles/vendor/customFonts.css';
 
@@ -21,7 +20,7 @@ import './assets/styles/plugins/magnific-popup.css';
 import './assets/styles/style.css';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <StrictMode>
+        <App />
+    </StrictMode>
+);

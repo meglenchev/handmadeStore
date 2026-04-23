@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 
@@ -29,7 +32,7 @@ import 'swiper/css/pagination';
 const NextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
-        <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '24px' }} onClick={onClick}>
+        <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '30px', right: '0' }} onClick={onClick}>
             <FontAwesomeIcon icon={faAngleRight} />
         </div>
     );
@@ -38,17 +41,18 @@ const NextArrow = (props) => {
 const PrevArrow = (props) => {
     const { className, style, onClick } = props;
     return (
-        <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '24px' }} onClick={onClick}>
+        <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '30px', left: '10px' }} onClick={onClick}>
             <FontAwesomeIcon icon={faAngleLeft} />
         </div>
     );
 };
 
 export function Home() {
+    // Home Slider settings
     const settings = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 1000,
         slidesToShow: 4,
         slidesToScroll: 1,
         responsive: [
@@ -58,6 +62,7 @@ export function Home() {
         ],
     };
 
+    // Instagram Slider settings
     const settingsInsta = {
         ...settings,
         dots: false,
@@ -67,9 +72,22 @@ export function Home() {
         prevArrow: <PrevArrow />,
     };
 
+    // Product Quick View Slider settings
     const settingsProductQuickView = {
         ...settingsInsta,
         slidesToShow: 1,
+    };
+
+    const [showQuickView, setShowQuickView] = useState(false);
+
+    // Handlers for Quick View Modal
+    const handleCloseQuickView = () => {
+        setShowQuickView(false);
+    };
+
+    const handleOpenQuickView = (e) => {
+        e.preventDefault();
+        setShowQuickView(true);
     };
 
     return (
@@ -753,10 +771,10 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед" tabIndex="0">
+                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </a>
-                                            <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
+                                            <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                 <FontAwesomeIcon icon={faShoppingCart} />
                                             </a>
                                         </div>
@@ -800,7 +818,7 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед" tabIndex="0">
+                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
@@ -847,7 +865,7 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед" tabIndex="0">
+                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
@@ -894,7 +912,7 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед" tabIndex="0">
+                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
@@ -998,7 +1016,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1042,7 +1060,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1072,7 +1090,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1102,7 +1120,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1132,7 +1150,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1162,7 +1180,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1198,7 +1216,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1228,7 +1246,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1255,7 +1273,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1299,7 +1317,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1329,7 +1347,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1359,7 +1377,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1395,7 +1413,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1425,7 +1443,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1455,7 +1473,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1485,7 +1503,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1512,7 +1530,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1556,7 +1574,7 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#quickViewModal" data-bs-toggle="modal" className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon={faSearch} />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
@@ -1771,203 +1789,170 @@ export function Home() {
                 </div>
             </div>
             {/* Modal */}
-            <div className="quickViewModal modal fade" id="quickViewModal">
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <button className="close" data-bs-dismiss="modal">
-                            ×
-                        </button>
-                        <div className="row learts-mb-n30">
-                            {/* Product Images Start */}
-                            <div className="col-lg-6 col-12 learts-mb-30">
-                                <div className="product-images">
-                                    <div className="product-gallery-slider-quickview">
-                                        <Slider {...settingsProductQuickView}>
-                                            <div className="product-zoom">
-                                                <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                            </div>
-                                            <div className="product-zoom">
-                                                <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                            </div>
-                                            <div className="product-zoom">
-                                                <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                            </div>
-                                            <div className="product-zoom">
-                                                <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                            </div>
-                                        </Slider>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Product Images End */}
-                            {/* Product Summery Start */}
-                            <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
-                                <div className="product-summery customScroll">
-                                    <div className="product-оценка">
-                                        <span className="star-rating">
-                                            <span className="rating-active" style={{ width: '100%' }}>
-                                                оценка
-                                            </span>
-                                        </span>
-                                        <a href="#reviews" className="review-link">
-                                            (<span className="count">3</span> клиентски отзиви)
-                                        </a>
-                                    </div>
-                                    <h3 className="product-title">Почистване на лопатка и четка</h3>
-                                    <div className="product-price">€38.00 – €50.00</div>
-                                    <div className="product-description">
-                                        <p>
-                                            Стандартният отрязък от Lorem Ipsum, използван от 1500 г. насам, е поместен по-долу за тези, които се интересуват. Секции 1.10.32 и
-                                            1.10.33 от "de Finibus Bonorum et Malorum" на Цицерон също са поместени в оригиналния им формат, заедно с превода им на английски език,
-                                            направен от H. Rackham през 1914г.
-                                        </p>
-                                    </div>
-                                    <div className="product-variations">
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Размер</span>
-                                                    </td>
-                                                    <td className="value">
-                                                        <div className="product-sizes">
-                                                            <a href="#">Large</a>
-                                                            <a href="#">Medium</a>
-                                                            <a href="#">Small</a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Цвят</span>
-                                                    </td>
-                                                    <td className="value">
-                                                        <div className="product-color">
-                                                            <a href="#" data-bg-color="#000000" />
-                                                            <a href="#" data-bg-color="#ffffff" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Количество</span>
-                                                    </td>
-                                                    <td className="value">
-                                                        <div className="product-quantity">
-                                                            <span className="qty-btn minus">
-                                                                <FontAwesomeIcon icon={faMinus} />
-                                                            </span>
-                                                            <input type="text" className="input-qty" defaultValue={1} />
-                                                            <span className="qty-btn plus">
-                                                                <FontAwesomeIcon icon={faPlus} />
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="product-buttons">
-                                        <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
-                                            <FontAwesomeIcon icon={faHeart} />
-                                        </a>
-                                        <a href="#" className="btn btn-dark btn-outline-hover-dark">
-                                            <FontAwesomeIcon icon={faShoppingCart} /> Добавяне в количката
-                                        </a>
-                                        <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
-                                            <FontAwesomeIcon icon={faRandom} />
-                                        </a>
-                                    </div>
-                                    <div className="product-brands">
-                                        <span className="title">Марки</span>
-                                        <div className="brands">
-                                            <a href="#">
-                                                <img src="../../assets/images/brands/brand-3.webp" alt="" />
-                                            </a>
-                                            <a href="#">
-                                                <img src="../../assets/images/brands/brand-8.webp" alt="" />
-                                            </a>
+
+            <Modal show={showQuickView} onHide={handleCloseQuickView} size="lg" className="quickViewModal">
+                <Modal.Body>
+                    <a className="close" onClick={handleCloseQuickView}>
+                        ×
+                    </a>
+                    <div className="row learts-mb-n30">
+                        {/* Product Images Start */}
+                        <div className="col-lg-6 col-12 learts-mb-30">
+                            <div className="product-images">
+                                <div className="product-gallery-slider-quickview">
+                                    <Slider {...settingsProductQuickView}>
+                                        <div className="product-zoom">
+                                            <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
                                         </div>
-                                    </div>
-                                    <div className="product-meta mb-0">
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>SKU</span>
-                                                    </td>
-                                                    <td className="value">0404019</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Категория</span>
-                                                    </td>
-                                                    <td className="value">
-                                                        <ul className="product-category">
-                                                            <li>
-                                                                <a href="#">Кухня</a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Етикети</span>
-                                                    </td>
-                                                    <td className="value">
-                                                        <ul className="product-tags">
-                                                            <li>
-                                                                <a href="#">handmade</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">learts</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">mug</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">product</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">learts</a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="label">
-                                                        <span>Споделете на</span>
-                                                    </td>
-                                                    <td className="va">
-                                                        <div className="product-share">
-                                                            <a href="#">
-                                                                <FontAwesomeIcon icon={faFacebookF} />
-                                                            </a>
-                                                            <a href="#">
-                                                                <FontAwesomeIcon icon={faTwitter} />
-                                                            </a>
-                                                            <a href="#">
-                                                                <FontAwesomeIcon icon={faGooglePlusG} />
-                                                            </a>
-                                                            <a href="#">
-                                                                <FontAwesomeIcon icon={faPinterest} />
-                                                            </a>
-                                                            <a href="#">
-                                                                <FontAwesomeIcon icon={faEnvelope} />
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        <div className="product-zoom">
+                                            <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
+                                        </div>
+                                        <div className="product-zoom">
+                                            <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
+                                        </div>
+                                        <div className="product-zoom">
+                                            <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
+                                        </div>
+                                    </Slider>
                                 </div>
                             </div>
-                            {/* Product Summery End */}
                         </div>
+                        {/* Product Images End */}
+                        {/* Product Summery Start */}
+                        <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
+                            <div className="product-summery customScroll">
+                                <h3 className="product-title">Почистване на лопатка и четка</h3>
+                                <div className="product-price">€38.00 – €50.00</div>
+                                <div className="product-description">
+                                    <p>
+                                        Стандартният отрязък от Lorem Ipsum, използван от 1500 г. насам, е поместен по-долу за тези, които се интересуват. Секции 1.10.32 и 1.10.33
+                                        от "de Finibus Bonorum et Malorum" на Цицерон също са поместени в оригиналния им формат, заедно с превода им на английски език, направен от
+                                        H. Rackham през 1914г.
+                                    </p>
+                                </div>
+                                <div className="product-variations">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Размер</span>
+                                                </td>
+                                                <td className="value">
+                                                    <div className="product-sizes">
+                                                        <a href="#">Large</a>
+                                                        <a href="#">Medium</a>
+                                                        <a href="#">Small</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Количество</span>
+                                                </td>
+                                                <td className="value">
+                                                    <div className="product-quantity">
+                                                        <span className="qty-btn minus">
+                                                            <FontAwesomeIcon icon={faMinus} />
+                                                        </span>
+                                                        <input type="text" className="input-qty" defaultValue={1} />
+                                                        <span className="qty-btn plus">
+                                                            <FontAwesomeIcon icon={faPlus} />
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="product-buttons">
+                                    <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
+                                        <FontAwesomeIcon icon={faHeart} />
+                                    </a>
+                                    <a href="#" className="btn btn-dark btn-outline-hover-dark">
+                                        <FontAwesomeIcon icon={faShoppingCart} /> Добавяне в количката
+                                    </a>
+                                    <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
+                                        <FontAwesomeIcon icon={faRandom} />
+                                    </a>
+                                </div>
+                                <div className="product-meta mb-0">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>SKU</span>
+                                                </td>
+                                                <td className="value">0404019</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Категория</span>
+                                                </td>
+                                                <td className="value">
+                                                    <ul className="product-category">
+                                                        <li>
+                                                            <a href="#">Кухня</a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Етикети</span>
+                                                </td>
+                                                <td className="value">
+                                                    <ul className="product-tags">
+                                                        <li>
+                                                            <a href="#">handmade</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">learts</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">mug</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">product</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">learts</a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Споделете на</span>
+                                                </td>
+                                                <td className="va">
+                                                    <div className="product-share">
+                                                        <a href="#">
+                                                            <FontAwesomeIcon icon={faFacebookF} />
+                                                        </a>
+                                                        <a href="#">
+                                                            <FontAwesomeIcon icon={faTwitter} />
+                                                        </a>
+                                                        <a href="#">
+                                                            <FontAwesomeIcon icon={faGooglePlusG} />
+                                                        </a>
+                                                        <a href="#">
+                                                            <FontAwesomeIcon icon={faPinterest} />
+                                                        </a>
+                                                        <a href="#">
+                                                            <FontAwesomeIcon icon={faEnvelope} />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Product Summery End */}
                     </div>
-                </div>
-            </div>
+                </Modal.Body>
+            </Modal>
         </>
     );
 }

@@ -358,18 +358,6 @@
         $(this).closest('.card').removeClass('active');
     });
 
-    /* Modal */
-    $('#quickViewModal').on('shown.bs.modal', function (e) {
-        $('.product-gallery-slider-quickview').slick({
-            dots: true,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            prevArrow: '<button class="slick-prev"><i class="ti-angle-left"></i></button>',
-            nextArrow: '<button class="slick-next"><i class="ti-angle-right"></i></button>',
-        });
-    });
-
     /*--
         Product Quantity
     -----------------------------------*/

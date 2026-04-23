@@ -29,3 +29,10 @@
 - [ ] Optimize image loading and component performance
 - [ ] Final responsive check (ensure nothing broke during migration)
 - [ ] Production build and Deployment
+
+#### ToDo
+
+- [x] Replace `bootstrap.bundle.min.js` with the official React library: `npm install react-bootstrap`
+- [ ] Replace `jquery.countdown.min.js` with the official React library: `npm install react-countdown`
+- [ ] Remove `jquery.magnific-popup.min.js` Use Modal from `react-bootstrap`
+- [ ] Install `react-medium-image-zoom` or `react-image-magnify` for product image quick view zoom
