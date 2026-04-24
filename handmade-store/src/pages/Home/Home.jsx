@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Offcanvas } from 'react-bootstrap';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -78,6 +78,7 @@ export function Home() {
         slidesToShow: 1,
     };
 
+    // Quick View Modal state
     const [showQuickView, setShowQuickView] = useState(false);
 
     // Handlers for Quick View Modal
@@ -88,6 +89,14 @@ export function Home() {
     const handleOpenQuickView = (e) => {
         e.preventDefault();
         setShowQuickView(true);
+    };
+
+    // Wishlist Offcanvas state
+    const [showWishlist, setShowWishlist] = useState(false);
+
+    const toggleWishlist = (e) => {
+        e.preventDefault();
+        setShowWishlist(!showWishlist);
     };
 
     return (
@@ -149,7 +158,7 @@ export function Home() {
                                     </a>
                                 </div>
                                 <div className="header-wishlist">
-                                    <a href="#offcanvas-wishlist" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleWishlist} className={`offcanvas-toggle ${showWishlist ? 'close' : ''}`}>
                                         <span className="wishlist-count">3</span>
                                         <FontAwesomeIcon icon={faHeart} />
                                     </a>
@@ -421,13 +430,15 @@ export function Home() {
             </div>
             {/* OffCanvas Search End */}
             {/* OffCanvas Wishlist Start */}
-            <div id="offcanvas-wishlist" className="offcanvas offcanvas-wishlist">
+            <Offcanvas show={showWishlist} onHide={toggleWishlist} placement="end" className="offcanvas offcanvas-wishlist">
                 <div className="inner">
-                    <div className="head">
+                    <Offcanvas.Header className="head">
                         <span className="title">Любми</span>
-                        <button className="offcanvas-close">×</button>
-                    </div>
-                    <div className="body customScroll">
+                        <button className="offcanvas-close" onClick={toggleWishlist}>
+                            ×
+                        </button>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body className="body customScroll">
                         <ul className="minicart-product-list">
                             <li>
                                 <a href="product-details.html" className="image">
@@ -478,7 +489,7 @@ export function Home() {
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </Offcanvas.Body>
                     <div className="foot">
                         <div className="buttons">
                             <a href="wishlist.html" className="btn btn-dark btn-hover-primary">
@@ -487,7 +498,7 @@ export function Home() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Offcanvas>
             {/* OffCanvas Wishlist End */}
             {/* OffCanvas Cart Start */}
             <div id="offcanvas-cart" className="offcanvas offcanvas-cart">
