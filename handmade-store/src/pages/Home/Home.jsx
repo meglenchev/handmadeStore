@@ -214,13 +214,13 @@ export function Home() {
                                     </a>
                                 </div>
                                 <div className="header-wishlist">
-                                    <a href="#offcanvas-wishlist" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleWishlist} className="offcanvas-toggle">
                                         <span className="wishlist-count">3</span>
                                         <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
-                                    <a href="#offcanvas-cart" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleCart} className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
