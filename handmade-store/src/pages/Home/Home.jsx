@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 
+import Slider from 'react-slick';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 
-import Slider from 'react-slick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import 'slick-carousel/slick/slick.css';
@@ -83,6 +84,13 @@ export function Home() {
         setShowWishlist(!showWishlist);
     };
 
+    const [showCart, setShowCart] = useState(false);
+
+    const toggleCart = (e) => {
+        e.preventDefault();
+        setShowCart(!showCart);
+    };
+
     return (
         <>
             {/* Topbar Section Start */}
@@ -148,7 +156,7 @@ export function Home() {
                                     </a>
                                 </div>
                                 <div className="header-cart">
-                                    <a href="#offcanvas-cart" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleCart} className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
@@ -485,13 +493,15 @@ export function Home() {
             </Offcanvas>
             {/* OffCanvas Wishlist End */}
             {/* OffCanvas Cart Start */}
-            <div id="offcanvas-cart" className="offcanvas offcanvas-cart">
+            <Offcanvas show={showCart} onHide={toggleCart} placement="end" className="offcanvas offcanvas-cart">
                 <div className="inner">
-                    <div className="head">
+                    <Offcanvas.Header className="head">
                         <span className="title">Количка</span>
-                        <button className="offcanvas-close">×</button>
-                    </div>
-                    <div className="body customScroll">
+                        <button onClick={toggleCart} className="offcanvas-close">
+                            ×
+                        </button>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body className="body customScroll">
                         <ul className="minicart-product-list">
                             <li>
                                 <a href="product-details.html" className="image">
@@ -542,7 +552,7 @@ export function Home() {
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </Offcanvas.Body>
                     <div className="foot">
                         <div className="sub-total">
                             <strong>Междинна сума:</strong>
@@ -559,7 +569,7 @@ export function Home() {
                         <p className="minicart-message">Безплатна доставка за поръчки над €60 евро!</p>
                     </div>
                 </div>
-            </div>
+            </Offcanvas>
             {/* OffCanvas Cart End */}
             {/* OffCanvas Search Start */}
             <div id="offcanvas-mobile-menu" className="offcanvas offcanvas-mobile-menu">
