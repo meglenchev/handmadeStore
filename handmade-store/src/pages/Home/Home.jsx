@@ -5,23 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 
 import Slider from 'react-slick';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faHeart,
-    faShoppingCart,
-    faSearch,
-    faUser,
-    faFrown,
-    faRandom,
-    faPlus,
-    faMinus,
-    faEnvelope,
-    faAngleLeft,
-    faAngleRight,
-    faLongArrowAltUp,
-} from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -33,7 +17,7 @@ const NextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
         <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '30px', right: '0' }} onClick={onClick}>
-            <FontAwesomeIcon icon={faAngleRight} />
+            <FontAwesomeIcon icon="angle-right" />
         </div>
     );
 };
@@ -42,7 +26,7 @@ const PrevArrow = (props) => {
     const { className, style, onClick } = props;
     return (
         <div className={className} style={{ ...style, display: 'block', color: 'black', fontSize: '30px', left: '10px' }} onClick={onClick}>
-            <FontAwesomeIcon icon={faAngleLeft} />
+            <FontAwesomeIcon icon="angle-left" />
         </div>
     );
 };
@@ -149,24 +133,24 @@ export function Home() {
                             <div className="header-tools justify-content-end">
                                 <div className="header-login">
                                     <a href="my-account.html">
-                                        <FontAwesomeIcon icon={faUser} />
+                                        <FontAwesomeIcon icon="user" />
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
                                     <a href="#offcanvas-search" className="offcanvas-toggle">
-                                        <FontAwesomeIcon icon={faSearch} />
+                                        <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
                                 <div className="header-wishlist">
                                     <a href="#" onClick={toggleWishlist} className={`offcanvas-toggle ${showWishlist ? 'close' : ''}`}>
                                         <span className="wishlist-count">3</span>
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
                                     <a href="#offcanvas-cart" className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                        <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
                                 </div>
                             </div>
@@ -213,24 +197,24 @@ export function Home() {
                             <div className="header-tools justify-content-end">
                                 <div className="header-login">
                                     <a href="my-account.html">
-                                        <FontAwesomeIcon icon={faUser} />
+                                        <FontAwesomeIcon icon="user" />
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
                                     <a href="#offcanvas-search" className="offcanvas-toggle">
-                                        <FontAwesomeIcon icon={faSearch} />
+                                        <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
                                 <div className="header-wishlist">
                                     <a href="#offcanvas-wishlist" className="offcanvas-toggle">
                                         <span className="wishlist-count">3</span>
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
                                     <a href="#offcanvas-cart" className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                        <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
                                 </div>
                             </div>
@@ -299,24 +283,24 @@ export function Home() {
                             <div className="header-tools justify-content-end">
                                 <div className="header-login d-none d-sm-block">
                                     <a href="my-account.html">
-                                        <FontAwesomeIcon icon={faUser} />
+                                        <FontAwesomeIcon icon="user" />
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
                                     <a href="#offcanvas-search" className="offcanvas-toggle">
-                                        <FontAwesomeIcon icon={faSearch} />
+                                        <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
                                 <div className="header-wishlist d-none d-sm-block">
                                     <a href="#offcanvas-wishlist" className="offcanvas-toggle">
                                         <span className="wishlist-count">3</span>
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
                                     <a href="#offcanvas-cart" className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                        <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
                                 </div>
                                 <div className="mobile-menu-toggle">
@@ -357,24 +341,24 @@ export function Home() {
                             <div className="header-tools justify-content-end">
                                 <div className="header-login d-none d-sm-block">
                                     <a href="my-account.html">
-                                        <FontAwesomeIcon icon={faUser} />
+                                        <FontAwesomeIcon icon="user" />
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
                                     <a href="#offcanvas-search" className="offcanvas-toggle">
-                                        <FontAwesomeIcon icon={faSearch} />
+                                        <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
                                 <div className="header-wishlist d-none d-sm-block">
                                     <a href="#offcanvas-wishlist" className="offcanvas-toggle">
                                         <span className="wishlist-count">3</span>
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
                                     <a href="#offcanvas-cart" className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
-                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                        <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
                                 </div>
                                 <div className="mobile-menu-toggle">
@@ -584,7 +568,7 @@ export function Home() {
                         <form action="#">
                             <input type="text" placeholder="Search..." />
                             <button>
-                                <FontAwesomeIcon icon={faSearch} />
+                                <FontAwesomeIcon icon="search" />
                             </button>
                         </form>
                     </div>
@@ -626,32 +610,32 @@ export function Home() {
                         <div className="header-tools">
                             <div className="header-login">
                                 <a href="my-account.html">
-                                    <FontAwesomeIcon icon={faUser} />
+                                    <FontAwesomeIcon icon="user" />
                                 </a>
                             </div>
                             <div className="header-wishlist">
                                 <a href="wishlist.html">
                                     <span>3</span>
-                                    <FontAwesomeIcon icon={faHeart} />
+                                    <FontAwesomeIcon icon="heart" />
                                 </a>
                             </div>
                             <div className="header-cart">
                                 <a href="shopping-cart.html">
                                     <span className="cart-count">3</span>
-                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                    <FontAwesomeIcon icon="shopping-cart" />
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div className="offcanvas-social">
                         <a href="#">
-                            <FontAwesomeIcon icon={faFacebookF} />
+                            <FontAwesomeIcon icon={['fab', 'facebook-f']} />
                         </a>
                         <a href="#">
-                            <FontAwesomeIcon icon={faInstagram} />
+                            <FontAwesomeIcon icon={['fab', 'instagram']} />
                         </a>
                         <a href="#">
-                            <FontAwesomeIcon icon={faYoutube} />
+                            <FontAwesomeIcon icon="youtube" />
                         </a>
                     </div>
                 </div>
@@ -769,7 +753,7 @@ export function Home() {
                                             <img className="image-hover" src="/assets/images/product/s270/product-1-hover.webp" alt="Product Hover" />
                                         </a>
                                         <button className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                            <FontAwesomeIcon icon={faHeart} />
+                                            <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
                                     <div className="product-info">
@@ -783,10 +767,10 @@ export function Home() {
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
                                             <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                <FontAwesomeIcon icon={faSearch} />
+                                                <FontAwesomeIcon icon="search" />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                <FontAwesomeIcon icon={faShoppingCart} />
+                                                <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
                                         </div>
                                         <div className="product-stock-status">
@@ -816,7 +800,7 @@ export function Home() {
                                             <img className="image-hover" src="/assets/images/product/s270/product-1-hover.webp" alt="Product Hover" />
                                         </a>
                                         <button className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                            <FontAwesomeIcon icon={faHeart} />
+                                            <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
                                     <div className="product-info">
@@ -830,10 +814,10 @@ export function Home() {
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
                                             <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                <FontAwesomeIcon icon={faSearch} />
+                                                <FontAwesomeIcon icon="search" />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
-                                                <FontAwesomeIcon icon={faShoppingCart} />
+                                                <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
                                         </div>
                                         <div className="product-stock-status">
@@ -863,7 +847,7 @@ export function Home() {
                                             <img className="image-hover" src="/assets/images/product/s270/product-1-hover.webp" alt="Product Hover" />
                                         </a>
                                         <button className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                            <FontAwesomeIcon icon={faHeart} />
+                                            <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
                                     <div className="product-info">
@@ -877,10 +861,10 @@ export function Home() {
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
                                             <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                <FontAwesomeIcon icon={faSearch} />
+                                                <FontAwesomeIcon icon="search" />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
-                                                <FontAwesomeIcon icon={faShoppingCart} />
+                                                <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
                                         </div>
                                         <div className="product-stock-status">
@@ -910,7 +894,7 @@ export function Home() {
                                             <img className="image-hover" src="/assets/images/product/s270/product-1-hover.webp" alt="Product Hover" />
                                         </a>
                                         <button className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                            <FontAwesomeIcon icon={faHeart} />
+                                            <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
                                     <div className="product-info">
@@ -924,10 +908,10 @@ export function Home() {
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
                                             <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                <FontAwesomeIcon icon={faSearch} />
+                                                <FontAwesomeIcon icon="search" />
                                             </a>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
-                                                <FontAwesomeIcon icon={faShoppingCart} />
+                                                <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
                                         </div>
                                         <div className="product-stock-status">
@@ -1018,7 +1002,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1028,10 +1012,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1043,7 +1027,7 @@ export function Home() {
                                             <a href="product-details.html" className="image">
                                                 <span className="product-badges">
                                                     <span className="outofstock">
-                                                        <FontAwesomeIcon icon={faFrown} />
+                                                        <FontAwesomeIcon icon="frown" />
                                                     </span>
                                                     <span className="hot">hot</span>
                                                 </span>
@@ -1051,7 +1035,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                             <div className="product-options">
                                                 <ul className="Цвятs">
@@ -1072,10 +1056,10 @@ export function Home() {
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1092,7 +1076,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1102,10 +1086,10 @@ export function Home() {
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1122,7 +1106,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1132,10 +1116,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1152,7 +1136,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1162,10 +1146,10 @@ export function Home() {
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1182,7 +1166,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-27-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1192,10 +1176,10 @@ export function Home() {
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1218,7 +1202,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1228,10 +1212,10 @@ export function Home() {
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1248,7 +1232,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1258,10 +1242,10 @@ export function Home() {
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1275,7 +1259,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1285,10 +1269,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1300,7 +1284,7 @@ export function Home() {
                                             <a href="product-details.html" className="image">
                                                 <span className="product-badges">
                                                     <span className="outofstock">
-                                                        <FontAwesomeIcon icon={faFrown} />
+                                                        <FontAwesomeIcon icon="frown" />
                                                     </span>
                                                     <span className="hot">hot</span>
                                                 </span>
@@ -1308,7 +1292,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                             <div className="product-options">
                                                 <ul className="Цвятs">
@@ -1329,10 +1313,10 @@ export function Home() {
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1349,7 +1333,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1359,10 +1343,10 @@ export function Home() {
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1379,7 +1363,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-7-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1389,10 +1373,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1415,7 +1399,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1425,10 +1409,10 @@ export function Home() {
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1445,7 +1429,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1455,10 +1439,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1475,7 +1459,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1485,10 +1469,10 @@ export function Home() {
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1505,7 +1489,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1515,10 +1499,10 @@ export function Home() {
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1532,7 +1516,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                         </div>
                                         <div className="product-info">
@@ -1542,10 +1526,10 @@ export function Home() {
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1557,7 +1541,7 @@ export function Home() {
                                             <a href="product-details.html" className="image">
                                                 <span className="product-badges">
                                                     <span className="outofstock">
-                                                        <FontAwesomeIcon icon={faFrown} />
+                                                        <FontAwesomeIcon icon="frown" />
                                                     </span>
                                                     <span className="hot">hot</span>
                                                 </span>
@@ -1565,7 +1549,7 @@ export function Home() {
                                                 <img className="image-hover " src="../../assets/images/product/s328/product-8-hover.webp" alt="Product Image" />
                                             </a>
                                             <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
-                                                <FontAwesomeIcon icon={faHeart} />
+                                                <FontAwesomeIcon icon="heart" />
                                             </a>
                                             <div className="product-options">
                                                 <ul className="Цвятs">
@@ -1586,10 +1570,10 @@ export function Home() {
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
                                                 <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon={faSearch} />
+                                                    <FontAwesomeIcon icon="search" />
                                                 </a>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon={faShoppingCart} />
+                                                    <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
                                             </div>
                                         </div>
@@ -1601,7 +1585,7 @@ export function Home() {
                     </div>
                     <div className="row g-0 justify-content-center learts-mt-50">
                         <a href="#" className="btn p-0">
-                            <FontAwesomeIcon icon={faPlus} /> виж повече ...
+                            <FontAwesomeIcon icon="plus" /> виж повече ...
                         </a>
                     </div>
                 </div>
@@ -1670,49 +1654,49 @@ export function Home() {
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
 
                             <div className="instafeed-item-wrapper">
                                 <a className="instafeed-item" href="#">
                                     <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
                                 </a>
                             </div>
                         </Slider>
@@ -1768,25 +1752,25 @@ export function Home() {
                                 <li className="hintT-top" data-hint="Twitter">
                                     {' '}
                                     <a href="https://www.twitter.com/">
-                                        <FontAwesomeIcon icon={faTwitter} />
+                                        <FontAwesomeIcon icon={['fab', 'twitter']} />
                                     </a>
                                 </li>
                                 <li className="hintT-top" data-hint="Facebook">
                                     {' '}
                                     <a href="https://www.facebook.com/">
-                                        <FontAwesomeIcon icon={faFacebookF} />
+                                        <FontAwesomeIcon icon={['fab', 'facebook-f']} />
                                     </a>
                                 </li>
                                 <li className="hintT-top" data-hint="Instagram">
                                     {' '}
                                     <a href="https://www.instagram.com/">
-                                        <FontAwesomeIcon icon={faInstagram} />
+                                        <FontAwesomeIcon icon={['fab', 'instagram']} />
                                     </a>
                                 </li>
                                 <li className="hintT-top" data-hint="Youtube">
                                     {' '}
                                     <a href="https://www.youtube.com/">
-                                        <FontAwesomeIcon icon={faYoutube} />
+                                        <FontAwesomeIcon icon="youtube" />
                                     </a>
                                 </li>
                             </ul>
@@ -1863,11 +1847,11 @@ export function Home() {
                                                 <td className="value">
                                                     <div className="product-quantity">
                                                         <span className="qty-btn minus">
-                                                            <FontAwesomeIcon icon={faMinus} />
+                                                            <FontAwesomeIcon icon="minus" />
                                                         </span>
                                                         <input type="text" className="input-qty" defaultValue={1} />
                                                         <span className="qty-btn plus">
-                                                            <FontAwesomeIcon icon={faPlus} />
+                                                            <FontAwesomeIcon icon="plus" />
                                                         </span>
                                                     </div>
                                                 </td>
@@ -1877,13 +1861,13 @@ export function Home() {
                                 </div>
                                 <div className="product-buttons">
                                     <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
-                                        <FontAwesomeIcon icon={faHeart} />
+                                        <FontAwesomeIcon icon="heart" />
                                     </a>
                                     <a href="#" className="btn btn-dark btn-outline-hover-dark">
-                                        <FontAwesomeIcon icon={faShoppingCart} /> Добавяне в количката
+                                        <FontAwesomeIcon icon="shopping-cart" /> Добавяне в количката
                                     </a>
                                     <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
-                                        <FontAwesomeIcon icon={faRandom} />
+                                        <FontAwesomeIcon icon="random" />
                                     </a>
                                 </div>
                                 <div className="product-meta mb-0">
@@ -1938,19 +1922,19 @@ export function Home() {
                                                 <td className="va">
                                                     <div className="product-share">
                                                         <a href="#">
-                                                            <FontAwesomeIcon icon={faFacebookF} />
+                                                            <FontAwesomeIcon icon={['fab', 'facebook-f']} />
                                                         </a>
                                                         <a href="#">
-                                                            <FontAwesomeIcon icon={faTwitter} />
+                                                            <FontAwesomeIcon icon={['fab', 'twitter']} />
                                                         </a>
                                                         <a href="#">
-                                                            <FontAwesomeIcon icon={faGooglePlusG} />
+                                                            <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
                                                         </a>
                                                         <a href="#">
-                                                            <FontAwesomeIcon icon={faPinterest} />
+                                                            <FontAwesomeIcon icon={['fab', 'pinterest']} />
                                                         </a>
                                                         <a href="#">
-                                                            <FontAwesomeIcon icon={faEnvelope} />
+                                                            <FontAwesomeIcon icon="envelope" />
                                                         </a>
                                                     </div>
                                                 </td>
