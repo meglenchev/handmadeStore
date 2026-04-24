@@ -84,11 +84,20 @@ export function Home() {
         setShowWishlist(!showWishlist);
     };
 
+    // Cart Offcanvas state
     const [showCart, setShowCart] = useState(false);
 
     const toggleCart = (e) => {
         e.preventDefault();
         setShowCart(!showCart);
+    };
+
+    // Search Offcanvas state
+    const [showSearch, setShowSearch] = useState(false);
+
+    const toggleSearch = (e) => {
+        e.preventDefault();
+        setShowSearch(!showSearch);
     };
 
     return (
@@ -145,7 +154,7 @@ export function Home() {
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
-                                    <a href="#offcanvas-search" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleSearch} className="offcanvas-toggle">
                                         <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
@@ -209,7 +218,7 @@ export function Home() {
                                     </a>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
-                                    <a href="#offcanvas-search" className="offcanvas-toggle">
+                                    <a href="#" onClick={toggleSearch} className="offcanvas-toggle">
                                         <FontAwesomeIcon icon="search" />
                                     </a>
                                 </div>
@@ -390,36 +399,40 @@ export function Home() {
             </div>
             {/* Mobile Header Section End */}
             {/* OffCanvas Search Start */}
-            <div id="offcanvas-search" className="offcanvas offcanvas-search">
-                <div className="inner">
-                    <div className="offcanvas-search-form">
-                        <button className="offcanvas-close">×</button>
-                        <form action="#">
-                            <div className="row mb-n3">
-                                <div className="col-lg-8 col-12 mb-3">
-                                    <input type="text" placeholder="Търсене на продукти..." />
+            <Offcanvas show={showSearch} placement="start" className="offcanvas offcanvas-search">
+                <Offcanvas.Body>
+                    <div className="inner">
+                        <div className="offcanvas-search-form">
+                            <button onClick={toggleSearch} className="offcanvas-close">
+                                ×
+                            </button>
+                            <form action="#">
+                                <div className="row mb-n3">
+                                    <div className="col-lg-8 col-12 mb-3">
+                                        <input type="text" placeholder="Търсене на продукти..." />
+                                    </div>
+                                    <div className="col-lg-4 col-12 mb-3">
+                                        <select className="search-select select2-basic">
+                                            <option value={0}>Всички категории</option>
+                                            <option value="kids-babies">Kids &amp; Babies</option>
+                                            <option value="home-decor">Home Decor</option>
+                                            <option value="gift-ideas">Gift ideas</option>
+                                            <option value="kitchen">Kitchen</option>
+                                            <option value="toys">Toys</option>
+                                            <option value="kniting-sewing">Kniting &amp; Sewing</option>
+                                            <option value="pots">Pots</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div className="col-lg-4 col-12 mb-3">
-                                    <select className="search-select select2-basic">
-                                        <option value={0}>Всички категории</option>
-                                        <option value="kids-babies">Kids &amp; Babies</option>
-                                        <option value="home-decor">Home Decor</option>
-                                        <option value="gift-ideas">Gift ideas</option>
-                                        <option value="kitchen">Kitchen</option>
-                                        <option value="toys">Toys</option>
-                                        <option value="kniting-sewing">Kniting &amp; Sewing</option>
-                                        <option value="pots">Pots</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                        <p className="search-description text-body-light mt-2">
+                            <span># Въведете поне 1 символ за търсене</span>
+                            <span># Натиснете Enter за търсене или ESC за затваряне</span>
+                        </p>
                     </div>
-                    <p className="search-description text-body-light mt-2">
-                        <span># Въведете поне 1 символ за търсене</span>
-                        <span># Натиснете Enter за търсене или ESC за затваряне</span>
-                    </p>
-                </div>
-            </div>
+                </Offcanvas.Body>
+            </Offcanvas>
             {/* OffCanvas Search End */}
             {/* OffCanvas Wishlist Start */}
             <Offcanvas show={showWishlist} onHide={toggleWishlist} placement="end" className="offcanvas offcanvas-wishlist">
