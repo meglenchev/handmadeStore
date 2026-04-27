@@ -1,4 +1,4 @@
-// Home Slider settings
+// Slider settings
 export const settings = {
     dots: true,
     infinite: true,

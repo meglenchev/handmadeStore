@@ -1,10 +1,13 @@
+import QuickViewContext from '../../context/QuickViewContext.jsx';
+import { useContext } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from 'react-slick';
 import { settings } from '../../utils/utils.js';
 import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
 
-export function QuickView({ showQuickView, onClose }) {
+export function QuickView() {
+    const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
     // Product Quick View Slider settings
     const settingsProductQuickView = {
         ...settings,
@@ -16,9 +19,9 @@ export function QuickView({ showQuickView, onClose }) {
     };
 
     return (
-        <Modal show={showQuickView} onHide={onClose} size="lg" className="quickViewModal">
+        <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
             <Modal.Body>
-                <a className="close" onClick={onClose}>
+                <a className="close" onClick={onCloseQuickView}>
                     ×
                 </a>
                 <div className="row learts-mb-n30">

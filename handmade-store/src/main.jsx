@@ -18,9 +18,15 @@ import './assets/styles/plugins/magnific-popup.css';
 
 // 3. Main Style
 import './assets/styles/style.css';
+import { QuickViewProvider } from './context/QuickViewContext.jsx';
+import { BrowserRouter } from 'react-router';
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <App />
-    </StrictMode>
+    <BrowserRouter>
+        <StrictMode>
+            <QuickViewProvider>
+                <App />
+            </QuickViewProvider>
+        </StrictMode>
+    </BrowserRouter>
 );

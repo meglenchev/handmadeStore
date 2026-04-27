@@ -11827,6 +11827,7 @@ body.offcanvas-open .sticky-header {
     text-align: center;
     color: var(--text-white);
     border-radius: 50%;
+    border: none;
     background-color: var(--text-dark);
 }
 

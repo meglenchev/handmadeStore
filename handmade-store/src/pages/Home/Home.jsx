@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import QuickViewContext from '../../context/QuickViewContext.jsx';
+import { useContext, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 
 import Slider from 'react-slick';
@@ -19,6 +20,9 @@ import { QuickView } from '../../components/common/QuickView.jsx';
 import { settings } from '../../utils/utils.js';
 
 export function Home() {
+    const { openQuickView } = useContext(QuickViewContext);
+    const item = {}; // Тук трябва да се зареди реалният продукт, който искате да показвате в Quick View
+
     // Instagram Slider settings
     const settingsInsta = {
         ...settings,
@@ -27,19 +31,6 @@ export function Home() {
         arrows: true,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
-    };
-
-    // Quick View Modal state
-    const [showQuickView, setShowQuickView] = useState(false);
-
-    // Handlers for Quick View Modal
-    const handleCloseQuickView = () => {
-        setShowQuickView(false);
-    };
-
-    const handleOpenQuickView = (e) => {
-        e.preventDefault();
-        setShowQuickView(true);
     };
 
     // Wishlist Offcanvas state
@@ -755,9 +746,9 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                            <button onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon="search" />
-                                            </a>
+                                            </button>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                 <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
@@ -802,9 +793,9 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                            <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon="search" />
-                                            </a>
+                                            </button>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
                                                 <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
@@ -849,9 +840,9 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                            <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon="search" />
-                                            </a>
+                                            </button>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
                                                 <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
@@ -896,9 +887,9 @@ export function Home() {
                                         </span>
                                         {/* Бутоните и рейтингът тук... */}
                                         <div className="product-buttons">
-                                            <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                            <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon="search" />
-                                            </a>
+                                            </button>
                                             <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката" tabIndex="0">
                                                 <FontAwesomeIcon icon="shopping-cart" />
                                             </a>
@@ -1000,9 +991,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1044,9 +1035,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1074,9 +1065,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1104,9 +1095,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1134,9 +1125,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1164,9 +1155,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1200,9 +1191,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1230,9 +1221,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1257,9 +1248,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1301,9 +1292,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1331,9 +1322,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1361,9 +1352,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1397,9 +1388,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€380.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1427,9 +1418,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1457,9 +1448,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€350.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1487,9 +1478,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€250.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1514,9 +1505,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€35.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1558,9 +1549,9 @@ export function Home() {
                                             </h6>
                                             <span className="price">€50.00</span>
                                             <div className="product-buttons">
-                                                <a href="#" onClick={handleOpenQuickView} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                <button href="#" onClick={() => openQuickView(item)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
-                                                </a>
+                                                </button>
                                                 <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
                                                     <FontAwesomeIcon icon="shopping-cart" />
                                                 </a>
@@ -1772,8 +1763,8 @@ export function Home() {
                     </div>
                 </div>
             </div>
-            {/* Modal */}
-            <QuickView showQuickView={showQuickView} onClose={handleCloseQuickView} />
+            {/* Quick View Modal */}
+            <QuickView />
         </>
     );
 }
