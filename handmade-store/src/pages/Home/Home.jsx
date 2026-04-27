@@ -18,6 +18,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { QuickView } from '../../components/common/QuickView.jsx';
 import { settings } from '../../utils/utils.js';
+import { Footer } from '../../components/layout/Footer.jsx';
 
 export function Home() {
     const { openQuickView } = useContext(QuickViewContext);
@@ -1684,85 +1685,7 @@ export function Home() {
                 </div>
             </div>
             {/* Instagram Section End */}
-            <div className="footer1-section section section-padding bg-light">
-                <div className="container">
-                    <div className="row text-center row-cols-1">
-                        <div className="footer1-logo col text-center">
-                            <img src="../../assets/images/logo/logo.webp" alt="" />
-                        </div>
-                        <div className="footer1-menu col">
-                            <ul className="widget-menu justify-content-center">
-                                <li>
-                                    <a href="about-us.html">За нас</a>
-                                </li>
-                                <li>
-                                    <a href="contact-us.html">Контакти</a>
-                                </li>
-                                <li>
-                                    <a href="support.html">Поддръжка</a>
-                                </li>
-                                <li>
-                                    <a href="privacy-policy.html">Политика за сигурност</a>
-                                </li>
-                                <li>
-                                    <a href="faq.html">Често задавани въпроси</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="footer1-subscribe d-flex flex-column col">
-                            <form id="mc-form" className="mc-form widget-subscibe">
-                                <input id="mc-email" autoComplete="off" type="email" placeholder="Въведете вашия имейл адрес" />
-                                <button id="mc-submit" className="btn btn-dark">
-                                    Абонирайте се
-                                </button>
-                            </form>
-                            {/* mailchimp-alerts Start */}
-                            <div className="mailchimp-alerts text-centre">
-                                <div className="mailchimp-submitting" />
-                                {/* mailchimp-submitting end */}
-                                <div className="mailchimp-success text-success" />
-                                {/* mailchimp-success end */}
-                                <div className="mailchimp-error text-danger" />
-                                {/* mailchimp-error end */}
-                            </div>
-                            {/* mailchimp-alerts end */}
-                        </div>
-                        <div className="footer1-social col">
-                            <ul className="widget-social justify-content-center">
-                                <li className="hintT-top" data-hint="Twitter">
-                                    {' '}
-                                    <a href="https://www.twitter.com/">
-                                        <FontAwesomeIcon icon={['fab', 'twitter']} />
-                                    </a>
-                                </li>
-                                <li className="hintT-top" data-hint="Facebook">
-                                    {' '}
-                                    <a href="https://www.facebook.com/">
-                                        <FontAwesomeIcon icon={['fab', 'facebook-f']} />
-                                    </a>
-                                </li>
-                                <li className="hintT-top" data-hint="Instagram">
-                                    {' '}
-                                    <a href="https://www.instagram.com/">
-                                        <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                    </a>
-                                </li>
-                                <li className="hintT-top" data-hint="Youtube">
-                                    {' '}
-                                    <a href="https://www.youtube.com/">
-                                        <FontAwesomeIcon icon="youtube" />
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="footer1-copyright col">
-                            <p className="copyright">
-                                © 2023 learts. All Rights Reserved | <strong>(+00) 123 567990</strong> |<a href="mailto:contact@learts.com">contact@learts.com</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Footer />
             {/* Quick View Modal */}
             <QuickView />
         </>
