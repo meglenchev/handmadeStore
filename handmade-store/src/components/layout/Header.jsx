@@ -1,8 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function Header() {
+    // Sticky header
+    const [isSticky, setIsSticky] = useState(false);
+    const sentinelRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsSticky(!entry.isIntersecting);
+            },
+            { threshold: [1] }
+        );
+
+        if (sentinelRef.current) {
+            observer.observe(sentinelRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     // Wishlist Offcanvas state
     const [showWishlist, setShowWishlist] = useState(false);
 
@@ -39,8 +58,9 @@ export function Header() {
                 </div>
             </div>
             {/* Topbar Section End */}
+            <div ref={sentinelRef} id="header-sentinel"></div>
             {/* Header Section Start */}
-            <header className="header-section header-menu-center section py-3 bg-white d-none d-xl-block">
+            <header className={`header-section header-menu-center section bg-white d-none d-xl-block ${isSticky ? 'sticky-header is-sticky' : 'py-3'}`}>
                 <div className="container">
                     <div className="row align-items-center">
                         {/* Header Menu Toggle Start */}
