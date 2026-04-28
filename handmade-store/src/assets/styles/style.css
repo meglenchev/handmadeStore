@@ -3509,6 +3509,7 @@ body.offside-header-left {
     margin-left: 25px;
 }
 
+.header-tools > div button,
 .header-tools > div a {
     position: relative;
     display: -webkit-box;
@@ -3516,12 +3517,17 @@ body.offside-header-left {
     display: -ms-flexbox;
     display: flex;
     color: var(--text-dark);
+    border: none;
+    background-color: transparent;
+    padding: 0;
 }
 
+.header-tools > div button:hover,
 .header-tools > div a:hover {
     color: var(--color-primary);
 }
 
+.header-tools > div button span,
 .header-tools > div a span {
     font-size: 13px;
     font-weight: 700;
@@ -3539,18 +3545,21 @@ body.offside-header-left {
     background-color: var(--color-primary);
 }
 
-.header-tools > div a .svg-inline--fa {
+.header-tools > div a .svg-inline--fa,
+.header-tools > div button .svg-inline--fa {
     font-size: 24px;
     line-height: 32px;
     display: block;
 }
 
+.header-tools > div.header-wishlist > button .svg-inline--fa,
+.header-tools > div.header-cart > button .svg-inline--fa,
 .header-tools > div.header-wishlist > a .svg-inline--fa,
 .header-tools > div.header-cart > a .svg-inline--fa {
     margin-right: 10px;
 }
 
-.header-tools > div.mobile-menu-toggle > a {
+.header-tools > div.mobile-menu-toggle > button {
     width: 24px;
     height: 32px;
 }
@@ -4255,6 +4264,7 @@ body.offcanvas-open .sticky-header {
 }
 
 .offcanvas.offcanvas-overlay-menu {
+    z-index: 1050;
     left: 0;
     visibility: hidden;
     width: 100%;
@@ -4264,8 +4274,12 @@ body.offcanvas-open .sticky-header {
     -webkit-transform: scale(0.3);
     -ms-transform: scale(0.3);
     transform: scale(0.3);
-    opacity: 0;
+    opacity: 1;
     background-color: #ffffff;
+}
+
+.offcanvas.offcanvas-overlay-menu .offcanvas-body {
+    overflow-x: hidden;
 }
 
 .offcanvas.offcanvas-overlay-menu .inner {

@@ -1,8 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, NavLink } from 'react-router';
 
 export function Header() {
+    const HEADER_LINKS = [
+        { to: '/', label: 'Начало' },
+        { to: '/shop', label: 'Магазин' },
+        { to: '/about-us', label: 'За нас' },
+        { to: '/wishlist', label: 'Любими' },
+        { to: '/contact-us', label: 'Контакти' },
+        { to: '/privacy-policy', label: 'Политика за сигурност' },
+    ];
+
     // Sticky header
     const [isSticky, setIsSticky] = useState(false);
     const sentinelRef = useRef(null);
@@ -22,7 +32,15 @@ export function Header() {
         return () => observer.disconnect();
     }, []);
 
-    // Wishlist Offcanvas state
+    // Desktop Menu Offcanvas
+    const [showDesktopMenu, setShowDesktopMenu] = useState(false);
+
+    const toggleDesktopMenu = (e) => {
+        e.preventDefault();
+        setShowDesktopMenu(!showDesktopMenu);
+    };
+
+    // Wishlist Offcanvas
     const [showWishlist, setShowWishlist] = useState(false);
 
     const toggleWishlist = (e) => {
@@ -30,7 +48,7 @@ export function Header() {
         setShowWishlist(!showWishlist);
     };
 
-    // Cart Offcanvas state
+    // Cart Offcanvas
     const [showCart, setShowCart] = useState(false);
 
     const toggleCart = (e) => {
@@ -38,7 +56,7 @@ export function Header() {
         setShowCart(!showCart);
     };
 
-    // Search Offcanvas state
+    // Search Offcanvas
     const [showSearch, setShowSearch] = useState(false);
 
     const toggleSearch = (e) => {
@@ -67,7 +85,7 @@ export function Header() {
                         <div className="col">
                             <div className="header-tools">
                                 <div className="mobile-menu-toggle">
-                                    <a href="#overlay-menu" className="offcanvas-toggle">
+                                    <button onClick={toggleDesktopMenu} className="offcanvas-toggle">
                                         <svg viewBox="0 0 800 600">
                                             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
                                             <path d="M300,320 L540,320" className="middle" />
@@ -77,7 +95,7 @@ export function Header() {
                                                 transform="translate(480, 320) scale(1, -1) translate(-480, -318) "
                                             />
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -85,9 +103,9 @@ export function Header() {
                         {/* Header Logo Start */}
                         <div className="col">
                             <div className="header-logo d-flex justify-content-center">
-                                <a href="index.html">
+                                <Link to="/">
                                     <img src="../../assets/images/logo/logo-2.webp" alt="Learts Logo" />
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         {/* Header Logo End */}
@@ -95,26 +113,26 @@ export function Header() {
                         <div className="col">
                             <div className="header-tools justify-content-end">
                                 <div className="header-login">
-                                    <a href="my-account.html">
+                                    <Link to="/my-account">
                                         <FontAwesomeIcon icon="user" />
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
-                                    <a href="#" onClick={toggleSearch} className="offcanvas-toggle">
+                                    <button onClick={toggleSearch} className="offcanvas-toggle">
                                         <FontAwesomeIcon icon="search" />
-                                    </a>
+                                    </button>
                                 </div>
                                 <div className="header-wishlist">
-                                    <a href="#" onClick={toggleWishlist} className={`offcanvas-toggle ${showWishlist ? 'close' : ''}`}>
+                                    <button onClick={toggleWishlist} className={`offcanvas-toggle ${showWishlist ? 'close' : ''}`}>
                                         <span className="wishlist-count">3</span>
                                         <FontAwesomeIcon icon="heart" />
-                                    </a>
+                                    </button>
                                 </div>
                                 <div className="header-cart">
-                                    <a href="#" onClick={toggleCart} className="offcanvas-toggle">
+                                    <button onClick={toggleCart} className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
                                         <FontAwesomeIcon icon="shopping-cart" />
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -123,47 +141,28 @@ export function Header() {
                 </div>
             </header>
             {/* Header Section End */}
-            {/* OffCanvas Search Start */}
-            <div id="overlay-menu" className="headerMenu offcanvas offcanvas-overlay-menu">
-                <div className="inner">
-                    <button className="offcanvas-close">×</button>
-                    <div className="overlay-menu">
-                        <ul>
-                            <li>
-                                <a href="index.html">
-                                    <span className="menu-text">Начало</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop.html">
-                                    <span className="menu-text">Магазин</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="about-us.html">
-                                    <span className="menu-text">За нас</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="wishlist.html">
-                                    <span className="menu-text">Любими</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="contact-us.html">
-                                    <span className="menu-text">Контакти</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="privacy-policy.html">
-                                    <span className="menu-text">Политика за сигурност</span>
-                                </a>
-                            </li>
-                        </ul>
+            {/* OffCanvas Desktop Menu */}
+            <Offcanvas show={showDesktopMenu} onHide={toggleDesktopMenu} placement="start" className="headerMenu offcanvas offcanvas-overlay-menu">
+                <Offcanvas.Body>
+                    <div className="inner">
+                        <button onClick={toggleDesktopMenu} className="offcanvas-close">
+                            ×
+                        </button>
+                        <div className="overlay-menu">
+                            <ul>
+                                {HEADER_LINKS.map((link) => (
+                                    <li key={link.to}>
+                                        <NavLink to={link.to}>
+                                            <span className="menu-text">{link.label}</span>
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </div>
-            {/* OffCanvas Search End */}
+                </Offcanvas.Body>
+            </Offcanvas>
+            {/* OffCanvas SeDesktop Menuarch End */}
             {/* Mobile Header Section Start */}
             <div className="mobile-header bg-white section d-xl-none">
                 <div className="container">
@@ -171,9 +170,9 @@ export function Header() {
                         {/* Header Logo Start */}
                         <div className="col">
                             <div className="header-logo">
-                                <a href="index.html">
+                                <Link to="/">
                                     <img src="../../assets/images/logo/logo-2.webp" alt="Learts Logo" />
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         {/* Header Logo End */}
@@ -181,9 +180,9 @@ export function Header() {
                         <div className="col-auto">
                             <div className="header-tools justify-content-end">
                                 <div className="header-login d-none d-sm-block">
-                                    <a href="my-account.html">
+                                    <Link to="/my-account">
                                         <FontAwesomeIcon icon="user" />
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
                                     <a href="#offcanvas-search" className="offcanvas-toggle">
@@ -421,44 +420,21 @@ export function Header() {
                     </div>
                     <div className="offcanvas-menu">
                         <ul>
-                            <li>
-                                <a href="index.html">
-                                    <span className="menu-text">Начало</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="shop.html">
-                                    <span className="menu-text">Магазин</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="about-us.html">
-                                    <span className="menu-text">За нас</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="wishlist.html">
-                                    <span className="menu-text">Любими</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="contact-us.html">
-                                    <span className="menu-text">Контакти</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="privacy-policy.html">
-                                    <span className="menu-text">Политика за сигурност</span>
-                                </a>
-                            </li>
+                            {HEADER_LINKS.map((link) => (
+                                <li key={link.to}>
+                                    <NavLink to={link.to}>
+                                        <span className="menu-text">{link.label}</span>
+                                    </NavLink>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="offcanvas-buttons">
                         <div className="header-tools">
                             <div className="header-login">
-                                <a href="my-account.html">
+                                <NavLink to="/my-account">
                                     <FontAwesomeIcon icon="user" />
-                                </a>
+                                </NavLink>
                             </div>
                             <div className="header-wishlist">
                                 <a href="wishlist.html">
@@ -482,7 +458,7 @@ export function Header() {
                             <FontAwesomeIcon icon={['fab', 'instagram']} />
                         </a>
                         <a href="#">
-                            <FontAwesomeIcon icon="youtube" />
+                            <FontAwesomeIcon icon={['fab', 'youtube']} />
                         </a>
                     </div>
                 </div>
