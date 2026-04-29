@@ -28,6 +28,7 @@ export function Home() {
     const settingsDealOfTheDay = {
         ...settings,
         arrows: true,
+        slidesToShow: 4,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
     };
@@ -144,7 +145,7 @@ export function Home() {
                     {/* Products Start */}
 
                     <div className="product-carousel">
-                        <Slider {...settingsDealOfTheDay}>
+                        <Slider key="deal-of-the-day" {...settingsDealOfTheDay}>
                             {/* Продукт 1 */}
                             <div className="col">
                                 <div className="product">
