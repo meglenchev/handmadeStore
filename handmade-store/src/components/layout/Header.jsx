@@ -40,6 +40,14 @@ export function Header() {
         setShowDesktopMenu(!showDesktopMenu);
     };
 
+    // Mobile Menu Offcanvas
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+    const toggleMobileMenu = (e) => {
+        e.preventDefault();
+        setShowMobileMenu(!showMobileMenu);
+    };
+
     // Wishlist Offcanvas
     const [showWishlist, setShowWishlist] = useState(false);
 
@@ -202,7 +210,7 @@ export function Header() {
                                     </a>
                                 </div>
                                 <div className="mobile-menu-toggle">
-                                    <a href="#offcanvas-mobile-menu" className="offcanvas-toggle">
+                                    <button onClick={toggleMobileMenu} className="offcanvas-toggle">
                                         <svg viewBox="0 0 800 600">
                                             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
                                             <path d="M300,320 L540,320" className="middle" />
@@ -212,7 +220,7 @@ export function Header() {
                                                 transform="translate(480, 320) scale(1, -1) translate(-480, -318) "
                                             />
                                         </svg>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -408,61 +416,68 @@ export function Header() {
             </Offcanvas>
             {/* OffCanvas Cart End */}
             {/* OffCanvas Mobile Menu */}
-            <div id="offcanvas-mobile-menu" className="mobileMenu offcanvas offcanvas-mobile-menu">
-                <div className="inner customScroll">
-                    <div className="offcanvas-menu-search-form">
-                        <form action="#">
-                            <input type="text" placeholder="Search..." />
-                            <button>
-                                <FontAwesomeIcon icon="search" />
-                            </button>
-                        </form>
-                    </div>
-                    <div className="offcanvas-menu">
-                        <ul>
-                            {HEADER_LINKS.map((link) => (
-                                <li key={link.to}>
-                                    <NavLink to={link.to}>
-                                        <span className="menu-text">{link.label}</span>
+            <Offcanvas show={showMobileMenu} onHide={toggleMobileMenu} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
+                <Offcanvas.Header className="head">
+                    <button onClick={toggleMobileMenu} className="offcanvas-close">
+                        ×
+                    </button>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <div className="inner customScroll">
+                        <div className="offcanvas-menu-search-form">
+                            <form action="#">
+                                <input type="text" placeholder="Search..." />
+                                <button>
+                                    <FontAwesomeIcon icon="search" />
+                                </button>
+                            </form>
+                        </div>
+                        <div className="offcanvas-menu">
+                            <ul>
+                                {HEADER_LINKS.map((link) => (
+                                    <li key={link.to}>
+                                        <NavLink to={link.to}>
+                                            <span className="menu-text">{link.label}</span>
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="offcanvas-buttons">
+                            <div className="header-tools">
+                                <div className="header-login">
+                                    <NavLink to="/my-account">
+                                        <FontAwesomeIcon icon="user" />
                                     </NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="offcanvas-buttons">
-                        <div className="header-tools">
-                            <div className="header-login">
-                                <NavLink to="/my-account">
-                                    <FontAwesomeIcon icon="user" />
-                                </NavLink>
-                            </div>
-                            <div className="header-wishlist">
-                                <a href="wishlist.html">
-                                    <span>3</span>
-                                    <FontAwesomeIcon icon="heart" />
-                                </a>
-                            </div>
-                            <div className="header-cart">
-                                <a href="shopping-cart.html">
-                                    <span className="cart-count">3</span>
-                                    <FontAwesomeIcon icon="shopping-cart" />
-                                </a>
+                                </div>
+                                <div className="header-wishlist">
+                                    <NavLink to="/wishlist">
+                                        <span>3</span>
+                                        <FontAwesomeIcon icon="heart" />
+                                    </NavLink>
+                                </div>
+                                <div className="header-cart">
+                                    <NavLink to="/shopping-cart">
+                                        <span className="cart-count">3</span>
+                                        <FontAwesomeIcon icon="shopping-cart" />
+                                    </NavLink>
+                                </div>
                             </div>
                         </div>
+                        <div className="offcanvas-social">
+                            <a href="#">
+                                <FontAwesomeIcon icon={['fab', 'facebook-f']} />
+                            </a>
+                            <a href="#">
+                                <FontAwesomeIcon icon={['fab', 'instagram']} />
+                            </a>
+                            <a href="#">
+                                <FontAwesomeIcon icon={['fab', 'youtube']} />
+                            </a>
+                        </div>
                     </div>
-                    <div className="offcanvas-social">
-                        <a href="#">
-                            <FontAwesomeIcon icon={['fab', 'facebook-f']} />
-                        </a>
-                        <a href="#">
-                            <FontAwesomeIcon icon={['fab', 'instagram']} />
-                        </a>
-                        <a href="#">
-                            <FontAwesomeIcon icon={['fab', 'youtube']} />
-                        </a>
-                    </div>
-                </div>
-            </div>
+                </Offcanvas.Body>
+            </Offcanvas>
             {/* OffCanvas Mobile Menu End */}
         </>
     );
