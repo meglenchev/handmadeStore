@@ -1,5 +1,5 @@
 import QuickViewContext from '../../context/QuickViewContext.jsx';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 
 import Slider from 'react-slick';
@@ -20,6 +20,7 @@ import { QuickView } from '../../components/common/QuickView.jsx';
 import { settings } from '../../utils/utils.js';
 import { Footer } from '../../components/layout/Footer.jsx';
 import { Header } from '../../components/layout/Header.jsx';
+import { useSlidesToShow } from '../../hooks/useSlidesToShow.jsx';
 
 export function Home() {
     const { openQuickView } = useContext(QuickViewContext);
@@ -28,18 +29,18 @@ export function Home() {
     const settingsDealOfTheDay = {
         ...settings,
         arrows: true,
-        slidesToShow: 4,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
+        slidesToShow: useSlidesToShow(),
     };
 
     // Instagram Slider settings
     const settingsInsta = {
         ...settings,
-        slidesToShow: 5,
         arrows: true,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
+        slidesToShow: useSlidesToShow(),
     };
 
     return (
