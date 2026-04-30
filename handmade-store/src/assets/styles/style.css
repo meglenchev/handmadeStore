@@ -12485,11 +12485,6 @@ body.offcanvas.show .sticky-header {
     transform: scale(1.1);
 }
 
-.product-carousel {
-    width: 100%;
-    overflow: hidden;
-}
-
 /* Product Gallery Slider */
 .product-gallery-slider {
     margin: 0;

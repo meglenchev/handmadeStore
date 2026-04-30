@@ -159,9 +159,6 @@ export function QuickView() {
                                                         <FontAwesomeIcon icon={['fab', 'facebook-f']} />
                                                     </a>
                                                     <a href="#">
-                                                        <FontAwesomeIcon icon={['fab', 'twitter']} />
-                                                    </a>
-                                                    <a href="#">
                                                         <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
                                                     </a>
                                                     <a href="#">
