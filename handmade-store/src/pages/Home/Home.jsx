@@ -122,27 +122,9 @@ export function Home() {
                 </Swiper>
             </div>
             {/* Slider main container End */}
-            {/* Product Section Start */}
-            <div className="section section-padding">
-                <div className="container">
-                    <div className="row learts-mb-30">
-                        <div className="col-md-auto col-12 learts-mb-20">
-                            {/* Section Title Start */}
-                            <div className="section-title2 m-0">
-                                <h2 className="title title-icon-right">Сделка на деня</h2>
-                            </div>
-                            {/* Section Title End */}
-                        </div>
-                        <div className="col-md col-12 learts-mb-20 d-flex justify-content-lg-end">
-                            <div className="countdown2" data-countdown="2024/01/01" />
-                        </div>
-                    </div>
-                    {/* Products Of The Day Start */}
-                    <DealOfTheDay />
-                    {/* Products Of The Day End */}
-                </div>
-            </div>
-            {/* Product Section End */}
+            {/* Products Of The Day Start */}
+            <DealOfTheDay />
+            {/* Products Of The Day Start End */}
             {/* Sale Banner Start */}
             <div className="section section-fluid">
                 <div className="row g-0">
