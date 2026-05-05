@@ -1,125 +1,26 @@
-import { useContext } from 'react';
-
-import Slider from 'react-slick';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
-import { QuickView } from '../../components/common/QuickView.jsx';
-import { settings } from '../../utils/utils.js';
-import { Footer } from '../../components/layout/Footer.jsx';
 import { Header } from '../../components/layout/Header.jsx';
-import { useSlidesToShow } from '../../hooks/useSlidesToShow.jsx';
-import { DealOfTheDay } from '../../components/sections/DealOfTheDay/DealOfTheDay.jsx';
-import { ProductsInFocus } from './components/ProductsInFocus.jsx';
 import { HomeSlider } from './components/HomeSlider.jsx';
+import { DealOfTheDay } from '../../components/sections/DealOfTheDay/DealOfTheDay.jsx';
 import { SaleBaner } from '../../components/common/SaleBaner.jsx';
+import { ProductsInFocus } from './components/ProductsInFocus.jsx';
 import { CallToAction } from './components/CallToAction.jsx';
 import { Feature } from './components/Feature.jsx';
+import { InstagramFeed } from './components/InstagramFeed.jsx';
+import { Footer } from '../../components/layout/Footer.jsx';
+import { QuickView } from '../../components/common/QuickView.jsx';
 
 export function Home() {
-    // Instagram Slider settings
-    const settingsInsta = {
-        ...settings,
-        arrows: true,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
-        slidesToShow: useSlidesToShow(),
-    };
-
     return (
         <>
-            {/* Site Header Start */}
             <Header />
-            {/* Site Header End */}
-            {/* Home Slider Start */}
             <HomeSlider />
-            {/* Home Slider End */}
-            {/* Products Of The Day Start */}
             <DealOfTheDay />
-            {/* Products Of The Day Start End */}
-            {/* Sale Banner Start */}
             <SaleBaner />
-            {/* Sale Banner End */}
-            {/* Product In Focus */}
             <ProductsInFocus />
-            {/* Product In Focus End */}
-            {/* CTA Section Start */}
             <CallToAction />
-            {/* CTA Section End */}
-            {/* Feature Section Start */}
             <Feature />
-            {/* Feature Section End */}
-            {/* Instagram Section Start */}
-            <div className="section section-padding border-top">
-                <div className="container">
-                    {/* Section Title Start */}
-                    <div className="section-title2 text-center">
-                        <h3 className="sub-title">Последвайте ни в Instagram</h3>
-                        <h2 className="title">@learts_shop</h2>
-                    </div>
-                    {/* Section Title End */}
-                    <div className="instafeed instafeed-carousel instafeed-carousel1">
-                        <Slider {...settingsInsta}>
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-
-                            <div className="instafeed-item-wrapper">
-                                <a className="instafeed-item" href="#">
-                                    <img src="../../assets/images/instagram/instagram-1.webp" alt="instagram image" />
-                                    <FontAwesomeIcon icon={['fab', 'instagram']} />
-                                </a>
-                            </div>
-                        </Slider>
-                    </div>
-                </div>
-            </div>
-            {/* Instagram Section End */}
+            <InstagramFeed />
             <Footer />
-            {/* Quick View Modal */}
             <QuickView />
         </>
     );
