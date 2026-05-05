@@ -1,4 +1,4 @@
-export function SaleBaner() {
+export function SaleBanner() {
     return (
         <div className="section section-fluid">
             <div className="row g-0">
