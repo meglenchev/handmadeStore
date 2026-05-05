@@ -6,24 +6,28 @@ import Slider from 'react-slick';
 import { settings } from '../../utils/utils.js';
 import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
 
+const settingsProductQuickView = {
+    ...settings,
+    dots: false,
+    slidesToShow: 1,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+};
+
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
-    // Product Quick View Slider settings
-    const settingsProductQuickView = {
-        ...settings,
-        dots: false,
-        slidesToShow: 1,
-        arrows: true,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
-    };
+
+    if (!productData) {
+        return null;
+    }
 
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
             <Modal.Body>
-                <a className="close" onClick={onCloseQuickView}>
+                <button className="close" onClick={onCloseQuickView}>
                     ×
-                </a>
+                </button>
                 <div className="row learts-mb-n30">
                     {/* Product Images Start */}
                     <div className="col-lg-6 col-12 learts-mb-30">
