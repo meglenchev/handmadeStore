@@ -37,16 +37,20 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
     );
 };
 
+const baseSettings = {
+    ...settings,
+    arrows: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+};
+
 export function DealOfTheDay() {
     const { openQuickView } = useContext(QuickViewContext);
 
     const expiryDate = new Date('2026-12-31T23:59:59');
 
     const settingsDealOfTheDay = {
-        ...settings,
-        arrows: true,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
+        ...baseSettings,
         slidesToShow: useSlidesToShow(),
     };
 
