@@ -569,8 +569,10 @@ body.homepage-bg1.offcanvas-open {
 
 /* Scroll Up */
 #scrollUp {
-    display: block;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
     right: 25px;
     bottom: 25px;
     width: 40px;
@@ -579,40 +581,16 @@ body.homepage-bg1.offcanvas-open {
     color: var(--text-white);
     background-color: var(--color-primary);
     text-indent: -100000px;
+    border: none;
 }
 
-#scrollUp::before,
-#scrollUp::after {
+#scrollUp .svg-inline--fa {
     display: block;
-    position: absolute;
-    content: '';
-    height: 15px;
-    width: 2px;
-    background-color: white;
-}
-
-#scrollUp::before {
-    top: 12px;
-    left: 15px;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-#scrollUp::after {
-    top: 12px;
-    left: 25px;
-    -webkit-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
+    color: var(--text-white);
 }
 
 #scrollUp:hover {
     background-color: var(--color-primary-2-hover);
-}
-
-#scrollUp i {
-    line-height: 40px;
 }
 
 /* Border Style */

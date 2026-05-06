@@ -20,18 +20,12 @@ import './assets/styles/plugins/magnific-popup.css';
 import './assets/styles/style.css';
 import { QuickViewProvider } from './context/QuickViewContext.jsx';
 import { BrowserRouter } from 'react-router';
-import { Header } from './components/layout/Header.jsx';
-import { Footer } from './components/layout/Footer.jsx';
-import { QuickView } from './components/common/QuickView.jsx';
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <StrictMode>
             <QuickViewProvider>
-                <Header />
                 <App />
-                <Footer />
-                <QuickView />
             </QuickViewProvider>
         </StrictMode>
     </BrowserRouter>

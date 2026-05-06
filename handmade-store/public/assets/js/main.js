@@ -391,13 +391,6 @@
     });
 
     /*--
-        Scroll Up
-    -----------------------------------*/
-    $.scrollUp({
-        scrollText: '>',
-    });
-
-    /*--
         Single Product Gallery Popup
     -----------------------------------*/
     var $productPopupGalleryBtn = $('.product-gallery-popup'),
