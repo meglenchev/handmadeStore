@@ -57,9 +57,11 @@ export function ProductsInFocus() {
                                                 <img src={product.image} alt={product.title} />
                                                 <img className="image-hover " src={product.hoverImage} alt={product.title} />
                                             </a>
-                                            <a href="wishlist.html" className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
+                                            <button
+                                                className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
+                                                data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
                                                 <FontAwesomeIcon icon="heart" />
-                                            </a>
+                                            </button>
                                         </div>
                                         <div className="product-info">
                                             <h6 className="title">
