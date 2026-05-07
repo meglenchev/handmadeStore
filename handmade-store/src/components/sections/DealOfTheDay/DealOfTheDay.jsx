@@ -75,6 +75,7 @@ export function DealOfTheDay() {
                 </div>
                 <div className="product-carousel">
                     <Slider key="deal-of-the-day" {...settingsDealOfTheDay}>
+                        {/* Products Start */}
                         {DEAL_PRODUCTS.map((product) => (
                             <div key={product.id} className="col">
                                 <div className="product">
@@ -86,7 +87,9 @@ export function DealOfTheDay() {
                                             <img src={product.image} alt={product.title} />
                                             <img className="image-hover" src={product.hoverImage} alt={product.title} />
                                         </a>
-                                        <button className="add-to-wishlist hintT-left" data-hint="Add to wishlist">
+                                        <button
+                                            className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
+                                            data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
                                             <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
@@ -122,6 +125,7 @@ export function DealOfTheDay() {
                                 </div>
                             </div>
                         ))}
+                        {/* Products End */}
                     </Slider>
                 </div>
             </div>

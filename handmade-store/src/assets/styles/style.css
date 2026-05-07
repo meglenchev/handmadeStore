@@ -11605,10 +11605,20 @@ body.offcanvas.show .sticky-header {
     opacity: 0;
     color: var(--color-secondary);
     border: none;
+    background: none;
 }
 
 .product-thumb .add-to-wishlist:hover {
     color: var(--color-primary);
+    background: none;
+}
+
+.product-thumb .add-to-wishlist.added {
+    color: var(--color-primary);
+}
+
+.product-thumb .add-to-wishlist.added:hover {
+    color: var(--color-secondary);
 }
 
 .product-thumb .add-to-wishlist .svg-inline--fa {
