@@ -22,6 +22,8 @@ export function QuickView() {
         return null;
     }
 
+    console.log('Product Data in QuickView:', productData); // Debugging line to check product data
+
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
             <Modal.Body>
@@ -35,16 +37,10 @@ export function QuickView() {
                             <div className="product-gallery-slider-quickview">
                                 <Slider {...settingsProductQuickView}>
                                     <div className="product-zoom">
-                                        <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
+                                        <img src={productData.image} alt={productData.title} />
                                     </div>
                                     <div className="product-zoom">
-                                        <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                    </div>
-                                    <div className="product-zoom">
-                                        <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
-                                    </div>
-                                    <div className="product-zoom">
-                                        <img src="../../assets/images/product/single/1/product-1.webp" alt="" />
+                                        <img src={productData.hoverImage} alt={productData.title} />
                                     </div>
                                 </Slider>
                             </div>
@@ -54,14 +50,12 @@ export function QuickView() {
                     {/* Product Summery Start */}
                     <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
                         <div className="product-summery customScroll">
-                            <h3 className="product-title">Почистване на лопатка и четка</h3>
-                            <div className="product-price">€38.00 – €50.00</div>
+                            <h3 className="product-title">{productData.title}</h3>
+                            <div className="product-price">
+                                €{productData.newPrice.toFixed(2)} – €{productData.oldPrice.toFixed(2)}
+                            </div>
                             <div className="product-description">
-                                <p>
-                                    Стандартният отрязък от Lorem Ipsum, използван от 1500 г. насам, е поместен по-долу за тези, които се интересуват. Секции 1.10.32 и 1.10.33 от
-                                    "de Finibus Bonorum et Malorum" на Цицерон също са поместени в оригиналния им формат, заедно с превода им на английски език, направен от H.
-                                    Rackham през 1914г.
-                                </p>
+                                <p>{productData.descriptiption}</p>
                             </div>
                             <div className="product-variations">
                                 <table>
@@ -78,22 +72,24 @@ export function QuickView() {
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="label">
-                                                <span>Количество</span>
-                                            </td>
-                                            <td className="value">
-                                                <div className="product-quantity">
-                                                    <span className="qty-btn minus">
-                                                        <FontAwesomeIcon icon="minus" />
-                                                    </span>
-                                                    <input type="text" className="input-qty" defaultValue={1} />
-                                                    <span className="qty-btn plus">
-                                                        <FontAwesomeIcon icon="plus" />
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {productData.stock > 1 && (
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Количество</span>
+                                                </td>
+                                                <td className="value">
+                                                    <div className="product-quantity">
+                                                        <span className="qty-btn minus">
+                                                            <FontAwesomeIcon icon="minus" />
+                                                        </span>
+                                                        <input type="text" className="input-qty" defaultValue={1} />
+                                                        <span className="qty-btn plus">
+                                                            <FontAwesomeIcon icon="plus" />
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
@@ -124,7 +120,7 @@ export function QuickView() {
                                             <td className="value">
                                                 <ul className="product-category">
                                                     <li>
-                                                        <a href="#">Кухня</a>
+                                                        <a href="#">{productData.category}</a>
                                                     </li>
                                                 </ul>
                                             </td>
