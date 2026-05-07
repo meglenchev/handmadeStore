@@ -3,6 +3,9 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import { HOME_SLIDER_PRODUCTS } from '../../../data/homeSliderProducts.js';
+import { Link } from 'react-router';
+
 export function HomeSlider() {
     return (
         <div className="section section-fluid">
@@ -16,68 +19,25 @@ export function HomeSlider() {
                     el: '.home-slider-pagination',
                 }}
                 className="home-slider">
-                {/* Slide 1 */}
-                <SwiperSlide className="home-slide-item">
-                    <div className="home-slide-image">
-                        <img src="/assets/images/slider/slide-1.webp" alt="Slide 1" />
-                    </div>
-                    <div className="home-slide-content">
-                        <span className="sub-title">Специално за теб</span>
-                        <h2 className="title">
-                            Романтично ястие на Бъфри <br /> За Него
-                        </h2>
-                        <div className="link">
-                            <a href="/shop">Вземи сега</a>
+                {HOME_SLIDER_PRODUCTS.map((product, index) => (
+                    <SwiperSlide key={product.id} className="home-slide-item">
+                        <div className="home-slide-image">
+                            <img src={product.image} alt={product.title} />
                         </div>
-                    </div>
-                    <div className="home-slide-pages">
-                        <span className="current">1</span>
-                        <span className="border" />
-                        <span className="total">3</span>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 2 */}
-                <SwiperSlide className="home-slide-item">
-                    <div className="home-slide-image">
-                        <img src="/assets/images/slider/slide-2.webp" alt="Slide 2" />
-                    </div>
-                    <div className="home-slide-content">
-                        <span className="sub-title">Специално за теб</span>
-                        <h2 className="title">
-                            Държач за бижута Dorme <br /> За нея
-                        </h2>
-                        <div className="link">
-                            <a href="/shop">Вземи сега</a>
+                        <div className="home-slide-content">
+                            <span className="sub-title">Специално за теб</span>
+                            <h2 className="title">{product.title}</h2>
+                            <div className="link">
+                                <Link to={`/product/${product.category}/${product.id}/details`}>Вземи сега</Link>
+                            </div>
                         </div>
-                    </div>
-                    <div className="home-slide-pages">
-                        <span className="current">2</span>
-                        <span className="border" />
-                        <span className="total">3</span>
-                    </div>
-                </SwiperSlide>
-
-                {/* Slide 3 */}
-                <SwiperSlide className="home-slide-item">
-                    <div className="home-slide-image">
-                        <img src="/assets/images/slider/slide-3.webp" alt="Slide 3" />
-                    </div>
-                    <div className="home-slide-content">
-                        <span className="sub-title">Специално за теб</span>
-                        <h2 className="title">
-                            Прясно набрани плодове <br /> За теб
-                        </h2>
-                        <div className="link">
-                            <a href="/shop">Вземи сега</a>
+                        <div className="home-slide-pages">
+                            <span className="current">{index + 1}</span>
+                            <span className="border" />
+                            <span className="total">{HOME_SLIDER_PRODUCTS.length}</span>
                         </div>
-                    </div>
-                    <div className="home-slide-pages">
-                        <span className="current">3</span>
-                        <span className="border" />
-                        <span className="total">3</span>
-                    </div>
-                </SwiperSlide>
+                    </SwiperSlide>
+                ))}
 
                 <div className="home-slider-pagination swiper-pagination" />
             </Swiper>
