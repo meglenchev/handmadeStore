@@ -573,6 +573,7 @@ body.homepage-bg1.offcanvas-open {
     align-items: center;
     justify-content: center;
     position: fixed;
+    z-index: 9999;
     right: 25px;
     bottom: 25px;
     width: 40px;

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router';
+import { NavigationLinks } from './NavigationLinks.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -131,15 +132,7 @@ export function Header() {
                             ×
                         </button>
                         <div className="overlay-menu">
-                            <ul>
-                                {HEADER_LINKS.map((link) => (
-                                    <li key={link.to}>
-                                        <NavLink to={link.to}>
-                                            <span className="menu-text">{link.label}</span>
-                                        </NavLink>
-                                    </li>
-                                ))}
-                            </ul>
+                            <NavigationLinks links={HEADER_LINKS} onItemClick={toggleMenu('desktop')} />
                         </div>
                     </div>
                 </Offcanvas.Body>

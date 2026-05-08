@@ -1,5 +1,5 @@
 import './utils/icons.js';
-import { Header } from './components/layout/Header.jsx';
+import { Header } from './components/layout/header/Header.jsx';
 import { Footer } from './components/layout/Footer.jsx';
 import { QuickView } from './components/common/QuickView.jsx';
 import { Home } from './pages/Home/Home.jsx';
