@@ -3,16 +3,16 @@ import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router';
 
-export function Header() {
-    const HEADER_LINKS = [
-        { to: '/', label: 'Начало' },
-        { to: '/shop', label: 'Магазин' },
-        { to: '/about-us', label: 'За нас' },
-        { to: '/wishlist', label: 'Любими' },
-        { to: '/contact-us', label: 'Контакти' },
-        { to: '/privacy-policy', label: 'Политика за сигурност' },
-    ];
+const HEADER_LINKS = [
+    { to: '/', label: 'Начало' },
+    { to: '/shop', label: 'Магазин' },
+    { to: '/about-us', label: 'За нас' },
+    { to: '/wishlist', label: 'Любими' },
+    { to: '/contact-us', label: 'Контакти' },
+    { to: '/privacy-policy', label: 'Политика за сигурност' },
+];
 
+export function Header() {
     // Sticky header
     const [isSticky, setIsSticky] = useState(false);
     const sentinelRef = useRef(null);
@@ -32,45 +32,19 @@ export function Header() {
         return () => observer.disconnect();
     }, []);
 
-    // Desktop Menu Offcanvas
-    const [showDesktopMenu, setShowDesktopMenu] = useState(false);
+    const [activeMenu, setActiveMenu] = useState({
+        desktop: false,
+        mobile: false,
+        wishlist: false,
+        cart: false,
+        search: false,
+    });
 
-    const toggleDesktopMenu = (e) => {
-        e.preventDefault();
-        setShowDesktopMenu(!showDesktopMenu);
+    const toggleMenu = (name) => (e) => {
+        e?.preventDefault();
+        setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
-    // Mobile Menu Offcanvas
-    const [showMobileMenu, setShowMobileMenu] = useState(false);
-
-    const toggleMobileMenu = (e) => {
-        e.preventDefault();
-        setShowMobileMenu(!showMobileMenu);
-    };
-
-    // Wishlist Offcanvas
-    const [showWishlist, setShowWishlist] = useState(false);
-
-    const toggleWishlist = (e) => {
-        e.preventDefault();
-        setShowWishlist(!showWishlist);
-    };
-
-    // Cart Offcanvas
-    const [showCart, setShowCart] = useState(false);
-
-    const toggleCart = (e) => {
-        e.preventDefault();
-        setShowCart(!showCart);
-    };
-
-    // Search Offcanvas
-    const [showSearch, setShowSearch] = useState(false);
-
-    const toggleSearch = (e) => {
-        e.preventDefault();
-        setShowSearch(!showSearch);
-    };
     return (
         <>
             {/* Topbar Section Start */}
@@ -93,7 +67,7 @@ export function Header() {
                         <div className="col">
                             <div className="header-tools">
                                 <div className="mobile-menu-toggle">
-                                    <button onClick={toggleDesktopMenu} className="offcanvas-toggle">
+                                    <button onClick={toggleMenu('desktop')} className="offcanvas-toggle">
                                         <svg viewBox="0 0 800 600">
                                             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
                                             <path d="M300,320 L540,320" className="middle" />
@@ -126,18 +100,18 @@ export function Header() {
                                     </Link>
                                 </div>
                                 <div className="header-search d-none d-sm-block">
-                                    <button onClick={toggleSearch} className="offcanvas-toggle">
+                                    <button onClick={toggleMenu('search')} className="offcanvas-toggle">
                                         <FontAwesomeIcon icon="search" />
                                     </button>
                                 </div>
                                 <div className="header-wishlist">
-                                    <button onClick={toggleWishlist} className={`offcanvas-toggle ${showWishlist ? 'close' : ''}`}>
+                                    <button onClick={toggleMenu('wishlist')} className={`offcanvas-toggle ${activeMenu.wishlist ? 'close' : ''}`}>
                                         <span className="wishlist-count">3</span>
                                         <FontAwesomeIcon icon="heart" />
                                     </button>
                                 </div>
                                 <div className="header-cart">
-                                    <button onClick={toggleCart} className="offcanvas-toggle">
+                                    <button onClick={toggleMenu('cart')} className="offcanvas-toggle">
                                         <span className="cart-count">3</span>
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </button>
@@ -150,10 +124,10 @@ export function Header() {
             </header>
             {/* Header Section End */}
             {/* OffCanvas Desktop Menu */}
-            <Offcanvas show={showDesktopMenu} onHide={toggleDesktopMenu} placement="start" className="headerMenu offcanvas offcanvas-overlay-menu">
+            <Offcanvas show={activeMenu.desktop} onHide={toggleMenu('desktop')} placement="start" className="headerMenu offcanvas offcanvas-overlay-menu">
                 <Offcanvas.Body>
                     <div className="inner">
-                        <button onClick={toggleDesktopMenu} className="offcanvas-close">
+                        <button onClick={toggleMenu('desktop')} className="offcanvas-close">
                             ×
                         </button>
                         <div className="overlay-menu">
@@ -210,7 +184,7 @@ export function Header() {
                                     </a>
                                 </div>
                                 <div className="mobile-menu-toggle">
-                                    <button onClick={toggleMobileMenu} className="offcanvas-toggle">
+                                    <button onClick={toggleMenu('mobile')} className="offcanvas-toggle">
                                         <svg viewBox="0 0 800 600">
                                             <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
                                             <path d="M300,320 L540,320" className="middle" />
@@ -230,11 +204,11 @@ export function Header() {
             </div>
             {/* Mobile Header Section End */}
             {/* OffCanvas Search Start */}
-            <Offcanvas show={showSearch} placement="start" className="offcanvas offcanvas-search">
+            <Offcanvas show={activeMenu.search} onHide={toggleMenu('search')} placement="start" className="offcanvas offcanvas-search">
                 <Offcanvas.Body>
                     <div className="inner">
                         <div className="offcanvas-search-form">
-                            <button onClick={toggleSearch} className="offcanvas-close">
+                            <button onClick={toggleMenu('search')} className="offcanvas-close">
                                 ×
                             </button>
                             <form action="#">
@@ -266,11 +240,11 @@ export function Header() {
             </Offcanvas>
             {/* OffCanvas Search End */}
             {/* OffCanvas Wishlist Start */}
-            <Offcanvas show={showWishlist} onHide={toggleWishlist} placement="end" className="offcanvas offcanvas-wishlist">
+            <Offcanvas show={activeMenu.wishlist} onHide={toggleMenu('wishlist')} placement="end" className="offcanvas offcanvas-wishlist">
                 <div className="inner">
                     <Offcanvas.Header className="head">
                         <span className="title">Любми</span>
-                        <button className="offcanvas-close" onClick={toggleWishlist}>
+                        <button className="offcanvas-close" onClick={toggleMenu('wishlist')}>
                             ×
                         </button>
                     </Offcanvas.Header>
@@ -337,11 +311,11 @@ export function Header() {
             </Offcanvas>
             {/* OffCanvas Wishlist End */}
             {/* OffCanvas Cart Start */}
-            <Offcanvas show={showCart} onHide={toggleCart} placement="end" className="offcanvas offcanvas-cart">
+            <Offcanvas show={activeMenu.cart} onHide={toggleMenu('cart')} placement="end" className="offcanvas offcanvas-cart">
                 <div className="inner">
                     <Offcanvas.Header className="head">
                         <span className="title">Количка</span>
-                        <button onClick={toggleCart} className="offcanvas-close">
+                        <button onClick={toggleMenu('cart')} className="offcanvas-close">
                             ×
                         </button>
                     </Offcanvas.Header>
@@ -416,9 +390,9 @@ export function Header() {
             </Offcanvas>
             {/* OffCanvas Cart End */}
             {/* OffCanvas Mobile Menu */}
-            <Offcanvas show={showMobileMenu} onHide={toggleMobileMenu} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
+            <Offcanvas show={activeMenu.mobile} onHide={toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
                 <Offcanvas.Header className="head">
-                    <button onClick={toggleMobileMenu} className="offcanvas-close">
+                    <button onClick={toggleMenu('mobile')} className="offcanvas-close">
                         ×
                     </button>
                 </Offcanvas.Header>
