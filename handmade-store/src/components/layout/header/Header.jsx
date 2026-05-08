@@ -3,6 +3,7 @@ import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router';
 import { NavigationLinks } from './NavigationLinks.jsx';
+import { useSticky } from '../../../hooks/useSticky.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -14,24 +15,7 @@ const HEADER_LINKS = [
 ];
 
 export function Header() {
-    // Sticky header
-    const [isSticky, setIsSticky] = useState(false);
-    const sentinelRef = useRef(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsSticky(!entry.isIntersecting);
-            },
-            { threshold: [1] }
-        );
-
-        if (sentinelRef.current) {
-            observer.observe(sentinelRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
+    const { isSticky, sentinelRef } = useSticky();
 
     const [activeMenu, setActiveMenu] = useState({
         desktop: false,
