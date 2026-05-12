@@ -1482,6 +1482,12 @@ body.homepage-bg1.offcanvas-open {
     opacity: 1;
 }
 
+@media (max-width: 768px) {
+    .slick-slider .slick-arrow {
+        opacity: 1 !important;
+    }
+}
+
 .slick-slider:hover .slick-arrow.slick-prev {
     left: 0;
 }

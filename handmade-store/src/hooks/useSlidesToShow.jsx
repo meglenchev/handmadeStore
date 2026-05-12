@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export const useSlidesToShow = () => {
-    const getSlides = () => {
+export function useSlidesToShow() {
+    function getSlides() {
         if (typeof window === 'undefined') return 4;
 
         const w = window.innerWidth;
@@ -10,7 +10,7 @@ export const useSlidesToShow = () => {
         if (w < 768) return 2;
         if (w < 1024) return 3;
         return 4;
-    };
+    }
 
     const [slides, setSlides] = useState(getSlides());
 
@@ -19,8 +19,10 @@ export const useSlidesToShow = () => {
 
         window.addEventListener('resize', handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
+        return function cleanup() {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     return slides;
-};
+}
