@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useSticky = () => {
+export function useSticky() {
     const [isSticky, setIsSticky] = useState(false);
     const sentinelRef = useRef(null);
 
@@ -19,4 +19,4 @@ export const useSticky = () => {
         return () => observer.disconnect();
     }, []);
     return { isSticky, sentinelRef };
-};
+}
