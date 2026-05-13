@@ -20,13 +20,16 @@ import './assets/styles/plugins/magnific-popup.css';
 import './assets/styles/style.css';
 import { QuickViewProvider } from './context/QuickViewContext.jsx';
 import { BrowserRouter } from 'react-router';
+import { ShopProvider } from './context/ShopContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <StrictMode>
-            <QuickViewProvider>
-                <App />
-            </QuickViewProvider>
+            <ShopProvider>
+                <QuickViewProvider>
+                    <App />
+                </QuickViewProvider>
+            </ShopProvider>
         </StrictMode>
     </BrowserRouter>
 );
