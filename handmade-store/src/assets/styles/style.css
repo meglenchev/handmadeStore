@@ -4491,6 +4491,8 @@ body.offcanvas.show .sticky-header {
     right: 0;
     padding: 0 5px;
     color: var(--text-body-light);
+    border: none;
+    background-color: transparent;
 }
 
 .minicart-product-list li .content .remove:hover {

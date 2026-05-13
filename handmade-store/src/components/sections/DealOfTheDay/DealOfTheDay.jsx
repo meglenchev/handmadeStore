@@ -11,6 +11,7 @@ import QuickViewContext from '../../../context/QuickViewContext.jsx';
 import { useSlidesToShow } from '../../../hooks/useSlidesToShow.jsx';
 
 import { DEAL_PRODUCTS } from '../../../data/products.js';
+import ShopContext from '../../../context/ShopContext.jsx';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -48,6 +49,7 @@ const baseSettings = {
 
 export function DealOfTheDay() {
     const { openQuickView } = useContext(QuickViewContext);
+    const { addToCart, toggleWishlist } = useContext(ShopContext);
 
     const expiryDate = new Date('2026-12-31T23:59:59');
 
@@ -88,8 +90,11 @@ export function DealOfTheDay() {
                                             <img className="image-hover" src={product.hoverImage} alt={product.title} />
                                         </a>
                                         <button
-                                            className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
+                                            onClick={() => toggleWishlist(product)}
+                                            className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'} // Да корегирам условие за класа след като добавя context за добавяне в localStorage
                                             data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
+                                            {' '}
+                                            // Да корегирам условие за класа след като добавя context за добавяне в localStorage
                                             <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
@@ -106,9 +111,9 @@ export function DealOfTheDay() {
                                             <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                 <FontAwesomeIcon icon="search" />
                                             </button>
-                                            <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
+                                            <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
                                                 <FontAwesomeIcon icon="shopping-cart" />
-                                            </a>
+                                            </button>
                                         </div>
                                         <div className="product-stock-status">
                                             <div className="bar">

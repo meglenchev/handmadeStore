@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Modal, Button, Offcanvas } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router';
 import { NavigationLinks } from './NavigationLinks.jsx';
 import { useSticky } from '../../../hooks/useSticky.jsx';
+import ShopContext from '../../../context/ShopContext.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -29,6 +30,8 @@ export function Header() {
         e?.preventDefault();
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
+
+    const { cartItems, cartCount, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
     return (
         <>
@@ -91,13 +94,13 @@ export function Header() {
                                 </div>
                                 <div className="header-wishlist">
                                     <button onClick={toggleMenu('wishlist')} className={`offcanvas-toggle ${activeMenu.wishlist ? 'close' : ''}`}>
-                                        <span className="wishlist-count">3</span>
+                                        {wishlistCount > 0 && <span className="wishlist-count">{wishlistCount}</span>}
                                         <FontAwesomeIcon icon="heart" />
                                     </button>
                                 </div>
                                 <div className="header-cart">
                                     <button onClick={toggleMenu('cart')} className="offcanvas-toggle">
-                                        <span className="cart-count">3</span>
+                                        {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </button>
                                 </div>
@@ -150,13 +153,13 @@ export function Header() {
                                 </div>
                                 <div className="header-wishlist d-none d-sm-block">
                                     <a href="#offcanvas-wishlist" className="offcanvas-toggle">
-                                        <span className="wishlist-count">3</span>
+                                        {wishlistCount > 0 && <span className="wishlist-count">{wishlistCount}</span>}
                                         <FontAwesomeIcon icon="heart" />
                                     </a>
                                 </div>
                                 <div className="header-cart">
                                     <a href="#offcanvas-cart" className="offcanvas-toggle">
-                                        <span className="cart-count">3</span>
+                                        {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </a>
                                 </div>
@@ -227,54 +230,24 @@ export function Header() {
                     </Offcanvas.Header>
                     <Offcanvas.Body className="body customScroll">
                         <ul className="minicart-product-list">
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Дъска за рязане на орехи
+                            {wishlistItems.map((item) => (
+                                <li key={item.id}>
+                                    <a href={`/product-details/${item.id}`} className="image">
+                                        <img src={item.image} alt={item.title} />
                                     </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€100.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Щастливо дървено слонче
-                                    </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€35.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Комплект за изрязване на риба
-                                    </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€9.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
+                                    <div className="content">
+                                        <a href={`/product-details/${item.id}`} className="title">
+                                            {item.title}
+                                        </a>
+                                        <span className="quantity-price">
+                                            1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                        </span>
+                                        <button onClick={() => toggleWishlist(item)} className="remove">
+                                            ×
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                     </Offcanvas.Body>
                     <div className="foot">
@@ -298,60 +271,30 @@ export function Header() {
                     </Offcanvas.Header>
                     <Offcanvas.Body className="body customScroll">
                         <ul className="minicart-product-list">
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Дъска за рязане на орехи
+                            {cartItems.map((item) => (
+                                <li key={item.id}>
+                                    <a href="product-details.html" className="image">
+                                        <img src={item.image} alt={item.title} />
                                     </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€100.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Щастливо дървено слонче
-                                    </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€35.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="product-details.html" className="image">
-                                    <img src="../../assets/images/product/cart-product-2.webp" alt="Cart product Image" />
-                                </a>
-                                <div className="content">
-                                    <a href="product-details.html" className="title">
-                                        Комплект за изрязване на риба
-                                    </a>
-                                    <span className="quantity-price">
-                                        1 x <span className="amount">€9.00</span>
-                                    </span>
-                                    <a href="#" className="remove">
-                                        ×
-                                    </a>
-                                </div>
-                            </li>
+                                    <div className="content">
+                                        <a href={`/product-details/${item.id}`} className="title">
+                                            {item.title}
+                                        </a>
+                                        <span className="quantity-price">
+                                            1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                        </span>
+                                        <a href="#" className="remove">
+                                            ×
+                                        </a>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                     </Offcanvas.Body>
                     <div className="foot">
                         <div className="sub-total">
                             <strong>Междинна сума:</strong>
-                            <span className="amount">€144.00</span>
+                            <span className="amount">€{cartItems.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
                         </div>
                         <div className="buttons">
                             <a href="shopping-cart.html" className="btn btn-dark btn-hover-primary">
@@ -403,13 +346,13 @@ export function Header() {
                                 </div>
                                 <div className="header-wishlist">
                                     <NavLink to="/wishlist">
-                                        <span>3</span>
+                                        {wishlistCount > 0 && <span>{wishlistCount}</span>}
                                         <FontAwesomeIcon icon="heart" />
                                     </NavLink>
                                 </div>
                                 <div className="header-cart">
                                     <NavLink to="/shopping-cart">
-                                        <span className="cart-count">3</span>
+                                        {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                                         <FontAwesomeIcon icon="shopping-cart" />
                                     </NavLink>
                                 </div>
