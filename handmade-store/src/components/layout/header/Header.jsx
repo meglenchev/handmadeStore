@@ -33,6 +33,16 @@ export function Header() {
 
     const { cart, cartCount, subtotal, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
+    useEffect(() => {
+        if (cart.length === 0 && activeMenu.cart) {
+            const timer = setTimeout(() => {
+                toggleMenu('cart')();
+            }, 1500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [cart.length, activeMenu.cart]);
+
     return (
         <>
             {/* Topbar Section Start */}
