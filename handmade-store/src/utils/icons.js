@@ -13,6 +13,7 @@ import {
     faAngleRight,
     faLongArrowAltUp,
     faArrowUp,
+    faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -31,6 +32,7 @@ library.add(
     faAngleRight,
     faLongArrowAltUp,
     faArrowUp,
+    faCircleExclamation,
     faFacebookF,
     faInstagram,
     faYoutube,

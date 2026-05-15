@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { DEAL_PRODUCTS } from '../data/products.js';
 
 const ShopContext = createContext();
@@ -22,16 +22,39 @@ export function ShopProvider({ children }) {
         }
     }, [cart]);
 
+    const [notification, setNotification] = useState(null);
+    const timerRef = useRef(null);
+
+    function showNotification(message, type = 'error') {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
+
+        setNotification({ message, type });
+
+        timerRef.current = setTimeout(() => {
+            setNotification(null);
+        }, 5000);
+    }
+
+    useEffect(() => {
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
+    }, []);
+
     function addToCart(product) {
-        const dbProduct = DEAL_PRODUCTS.find((item) => item.id === product.id);
-        if (!dbProduct || dbProduct.outofstock) return;
+        const apiProduct = DEAL_PRODUCTS.find((item) => item.id === product.id);
+        if (!apiProduct || apiProduct.outofstock) return;
 
         const existingItem = cart.find((item) => item.id === product.id);
         const currentQuantity = existingItem ? existingItem.quantity : 0;
-        const maxAvailable = dbProduct.availableQuantity ?? 0;
+        const maxAvailable = apiProduct.availableQuantity ?? 0;
 
         if (currentQuantity >= maxAvailable) {
-            alert(`Не можете да добавите повече бройки. От продукт "${product.title}" има останали само ${maxAvailable} бройки на склад.`);
+            showNotification(`Не можете да добавите повече бройки. От продукт "${apiProduct.title}" има останали само ${maxAvailable} бройки на склад.`, 'error');
             return;
         }
 
@@ -79,6 +102,7 @@ export function ShopProvider({ children }) {
                 cart: detailedCart,
                 wishlistItems,
                 addToCart,
+                notification,
                 subtotal,
                 removeFromCart,
                 toggleWishlist,

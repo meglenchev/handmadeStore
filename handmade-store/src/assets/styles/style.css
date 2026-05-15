@@ -567,6 +567,53 @@ body.homepage-bg1.offcanvas-open {
     }
 }
 
+/* Notification */
+.custom-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: var(--bg-body);
+    padding: 16px 24px 16px 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 350px;
+    border-left: 5px solid var(--color-primary-hover);
+    animation: slideIn 0.3s ease-out;
+}
+
+.custom-notification.success {
+    border-left-color: var(--color-success);
+}
+
+.custom-notification .message {
+    margin: 0;
+    font-size: 16px;
+    color: var(--bg-black);
+    font-weight: 400;
+}
+
+.custom-notification .icon .svg-inline--fa {
+    font-size: 32px;
+}
+
+.custom-notification.error .icon .svg-inline--fa {
+    color: var(--color-primary-hover);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
 /* Scroll Up */
 #scrollUp {
     display: flex;

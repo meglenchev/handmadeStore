@@ -31,7 +31,7 @@ export function Header() {
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
-    const { cart, cartCount, subtotal, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
+    const { cart, cartCount, subtotal, removeFromCart, notification, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
     useEffect(() => {
         if (cart.length === 0 && activeMenu.cart) {
@@ -399,6 +399,16 @@ export function Header() {
                 </Offcanvas.Body>
             </Offcanvas>
             {/* OffCanvas Mobile Menu End */}
+            {/* Add To Cart Product Error Notification */}
+            {notification && (
+                <div className={`custom-notification ${notification.type}`}>
+                    <span className="icon">
+                        <FontAwesomeIcon icon="circle-exclamation" />
+                    </span>
+                    <p className="message">{notification.message}</p>
+                </div>
+            )}
+            {/* End Add To Cart Product Error Notification*/}
         </>
     );
 }
