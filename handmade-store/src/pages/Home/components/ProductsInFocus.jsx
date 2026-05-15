@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
-import QuickViewContext from '../../../context/QuickViewContext.jsx';
-
 import { DEAL_PRODUCTS } from '../../../data/products.js';
+import QuickViewContext from '../../../context/QuickViewContext.jsx';
+import ShopContext from '../../../context/ShopContext.jsx';
 
 export function ProductsInFocus() {
     const { openQuickView } = useContext(QuickViewContext);
+    const { addToCart, toggleWishlist } = useContext(ShopContext);
 
     const item = {};
 
@@ -48,7 +49,7 @@ export function ProductsInFocus() {
                                             <a href="product-details.html" className="image">
                                                 <span className="product-badges">
                                                     {product.outofstock && (
-                                                        <span className="outofstock">
+                                                        <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
                                                             <FontAwesomeIcon icon="frown" />
                                                         </span>
                                                     )}
@@ -58,6 +59,7 @@ export function ProductsInFocus() {
                                                 <img className="image-hover " src={product.hoverImage} alt={product.title} />
                                             </a>
                                             <button
+                                                onClick={() => toggleWishlist(product)}
                                                 className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
                                                 data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
                                                 <FontAwesomeIcon icon="heart" />
@@ -72,9 +74,11 @@ export function ProductsInFocus() {
                                                 <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
                                                     <FontAwesomeIcon icon="search" />
                                                 </button>
-                                                <a href="#" className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon="shopping-cart" />
-                                                </a>
+                                                {!product.outofstock && (
+                                                    <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
+                                                        <FontAwesomeIcon icon="shopping-cart" />
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
