@@ -31,7 +31,7 @@ export function Header() {
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
-    const { cartItems, cartCount, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
+    const { cart, cartCount, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
     return (
         <>
@@ -275,11 +275,11 @@ export function Header() {
                             ×
                         </button>
                     </Offcanvas.Header>
-                    {cartItems.length > 0 ? (
+                    {cart.length > 0 ? (
                         <>
                             <Offcanvas.Body className="body customScroll">
                                 <ul className="minicart-product-list">
-                                    {cartItems.map((item) => (
+                                    {cart.map((item) => (
                                         <li key={item.id}>
                                             <a href="product-details.html" className="image">
                                                 <img src={item.image} alt={item.title} />
@@ -302,7 +302,7 @@ export function Header() {
                             <div className="foot">
                                 <div className="sub-total">
                                     <strong>Междинна сума:</strong>
-                                    <span className="amount">€{cartItems.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
+                                    <span className="amount">€{cart.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
                                 </div>
                                 <div className="buttons">
                                     <a href="/shopping-cart" className="btn btn-dark btn-hover-primary">
