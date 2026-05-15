@@ -31,7 +31,7 @@ export function Header() {
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
-    const { cartItems, cartCount, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
+    const { cartItems, cartCount, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
     return (
         <>
@@ -228,35 +228,41 @@ export function Header() {
                             ×
                         </button>
                     </Offcanvas.Header>
-                    <Offcanvas.Body className="body customScroll">
-                        <ul className="minicart-product-list">
-                            {wishlistItems.map((item) => (
-                                <li key={item.id}>
-                                    <a href={`/product-details/${item.id}`} className="image">
-                                        <img src={item.image} alt={item.title} />
+                    {wishlistItems.length > 0 ? (
+                        <>
+                            <Offcanvas.Body className="body customScroll">
+                                <ul className="minicart-product-list">
+                                    {wishlistItems.map((item) => (
+                                        <li key={item.id}>
+                                            <a href={`/product-details/${item.id}`} className="image">
+                                                <img src={item.image} alt={item.title} />
+                                            </a>
+                                            <div className="content">
+                                                <a href={`/product-details/${item.id}`} className="title">
+                                                    {item.title}
+                                                </a>
+                                                <span className="quantity-price">
+                                                    1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                                </span>
+                                                <button onClick={() => toggleWishlist(item)} className="remove">
+                                                    ×
+                                                </button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Offcanvas.Body>
+                            <div className="foot">
+                                <div className="buttons">
+                                    <a href="wishlist.html" className="btn btn-dark btn-hover-primary">
+                                        виж списък с любими
                                     </a>
-                                    <div className="content">
-                                        <a href={`/product-details/${item.id}`} className="title">
-                                            {item.title}
-                                        </a>
-                                        <span className="quantity-price">
-                                            1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
-                                        </span>
-                                        <button onClick={() => toggleWishlist(item)} className="remove">
-                                            ×
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </Offcanvas.Body>
-                    <div className="foot">
-                        <div className="buttons">
-                            <a href="wishlist.html" className="btn btn-dark btn-hover-primary">
-                                виж списък с любими
-                            </a>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <h3 className="title empty-minicart-message">Списъкът с любими е празен!</h3>
+                    )}
                 </div>
             </Offcanvas>
             {/* OffCanvas Wishlist End */}
@@ -269,43 +275,49 @@ export function Header() {
                             ×
                         </button>
                     </Offcanvas.Header>
-                    <Offcanvas.Body className="body customScroll">
-                        <ul className="minicart-product-list">
-                            {cartItems.map((item) => (
-                                <li key={item.id}>
-                                    <a href="product-details.html" className="image">
-                                        <img src={item.image} alt={item.title} />
+                    {cartItems.length > 0 ? (
+                        <>
+                            <Offcanvas.Body className="body customScroll">
+                                <ul className="minicart-product-list">
+                                    {cartItems.map((item) => (
+                                        <li key={item.id}>
+                                            <a href="product-details.html" className="image">
+                                                <img src={item.image} alt={item.title} />
+                                            </a>
+                                            <div className="content">
+                                                <a href={`/product-details/${item.id}`} className="title">
+                                                    {item.title}
+                                                </a>
+                                                <span className="quantity-price">
+                                                    1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                                </span>
+                                                <button onClick={() => removeFromCart(item)} className="remove">
+                                                    ×
+                                                </button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Offcanvas.Body>
+                            <div className="foot">
+                                <div className="sub-total">
+                                    <strong>Междинна сума:</strong>
+                                    <span className="amount">€{cartItems.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
+                                </div>
+                                <div className="buttons">
+                                    <a href="/shopping-cart" className="btn btn-dark btn-hover-primary">
+                                        преглед на количката
                                     </a>
-                                    <div className="content">
-                                        <a href={`/product-details/${item.id}`} className="title">
-                                            {item.title}
-                                        </a>
-                                        <span className="quantity-price">
-                                            1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
-                                        </span>
-                                        <a href="#" className="remove">
-                                            ×
-                                        </a>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </Offcanvas.Body>
-                    <div className="foot">
-                        <div className="sub-total">
-                            <strong>Междинна сума:</strong>
-                            <span className="amount">€{cartItems.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
-                        </div>
-                        <div className="buttons">
-                            <a href="shopping-cart.html" className="btn btn-dark btn-hover-primary">
-                                преглед на количката
-                            </a>
-                            <a href="checkout.html" className="btn btn-primary">
-                                плати
-                            </a>
-                        </div>
-                        <p className="minicart-message">Безплатна доставка за поръчки над €60 евро!</p>
-                    </div>
+                                    <a href="/checkout" className="btn btn-primary">
+                                        плати
+                                    </a>
+                                </div>
+                                <p className="minicart-message">Безплатна доставка за поръчки над €60 евро!</p>
+                            </div>
+                        </>
+                    ) : (
+                        <h3 className="title empty-minicart-message">Количка е празна!</h3>
+                    )}
                 </div>
             </Offcanvas>
             {/* OffCanvas Cart End */}

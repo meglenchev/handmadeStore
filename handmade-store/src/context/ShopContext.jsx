@@ -15,6 +15,10 @@ export function ShopProvider({ children }) {
         }
     }
 
+    function removeFromCart(product) {
+        setCartItems((prev) => prev.filter((item) => item.id !== product.id));
+    }
+
     function toggleWishlist(product) {
         setWishlistItems((prev) => (prev.find((item) => item.id === product.id) ? prev.filter((item) => item.id !== product.id) : [...prev, product]));
     }
@@ -25,6 +29,7 @@ export function ShopProvider({ children }) {
                 cartItems,
                 wishlistItems,
                 addToCart,
+                removeFromCart,
                 toggleWishlist,
                 cartCount: cartItems.length,
                 wishlistCount: wishlistItems.length,

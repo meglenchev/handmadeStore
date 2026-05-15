@@ -4083,6 +4083,37 @@ body.offcanvas.show .sticky-header {
     margin-top: 25px;
 }
 
+@keyframes backInDown {
+    0% {
+        -webkit-transform: translateY(-1200px) scale(0.7);
+        transform: translateY(-1200px) scale(0.7);
+        opacity: 0.7;
+    }
+
+    80% {
+        -webkit-transform: translateY(0px) scale(0.7);
+        transform: translateY(0px) scale(0.7);
+        opacity: 0.7;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.offcanvas .inner .empty-minicart-message {
+    text-align: center;
+    font-weight: 400;
+    padding: 50px 0;
+    color: var(--color-primary);
+    -webkit-animation-name: backInDown;
+    animation-name: backInDown;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+}
+
 .offcanvas .inner .foot .sub-total {
     display: -webkit-box;
     display: -webkit-flex;
