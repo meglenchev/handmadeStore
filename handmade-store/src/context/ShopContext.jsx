@@ -22,23 +22,52 @@ export function ShopProvider({ children }) {
         }
     }, [cart]);
 
-    const [wishlistItems, setWishlistItems] = useState([]);
-
     function addToCart(product) {
-        setCart((prev) => {
-            const existingItem = prev.find((item) => item.id === product.id);
+        const dbProduct = DEAL_PRODUCTS.find((item) => item.id === product.id);
+        if (!dbProduct || dbProduct.outofstock) return;
 
-            if (existingItem) {
+        const existingItem = cart.find((item) => item.id === product.id);
+        const currentQuantity = existingItem ? existingItem.quantity : 0;
+        const maxAvailable = dbProduct.availableQuantity ?? 0;
+
+        if (currentQuantity >= maxAvailable) {
+            alert(`Не можете да добавите повече бройки. От продукт "${product.title}" има останали само ${maxAvailable} бройки на склад.`);
+            return;
+        }
+
+        setCart((prev) => {
+            const itemInState = prev.find((item) => item.id === product.id);
+
+            if (itemInState) {
                 return prev.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
             }
 
-            return [...prev, { ...product, quantity: 1 }];
+            return [...prev, { id: product.id, quantity: 1 }];
         });
     }
+
+    const detailedCart = cart
+        .map((cartItem) => {
+            const productDetails = DEAL_PRODUCTS.find((product) => product.id === cartItem.id);
+
+            if (!productDetails) {
+                console.warn(`Product with ID ${cartItem.id} not found in DEAL_PRODUCTS.`);
+                return null;
+            }
+
+            return { ...productDetails, quantity: cartItem.quantity };
+        })
+        .filter((item) => item !== null && !item.outofstock);
+
+    const cartCount = detailedCart.reduce((total, item) => total + item.quantity, 0);
+
+    const subtotal = detailedCart.reduce((total, item) => total + item.newPrice * item.quantity, 0).toFixed(2);
 
     function removeFromCart(product) {
         setCart((prev) => prev.filter((item) => item.id !== product.id));
     }
+
+    const [wishlistItems, setWishlistItems] = useState([]);
 
     function toggleWishlist(product) {
         setWishlistItems((prev) => (prev.find((item) => item.id === product.id) ? prev.filter((item) => item.id !== product.id) : [...prev, product]));
@@ -47,12 +76,13 @@ export function ShopProvider({ children }) {
     return (
         <ShopContext.Provider
             value={{
-                cart,
+                cart: detailedCart,
                 wishlistItems,
                 addToCart,
+                subtotal,
                 removeFromCart,
                 toggleWishlist,
-                cartCount: cart.length,
+                cartCount,
                 wishlistCount: wishlistItems.length,
             }}>
             {children}

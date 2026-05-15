@@ -22,8 +22,6 @@ export function QuickView() {
         return null;
     }
 
-    console.log('Product Data in QuickView:', productData); // Debugging line to check product data
-
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
             <Modal.Body>

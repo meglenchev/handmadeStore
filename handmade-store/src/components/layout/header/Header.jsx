@@ -31,7 +31,7 @@ export function Header() {
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
     };
 
-    const { cart, cartCount, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
+    const { cart, cartCount, subtotal, removeFromCart, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
     return (
         <>
@@ -289,9 +289,13 @@ export function Header() {
                                                     {item.title}
                                                 </a>
                                                 <span className="quantity-price">
-                                                    1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                                    {item.quantity} x <span className="amount">€{item.newPrice.toFixed(2)}</span>
                                                 </span>
-                                                <button onClick={() => removeFromCart(item)} className="remove">
+                                                <button
+                                                    onClick={() => {
+                                                        removeFromCart(item);
+                                                    }}
+                                                    className="remove">
                                                     ×
                                                 </button>
                                             </div>
@@ -302,7 +306,7 @@ export function Header() {
                             <div className="foot">
                                 <div className="sub-total">
                                     <strong>Междинна сума:</strong>
-                                    <span className="amount">€{cart.reduce((total, item) => total + item.newPrice, 0).toFixed(2)}</span>
+                                    <span className="amount">€{subtotal}</span>
                                 </div>
                                 <div className="buttons">
                                     <a href="/shopping-cart" className="btn btn-dark btn-hover-primary">

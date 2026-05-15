@@ -122,7 +122,7 @@ export function DealOfTheDay() {
                                                 Продадени: <span>{product.sold}</span>
                                             </span>
                                             <span className="available">
-                                                Налични: <span>{product.stock}</span>
+                                                Налични: <span>{product.availableQuantity}</span>
                                             </span>
                                         </div>
                                     </div>
