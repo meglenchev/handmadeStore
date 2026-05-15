@@ -91,10 +91,9 @@ export function DealOfTheDay() {
                                         </a>
                                         <button
                                             onClick={() => toggleWishlist(product)}
-                                            className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'} // Да корегирам условие за класа след като добавя context за добавяне в localStorage
+                                            className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
                                             data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
-                                            {' '}
-                                            // Да корегирам условие за класа след като добавя context за добавяне в localStorage
+                                            {/* Да корегирам условие за класа след като добавя context за добавяне в localStorage */}
                                             <FontAwesomeIcon icon="heart" />
                                         </button>
                                     </div>
