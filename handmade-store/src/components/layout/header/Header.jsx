@@ -7,6 +7,7 @@ import { useSticky } from '../../../hooks/useSticky.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
 import { DesktopHeader } from './DesktopHeader.jsx';
 import { useAutoCloseEmptyMenu } from '../../../hooks/useAutoCloseEmptyMenu.jsx';
+import { MobileHeader } from './MobileHeader.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -61,6 +62,9 @@ export function Header() {
             {/* Header Section Start */}
             <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
             {/* Header Section End */}
+            {/* Mobile Header Section Start */}
+            <MobileHeader wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+            {/* Mobile Header Section End */}
             {/* OffCanvas Desktop Menu */}
             <Offcanvas show={activeMenu.desktop} onHide={toggleMenu('desktop')} placement="start" className="headerMenu offcanvas offcanvas-overlay-menu">
                 <Offcanvas.Body>
@@ -75,64 +79,6 @@ export function Header() {
                 </Offcanvas.Body>
             </Offcanvas>
             {/* OffCanvas SeDesktop Menuarch End */}
-            {/* Mobile Header Section Start */}
-            <div className="mobile-header bg-white section d-xl-none">
-                <div className="container">
-                    <div className="row align-items-center">
-                        {/* Header Logo Start */}
-                        <div className="col">
-                            <div className="header-logo">
-                                <Link to="/">
-                                    <img src="../../assets/images/logo/logo-2.webp" alt="Learts Logo" />
-                                </Link>
-                            </div>
-                        </div>
-                        {/* Header Logo End */}
-                        {/* Header Tools Start */}
-                        <div className="col-auto">
-                            <div className="header-tools justify-content-end">
-                                <div className="header-login d-none d-sm-block">
-                                    <Link to="/my-account">
-                                        <FontAwesomeIcon icon="user" />
-                                    </Link>
-                                </div>
-                                <div className="header-search d-none d-sm-block">
-                                    <a href="#offcanvas-search" className="offcanvas-toggle">
-                                        <FontAwesomeIcon icon="search" />
-                                    </a>
-                                </div>
-                                <div className="header-wishlist d-none d-sm-block">
-                                    <a href="#offcanvas-wishlist" className="offcanvas-toggle">
-                                        {wishlistCount > 0 && <span className="wishlist-count">{wishlistCount}</span>}
-                                        <FontAwesomeIcon icon="heart" />
-                                    </a>
-                                </div>
-                                <div className="header-cart">
-                                    <a href="#offcanvas-cart" className="offcanvas-toggle">
-                                        {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-                                        <FontAwesomeIcon icon="shopping-cart" />
-                                    </a>
-                                </div>
-                                <div className="mobile-menu-toggle">
-                                    <button onClick={toggleMenu('mobile')} className="offcanvas-toggle">
-                                        <svg viewBox="0 0 800 600">
-                                            <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
-                                            <path d="M300,320 L540,320" className="middle" />
-                                            <path
-                                                d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190"
-                                                className="bottom"
-                                                transform="translate(480, 320) scale(1, -1) translate(-480, -318) "
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Header Tools End */}
-                    </div>
-                </div>
-            </div>
-            {/* Mobile Header Section End */}
             {/* OffCanvas Search Start */}
             <Offcanvas show={activeMenu.search} onHide={toggleMenu('search')} placement="start" className="offcanvas offcanvas-search">
                 <Offcanvas.Body>
