@@ -6,6 +6,7 @@ import { NavigationLinks } from './NavigationLinks.jsx';
 import { useSticky } from '../../../hooks/useSticky.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
 import { DesktopHeader } from './DesktopHeader.jsx';
+import { useAutoCloseEmptyMenu } from '../../../hooks/useAutoCloseEmptyMenu.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -37,15 +38,11 @@ export function Header() {
 
     const { cart, cartCount, subtotal, removeFromCart, notification, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
-    useEffect(() => {
-        if (cart.length === 0 && activeMenu.cart) {
-            const timer = setTimeout(() => {
-                toggleMenu('cart')();
-            }, 1500);
+    // Use useAutoCloseEmptyMenu Hook for a Cart
+    useAutoCloseEmptyMenu(cart, activeMenu.cart, 'cart', toggleMenu);
 
-            return () => clearTimeout(timer);
-        }
-    }, [cart.length, activeMenu.cart]);
+    // Use useAutoCloseEmptyMenu Hook for a Wishlist
+    useAutoCloseEmptyMenu(wishlistItems, activeMenu.wishlist, 'wishlist', toggleMenu);
 
     return (
         <>
