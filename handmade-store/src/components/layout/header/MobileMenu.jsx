@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Offcanvas } from 'react-bootstrap';
 import { NavLink } from 'react-router';
+import { HEADER_LINKS } from '../../../utils/constants.js';
 
-export function MobileMenu({ activeMenu, toggleMenu, wishlistCount, cartCount, HEADER_LINKS }) {
+export function MobileMenu({ activeMenu, toggleMenu, wishlistCount, cartCount }) {
     return (
         <Offcanvas show={activeMenu.mobile} onHide={toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
             <Offcanvas.Header className="head">

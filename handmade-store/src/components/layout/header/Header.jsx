@@ -12,15 +12,6 @@ import { MobileMenu } from './MobileMenu.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
 import { useMediaQuery } from '../../../hooks/useMediaQuery.jsx';
 
-const HEADER_LINKS = [
-    { to: '/', label: 'Начало' },
-    { to: '/shop', label: 'Магазин' },
-    { to: '/about-us', label: 'За нас' },
-    { to: '/wishlist', label: 'Любими' },
-    { to: '/contact-us', label: 'Контакти' },
-    { to: '/privacy-policy', label: 'Политика за сигурност' },
-];
-
 export function Header() {
     const { isSticky, sentinelRef } = useSticky();
 
@@ -71,7 +62,7 @@ export function Header() {
                 <MobileHeader isSticky={isSticky} wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
             )}
             {/* OffCanvas Desktop Menu */}
-            <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} HEADER_LINKS={HEADER_LINKS} />
+            <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
             {/* OffCanvas Search Start */}
             <SearchOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} />
             {/* OffCanvas Wishlist Start */}
@@ -79,7 +70,7 @@ export function Header() {
             {/* OffCanvas Cart Start */}
             <CartOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} cart={cart} subtotal={subtotal} removeFromCart={removeFromCart} />
             {/* OffCanvas Mobile Menu */}
-            <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} HEADER_LINKS={HEADER_LINKS} />
+            <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} />
             {/* Add To Cart Product Error Notification */}
             {notification && (
                 <div className={`custom-notification ${notification.type}`}>

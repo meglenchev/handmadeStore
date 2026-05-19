@@ -1,7 +1,8 @@
 import { Offcanvas } from 'react-bootstrap';
 import { NavigationLinks } from './NavigationLinks.jsx';
+import { HEADER_LINKS } from '../../../utils/constants.js';
 
-export function DesktopMenu({ activeMenu, toggleMenu, HEADER_LINKS }) {
+export function DesktopMenu({ activeMenu, toggleMenu }) {
     return (
         <Offcanvas show={activeMenu.desktop} onHide={toggleMenu('desktop')} placement="start" className="headerMenu offcanvas offcanvas-overlay-menu">
             <Offcanvas.Body>
