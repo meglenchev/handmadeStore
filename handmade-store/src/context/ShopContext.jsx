@@ -1,28 +1,11 @@
 import { createContext, useEffect, useRef, useState, useMemo } from 'react';
 import { DEAL_PRODUCTS } from '../data/products.js';
+import { useLocalStorage } from '../hooks/useLocalStorage.jsx';
 
 const ShopContext = createContext();
 
 export function ShopProvider({ children }) {
-    // --- CART LOGIC ---
-    const [cart, setCart] = useState(() => {
-        try {
-            const savedCart = localStorage.getItem('cartItems');
-            return savedCart ? JSON.parse(savedCart) : [];
-        } catch (error) {
-            console.error('Error loading cart from localStorage:', error);
-            return [];
-        }
-    });
-
-    useEffect(() => {
-        try {
-            localStorage.setItem('cartItems', JSON.stringify(cart));
-        } catch (error) {
-            console.error('Error saving cart to localStorage:', error);
-        }
-    }, [cart]);
-
+    const [cart, setCart] = useLocalStorage('cartItems', []);
     const [notification, setNotification] = useState(null);
     const timerRef = useRef(null);
 

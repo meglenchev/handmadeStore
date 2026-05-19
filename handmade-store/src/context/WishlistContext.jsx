@@ -1,27 +1,11 @@
-import { createContext, useEffect, useRef, useState, useMemo } from 'react';
+import { createContext, useRef, useMemo } from 'react';
 import { DEAL_PRODUCTS } from '../data/products.js';
+import { useLocalStorage } from '../hooks/useLocalStorage.jsx';
 
 const WishlistContext = createContext();
 
 export function WishlistProvider({ children }) {
-    const [wishlist, setWishlist] = useState(() => {
-        try {
-            const savedWishlist = localStorage.getItem('wishlistItems');
-            return savedWishlist ? JSON.parse(savedWishlist) : [];
-        } catch (error) {
-            console.error('Error loading Wishlist from localStorage:', error);
-            return [];
-        }
-    });
-
-    useEffect(() => {
-        try {
-            localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
-        } catch (error) {
-            console.error('Error saving Wishlist to localStorage:', error);
-        }
-    }, [wishlist]);
-
+    const [wishlist, setWishlist] = useLocalStorage('wishlistItems', []);
     const detailedWishlist = useMemo(() => {
         return (wishlist || [])
             .map((item) => {
