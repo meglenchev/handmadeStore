@@ -10,6 +10,7 @@ import { DesktopMenu } from './DesktopMenu.jsx';
 import { CartOffcanvas } from './CartOffcanvas.jsx';
 import { MobileMenu } from './MobileMenu.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
+import { useMediaQuery } from '../../../hooks/useMediaQuery.jsx';
 
 const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -41,6 +42,8 @@ export function Header() {
 
     const { cart, cartCount, subtotal, removeFromCart, notification, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
 
+    const isDesktop = useMediaQuery('(min-width: 1200px)');
+
     // Use useAutoCloseEmptyMenu Hook for a Cart
     useAutoCloseEmptyMenu(cart, activeMenu.cart, 'cart', toggleMenu);
 
@@ -62,9 +65,11 @@ export function Header() {
             {/* Topbar Section End */}
             <div ref={sentinelRef} id="header-sentinel"></div>
             {/* Header Section Start */}
-            <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
-            {/* Mobile Header Section Start */}
-            <MobileHeader wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+            {isDesktop ? (
+                <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
+            ) : (
+                <MobileHeader isSticky={isSticky} wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+            )}
             {/* OffCanvas Desktop Menu */}
             <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} HEADER_LINKS={HEADER_LINKS} />
             {/* OffCanvas Search Start */}

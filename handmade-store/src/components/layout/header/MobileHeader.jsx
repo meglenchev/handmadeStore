@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export function MobileHeader({ wishlistCount, cartCount, toggleMenu, activeMenu }) {
+export function MobileHeader({ isSticky, wishlistCount, cartCount, toggleMenu, activeMenu }) {
     return (
-        <div className="mobile-header bg-white section d-xl-none">
+        <header className={`mobile-header bg-white section d-xl-none ${isSticky ? 'sticky-header is-sticky' : ''}`}>
             <div className="container">
                 <div className="row align-items-center">
                     {/* Header Logo Start */}
@@ -58,6 +58,6 @@ export function MobileHeader({ wishlistCount, cartCount, toggleMenu, activeMenu 
                     {/* Header Tools End */}
                 </div>
             </div>
-        </div>
+        </header>
     );
 }
