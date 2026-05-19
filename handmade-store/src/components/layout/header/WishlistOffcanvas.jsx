@@ -1,7 +1,9 @@
 import { Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlistItems, toggleWishlist }) {
+export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWishlist }) {
+    const wishlistItems = wishlist || [];
+
     return (
         <Offcanvas show={activeMenu.wishlist} onHide={toggleMenu('wishlist')} placement="end" className="offcanvas offcanvas-wishlist">
             <div className="inner">

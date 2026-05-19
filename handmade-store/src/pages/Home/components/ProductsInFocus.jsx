@@ -3,12 +3,12 @@ import { useContext } from 'react';
 import { DEAL_PRODUCTS } from '../../../data/products.js';
 import QuickViewContext from '../../../context/QuickViewContext.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
+import WishlistContext from '../../../context/WishlistContext.jsx';
 
 export function ProductsInFocus() {
     const { openQuickView } = useContext(QuickViewContext);
-    const { addToCart, toggleWishlist } = useContext(ShopContext);
-
-    const item = {};
+    const { addToCart } = useContext(ShopContext);
+    const { toggleWishlist } = useContext(WishlistContext);
 
     return (
         <div className="section section-padding">

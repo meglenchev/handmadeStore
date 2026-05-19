@@ -1,7 +1,13 @@
 import { Link } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from 'react';
+import ShopContext from '../../../context/ShopContext.jsx';
+import WishlistContext from '../../../context/WishlistContext.jsx';
 
-export function MobileHeader({ isSticky, wishlistCount, cartCount, toggleMenu, activeMenu }) {
+export function MobileHeader({ isSticky, toggleMenu, activeMenu }) {
+    const { cartCount } = useContext(ShopContext);
+    const { wishlistCount } = useContext(WishlistContext);
+
     return (
         <header className={`mobile-header bg-white section d-xl-none ${isSticky ? 'sticky-header is-sticky' : ''}`}>
             <div className="container">

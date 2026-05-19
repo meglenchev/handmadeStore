@@ -11,6 +11,7 @@ import { CartOffcanvas } from './CartOffcanvas.jsx';
 import { MobileMenu } from './MobileMenu.jsx';
 import ShopContext from '../../../context/ShopContext.jsx';
 import { useMediaQuery } from '../../../hooks/useMediaQuery.jsx';
+import WishlistContext from '../../../context/WishlistContext.jsx';
 
 export function Header() {
     const { isSticky, sentinelRef } = useSticky();
@@ -31,7 +32,8 @@ export function Header() {
         []
     );
 
-    const { cart, cartCount, subtotal, removeFromCart, notification, wishlistItems, wishlistCount, toggleWishlist } = useContext(ShopContext);
+    const { cart, cartCount, subtotal, removeFromCart, notification } = useContext(ShopContext);
+    const { wishlist, toggleWishlist, wishlistCount } = useContext(WishlistContext);
 
     const isDesktop = useMediaQuery('(min-width: 1200px)');
 
@@ -39,7 +41,7 @@ export function Header() {
     useAutoCloseEmptyMenu(cart, activeMenu.cart, 'cart', toggleMenu);
 
     // Use useAutoCloseEmptyMenu Hook for a Wishlist
-    useAutoCloseEmptyMenu(wishlistItems, activeMenu.wishlist, 'wishlist', toggleMenu);
+    useAutoCloseEmptyMenu(wishlist, activeMenu.wishlist, 'wishlist', toggleMenu);
 
     return (
         <>
@@ -58,19 +60,19 @@ export function Header() {
             {/* Header Section Start */}
             {isDesktop ? (
                 <>
-                    <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
+                    <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} activeMenu={activeMenu} />
                     <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
                 </>
             ) : (
                 <>
-                    <MobileHeader isSticky={isSticky} wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
-                    <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} />
+                    <MobileHeader isSticky={isSticky} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+                    <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
                 </>
             )}
             {/* OffCanvas Search Start */}
             <SearchOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} />
             {/* OffCanvas Wishlist Start */}
-            <WishlistOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistItems={wishlistItems} toggleWishlist={toggleWishlist} />
+            <WishlistOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} wishlist={wishlist} toggleWishlist={toggleWishlist} />
             {/* OffCanvas Cart Start */}
             <CartOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} cart={cart} subtotal={subtotal} removeFromCart={removeFromCart} />
 

@@ -12,6 +12,7 @@ import { useSlidesToShow } from '../../../hooks/useSlidesToShow.jsx';
 
 import { DEAL_PRODUCTS } from '../../../data/products.js';
 import ShopContext from '../../../context/ShopContext.jsx';
+import WishlistContext from '../../../context/WishlistContext.jsx';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -49,7 +50,8 @@ const baseSettings = {
 
 export function DealOfTheDay() {
     const { openQuickView } = useContext(QuickViewContext);
-    const { addToCart, toggleWishlist } = useContext(ShopContext);
+    const { addToCart } = useContext(ShopContext);
+    const { toggleWishlist } = useContext(WishlistContext);
 
     const expiryDate = new Date('2026-12-31T23:59:59');
 

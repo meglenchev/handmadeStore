@@ -21,14 +21,17 @@ import './assets/styles/style.css';
 import { QuickViewProvider } from './context/QuickViewContext.jsx';
 import { BrowserRouter } from 'react-router';
 import { ShopProvider } from './context/ShopContext.jsx';
+import { WishlistProvider } from './context/WishlistContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <StrictMode>
             <ShopProvider>
-                <QuickViewProvider>
-                    <App />
-                </QuickViewProvider>
+                <WishlistProvider>
+                    <QuickViewProvider>
+                        <App />
+                    </QuickViewProvider>
+                </WishlistProvider>
             </ShopProvider>
         </StrictMode>
     </BrowserRouter>

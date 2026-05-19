@@ -2,8 +2,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Offcanvas } from 'react-bootstrap';
 import { NavLink } from 'react-router';
 import { HEADER_LINKS } from '../../../utils/constants.js';
+import { useContext } from 'react';
+import ShopContext from '../../../context/ShopContext.jsx';
+import WishlistContext from '../../../context/WishlistContext.jsx';
 
-export function MobileMenu({ activeMenu, toggleMenu, wishlistCount, cartCount }) {
+export function MobileMenu({ activeMenu, toggleMenu }) {
+    const { cartCount } = useContext(ShopContext);
+    const { wishlistCount } = useContext(WishlistContext);
+
     return (
         <Offcanvas show={activeMenu.mobile} onHide={toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
             <Offcanvas.Header className="head">

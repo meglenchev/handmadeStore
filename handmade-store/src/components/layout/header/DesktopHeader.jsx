@@ -1,7 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from 'react';
 import { Link } from 'react-router';
+import WishlistContext from '../../../context/WishlistContext.jsx';
+import ShopContext from '../../../context/ShopContext.jsx';
 
-export function DesktopHeader({ isSticky, toggleMenu, wishlistCount, cartCount, activeMenu }) {
+export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
+    const { cartCount } = useContext(ShopContext);
+    const { wishlistCount } = useContext(WishlistContext);
+
     return (
         <header className={`header-section header-menu-center section bg-white d-none d-xl-block ${isSticky ? 'sticky-header is-sticky' : 'py-3'}`}>
             <div className="container">

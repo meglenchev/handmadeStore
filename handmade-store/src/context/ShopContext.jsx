@@ -1,9 +1,10 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState, useMemo } from 'react';
 import { DEAL_PRODUCTS } from '../data/products.js';
 
 const ShopContext = createContext();
 
 export function ShopProvider({ children }) {
+    // --- CART LOGIC ---
     const [cart, setCart] = useState(() => {
         try {
             const savedCart = localStorage.getItem('cartItems');
@@ -26,22 +27,14 @@ export function ShopProvider({ children }) {
     const timerRef = useRef(null);
 
     function showNotification(message, type = 'error') {
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
-        }
-
+        if (timerRef.current) clearTimeout(timerRef.current);
         setNotification({ message, type });
-
-        timerRef.current = setTimeout(() => {
-            setNotification(null);
-        }, 5000);
+        timerRef.current = setTimeout(() => setNotification(null), 5000);
     }
 
     useEffect(() => {
         return () => {
-            if (timerRef.current) {
-                clearTimeout(timerRef.current);
-            }
+            if (timerRef.current) clearTimeout(timerRef.current);
         };
     }, []);
 
@@ -60,54 +53,42 @@ export function ShopProvider({ children }) {
 
         setCart((prev) => {
             const itemInState = prev.find((item) => item.id === product.id);
-
             if (itemInState) {
                 return prev.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
             }
-
             return [...prev, { id: product.id, quantity: 1 }];
         });
     }
 
-    const detailedCart = cart
-        .map((cartItem) => {
-            const productDetails = DEAL_PRODUCTS.find((product) => product.id === cartItem.id);
+    const detailedCart = useMemo(() => {
+        return cart
+            .map((cartItem) => {
+                const productDetails = DEAL_PRODUCTS.find((product) => product.id === cartItem.id);
+                if (!productDetails) {
+                    console.warn(`Product with ID ${cartItem.id} not found in DEAL_PRODUCTS.`);
+                    return null;
+                }
+                return { ...productDetails, quantity: cartItem.quantity };
+            })
+            .filter((item) => item !== null && !item.outofstock);
+    }, [cart]);
 
-            if (!productDetails) {
-                console.warn(`Product with ID ${cartItem.id} not found in DEAL_PRODUCTS.`);
-                return null;
-            }
-
-            return { ...productDetails, quantity: cartItem.quantity };
-        })
-        .filter((item) => item !== null && !item.outofstock);
-
-    const cartCount = detailedCart.reduce((total, item) => total + item.quantity, 0);
-
-    const subtotal = detailedCart.reduce((total, item) => total + item.newPrice * item.quantity, 0).toFixed(2);
+    const cartCount = useMemo(() => detailedCart.reduce((total, item) => total + item.quantity, 0), [detailedCart]);
+    const subtotal = useMemo(() => detailedCart.reduce((total, item) => total + item.newPrice * item.quantity, 0).toFixed(2), [detailedCart]);
 
     function removeFromCart(product) {
         setCart((prev) => prev.filter((item) => item.id !== product.id));
-    }
-
-    const [wishlistItems, setWishlistItems] = useState([]);
-
-    function toggleWishlist(product) {
-        setWishlistItems((prev) => (prev.find((item) => item.id === product.id) ? prev.filter((item) => item.id !== product.id) : [...prev, product]));
     }
 
     return (
         <ShopContext.Provider
             value={{
                 cart: detailedCart,
-                wishlistItems,
                 addToCart,
                 notification,
                 subtotal,
                 removeFromCart,
-                toggleWishlist,
                 cartCount,
-                wishlistCount: wishlistItems.length,
             }}>
             {children}
         </ShopContext.Provider>
