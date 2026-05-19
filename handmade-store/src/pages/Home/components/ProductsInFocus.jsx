@@ -8,7 +8,7 @@ import WishlistContext from '../../../context/WishlistContext.jsx';
 export function ProductsInFocus() {
     const { openQuickView } = useContext(QuickViewContext);
     const { addToCart } = useContext(ShopContext);
-    const { toggleWishlist } = useContext(WishlistContext);
+    const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
     return (
         <div className="section section-padding">
@@ -42,48 +42,52 @@ export function ProductsInFocus() {
                     <div className="tab-pane fade show active" id="tab-gift-ideas">
                         {/* Products Start */}
                         <div className="products row row-cols-md-3 row-cols-sm-2 row-cols-1">
-                            {DEAL_PRODUCTS.map((product) => (
-                                <div key={product.id} className="col">
-                                    <div className="product">
-                                        <div className="product-thumb">
-                                            <a href="product-details.html" className="image">
-                                                <span className="product-badges">
-                                                    {product.outofstock && (
-                                                        <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
-                                                            <FontAwesomeIcon icon="frown" />
-                                                        </span>
-                                                    )}
-                                                    {product.hot && <span className="hot">hot</span>}
-                                                </span>
-                                                <img src={product.image} alt={product.title} />
-                                                <img className="image-hover " src={product.hoverImage} alt={product.title} />
-                                            </a>
-                                            <button
-                                                onClick={() => toggleWishlist(product)}
-                                                className={product.hot ? 'add-to-wishlist hintT-left added' : 'add-to-wishlist hintT-left'}
-                                                data-hint={product.hot ? 'Премахване от любими' : 'Добавяне в любими'}>
-                                                <FontAwesomeIcon icon="heart" />
-                                            </button>
-                                        </div>
-                                        <div className="product-info">
-                                            <h6 className="title">
-                                                <a href="product-details.html">{product.title}</a>
-                                            </h6>
-                                            <span className="price">€{product.newPrice.toFixed(2)}</span>
-                                            <div className="product-buttons">
-                                                <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon="search" />
+                            {DEAL_PRODUCTS.map((product) => {
+                                const isInWishlist = wishlist.some((item) => item.id === product.id);
+
+                                return (
+                                    <div key={product.id} className="col">
+                                        <div className="product">
+                                            <div className="product-thumb">
+                                                <a href="product-details.html" className="image">
+                                                    <span className="product-badges">
+                                                        {product.outofstock && (
+                                                            <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
+                                                                <FontAwesomeIcon icon="frown" />
+                                                            </span>
+                                                        )}
+                                                        {product.hot && <span className="hot">hot</span>}
+                                                    </span>
+                                                    <img src={product.image} alt={product.title} />
+                                                    <img className="image-hover " src={product.hoverImage} alt={product.title} />
+                                                </a>
+                                                <button
+                                                    onClick={() => toggleWishlist(product)}
+                                                    className={`add-to-wishlist hintT-left ${isInWishlist ? 'added' : ''}`}
+                                                    data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
+                                                    <FontAwesomeIcon icon="heart" />
                                                 </button>
-                                                {!product.outofstock && (
-                                                    <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                        <FontAwesomeIcon icon="shopping-cart" />
+                                            </div>
+                                            <div className="product-info">
+                                                <h6 className="title">
+                                                    <a href="product-details.html">{product.title}</a>
+                                                </h6>
+                                                <span className="price">€{product.newPrice.toFixed(2)}</span>
+                                                <div className="product-buttons">
+                                                    <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                        <FontAwesomeIcon icon="search" />
                                                     </button>
-                                                )}
+                                                    {!product.outofstock && (
+                                                        <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
+                                                            <FontAwesomeIcon icon="shopping-cart" />
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                         {/* Products End */}
                     </div>
