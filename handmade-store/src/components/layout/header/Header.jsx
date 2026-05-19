@@ -57,20 +57,23 @@ export function Header() {
             <div ref={sentinelRef} id="header-sentinel"></div>
             {/* Header Section Start */}
             {isDesktop ? (
-                <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
+                <>
+                    <DesktopHeader isSticky={isSticky} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} activeMenu={activeMenu} />
+                    <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
+                </>
             ) : (
-                <MobileHeader isSticky={isSticky} wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+                <>
+                    <MobileHeader isSticky={isSticky} wishlistCount={wishlistCount} cartCount={cartCount} toggleMenu={toggleMenu} activeMenu={activeMenu} />
+                    <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} />
+                </>
             )}
-            {/* OffCanvas Desktop Menu */}
-            <DesktopMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
             {/* OffCanvas Search Start */}
             <SearchOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} />
             {/* OffCanvas Wishlist Start */}
             <WishlistOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistItems={wishlistItems} toggleWishlist={toggleWishlist} />
             {/* OffCanvas Cart Start */}
             <CartOffcanvas activeMenu={activeMenu} toggleMenu={toggleMenu} cart={cart} subtotal={subtotal} removeFromCart={removeFromCart} />
-            {/* OffCanvas Mobile Menu */}
-            <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} wishlistCount={wishlistCount} cartCount={cartCount} />
+
             {/* Add To Cart Product Error Notification */}
             {notification && (
                 <div className={`custom-notification ${notification.type}`}>
