@@ -25,8 +25,12 @@ export function QuickView() {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        setQuantity(1);
-    }, [productData]);
+        if (productData) {
+            const cartItem = cart.find((item) => item.id === productData.id);
+
+            setQuantity(cartItem ? cartItem.quantity : 1);
+        }
+    }, [productData, cart]);
 
     const handleMinus = () => {
         if (quantity > 1) setQuantity((prev) => prev - 1);
