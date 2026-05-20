@@ -7,6 +7,7 @@ import { settings } from '../../utils/utils.js';
 import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
 import ShopContext from '../../context/ShopContext.jsx';
 import WishlistContext from '../../context/WishlistContext.jsx';
+import { useProductQuantity } from '../../hooks/useProductQuantity.jsx';
 
 const settingsProductQuickView = {
     ...settings,
@@ -22,33 +23,11 @@ export function QuickView() {
     const { cart, addToCart } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
-    const [quantity, setQuantity] = useState(1);
-
-    useEffect(() => {
-        if (productData) {
-            const cartItem = cart.find((item) => item.id === productData.id);
-
-            setQuantity(cartItem ? cartItem.quantity : 1);
-        }
-    }, [productData, cart]);
-
-    const handleMinus = () => {
-        if (quantity > 1) setQuantity((prev) => prev - 1);
-    };
-
-    const handlePlus = () => {
-        const maxAvailable = productData.stock ?? 0;
-
-        if (quantity < maxAvailable) {
-            setQuantity((prev) => prev + 1);
-        } else {
-            alert(`Достигнахте максималното налично количество на склад (${maxAvailable} бр.)`);
-        }
-    };
-
     if (!productData) {
         return null;
     }
+
+    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, cart);
 
     const isInWishlist = wishlist.some((item) => item.id === productData.id);
 
@@ -137,18 +116,12 @@ export function QuickView() {
                                 </button>
 
                                 <button onClick={() => addToCart(productData, quantity)} className="btn btn-dark btn-outline-hover-dark" disabled={productData.outofstock}>
-                                    <FontAwesomeIcon icon="shopping-cart" /> {!productData.outofstock ? 'Добавяне в количката' : 'Продукта не е наличен'}
+                                    <FontAwesomeIcon icon="shopping-cart" /> {!!productData.outofstock ? 'Продукта не е наличен' : 'Добавяне в количката'}
                                 </button>
                             </div>
                             <div className="product-meta mb-0">
                                 <table>
                                     <tbody>
-                                        <tr>
-                                            <td className="label">
-                                                <span>SKU</span>
-                                            </td>
-                                            <td className="value">0404019</td>
-                                        </tr>
                                         <tr>
                                             <td className="label">
                                                 <span>Категория</span>
