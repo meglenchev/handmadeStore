@@ -111,13 +111,13 @@ export function DealOfTheDay() {
                                             </div>
                                             <div className="product-stock-status">
                                                 <div className="bar">
-                                                    <div className="progress" style={{ width: `${(product.sold / product.stock) * 100}%` }} />
+                                                    <div className="progress" style={{ width: `${(product.sold / (product.sold + product.stock)) * 100}%` }} />
                                                 </div>
                                                 <span className="sold">
                                                     Продадени: <span>{product.sold}</span>
                                                 </span>
                                                 <span className="available">
-                                                    Налични: <span>{product.availableQuantity}</span>
+                                                    Налични: <span>{product.stock}</span>
                                                 </span>
                                             </div>
                                         </div>

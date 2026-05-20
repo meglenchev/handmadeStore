@@ -21,15 +21,15 @@ export function ShopProvider({ children }) {
         };
     }, []);
 
-    function addToCart(product) {
+    function addToCart(product, amount = 1) {
         const apiProduct = DEAL_PRODUCTS.find((item) => item.id === product.id);
-        if (!apiProduct || apiProduct.outofstock) return;
+        if (!apiProduct || apiProduct.stock <= 0 || apiProduct.outofstock) return;
 
         const existingItem = cart.find((item) => item.id === product.id);
         const currentQuantity = existingItem ? existingItem.quantity : 0;
-        const maxAvailable = apiProduct.availableQuantity ?? 0;
+        const maxAvailable = apiProduct.stock ?? 0;
 
-        if (currentQuantity >= maxAvailable) {
+        if (currentQuantity + amount > maxAvailable) {
             showNotification(`Не можете да добавите повече бройки. От продукт "${apiProduct.title}" има останали само ${maxAvailable} бройки на склад.`, 'error');
             return;
         }
@@ -37,9 +37,9 @@ export function ShopProvider({ children }) {
         setCart((prev) => {
             const itemInState = prev.find((item) => item.id === product.id);
             if (itemInState) {
-                return prev.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
+                return prev.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + amount } : item));
             }
-            return [...prev, { id: product.id, quantity: 1 }];
+            return [...prev, { id: product.id, quantity: amount }];
         });
     }
 

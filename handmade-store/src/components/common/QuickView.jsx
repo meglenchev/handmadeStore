@@ -1,10 +1,12 @@
 import QuickViewContext from '../../context/QuickViewContext.jsx';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from 'react-slick';
 import { settings } from '../../utils/utils.js';
 import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
+import ShopContext from '../../context/ShopContext.jsx';
+import WishlistContext from '../../context/WishlistContext.jsx';
 
 const settingsProductQuickView = {
     ...settings,
@@ -17,10 +19,34 @@ const settingsProductQuickView = {
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
+    const { cart, addToCart } = useContext(ShopContext);
+    const { toggleWishlist, wishlist } = useContext(WishlistContext);
+
+    const [quantity, setQuantity] = useState(1);
+
+    useEffect(() => {
+        setQuantity(1);
+    }, [productData]);
+
+    const handleMinus = () => {
+        if (quantity > 1) setQuantity((prev) => prev - 1);
+    };
+
+    const handlePlus = () => {
+        const maxAvailable = productData.stock ?? 0;
+
+        if (quantity < maxAvailable) {
+            setQuantity((prev) => prev + 1);
+        } else {
+            alert(`Достигнахте максималното налично количество на склад (${maxAvailable} бр.)`);
+        }
+    };
 
     if (!productData) {
         return null;
     }
+
+    const isInWishlist = wishlist.some((item) => item.id === productData.id);
 
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
@@ -58,18 +84,22 @@ export function QuickView() {
                             <div className="product-variations">
                                 <table>
                                     <tbody>
-                                        <tr>
-                                            <td className="label">
-                                                <span>Размер</span>
-                                            </td>
-                                            <td className="value">
-                                                <div className="product-sizes">
-                                                    <a href="#">Large</a>
-                                                    <a href="#">Medium</a>
-                                                    <a href="#">Small</a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {productData.size.length > 0 && (
+                                            <tr>
+                                                <td className="label">
+                                                    <span>Размер</span>
+                                                </td>
+                                                <td className="value">
+                                                    <div className="product-sizes">
+                                                        {productData.size.map((s) => (
+                                                            <button type="button" key={s}>
+                                                                {s}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
                                         {productData.stock > 1 && (
                                             <tr>
                                                 <td className="label">
@@ -77,11 +107,11 @@ export function QuickView() {
                                                 </td>
                                                 <td className="value">
                                                     <div className="product-quantity">
-                                                        <span className="qty-btn minus">
+                                                        <span onClick={handleMinus} className="qty-btn minus">
                                                             <FontAwesomeIcon icon="minus" />
                                                         </span>
-                                                        <input type="text" className="input-qty" defaultValue={1} />
-                                                        <span className="qty-btn plus">
+                                                        <input type="text" className="input-qty" value={quantity} readOnly />
+                                                        <span onClick={handlePlus} className="qty-btn plus">
                                                             <FontAwesomeIcon icon="plus" />
                                                         </span>
                                                     </div>
@@ -92,15 +122,19 @@ export function QuickView() {
                                 </table>
                             </div>
                             <div className="product-buttons">
-                                <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
+                                <button
+                                    onClick={() => toggleWishlist(productData)}
+                                    className={
+                                        isInWishlist
+                                            ? 'btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist added'
+                                            : 'btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist'
+                                    }>
                                     <FontAwesomeIcon icon="heart" />
-                                </a>
-                                <a href="#" className="btn btn-dark btn-outline-hover-dark">
-                                    <FontAwesomeIcon icon="shopping-cart" /> Добавяне в количката
-                                </a>
-                                <a href="#" className="btn btn-icon btn-outline-body btn-hover-dark">
-                                    <FontAwesomeIcon icon="random" />
-                                </a>
+                                </button>
+
+                                <button onClick={() => addToCart(productData, quantity)} className="btn btn-dark btn-outline-hover-dark" disabled={productData.outofstock}>
+                                    <FontAwesomeIcon icon="shopping-cart" /> {!productData.outofstock ? 'Добавяне в количката' : 'Продукта не е наличен'}
+                                </button>
                             </div>
                             <div className="product-meta mb-0">
                                 <table>
@@ -155,9 +189,6 @@ export function QuickView() {
                                                 <div className="product-share">
                                                     <a href="#">
                                                         <FontAwesomeIcon icon={['fab', 'facebook-f']} />
-                                                    </a>
-                                                    <a href="#">
-                                                        <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
                                                     </a>
                                                     <a href="#">
                                                         <FontAwesomeIcon icon={['fab', 'pinterest']} />

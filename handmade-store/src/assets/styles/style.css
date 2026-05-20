@@ -13073,24 +13073,27 @@ body.offcanvas.show .sticky-header {
     display: flex;
 }
 
-.product-sizes a {
+.product-sizes button {
     font-size: 24px;
     font-weight: 400;
     line-height: 1;
     margin-right: 15px;
     color: #ababab;
+    border: none;
+    background-color: transparent;
+    text-transform: capitalize;
 }
 
-.product-sizes a:last-child {
+.product-sizes button:last-child {
     margin-right: 0;
 }
 
-.product-sizes a:hover {
+.product-sizes button:hover {
     color: var(--text-dark);
 }
 
 @media only screen and (max-width: 575px) {
-    .product-sizes a {
+    .product-sizes button {
         font-size: 18px;
     }
 }
@@ -13166,6 +13169,12 @@ body.offcanvas.show .sticky-header {
     margin-right: 15px;
     margin-bottom: 10px;
     margin-left: 15px;
+}
+
+.product-buttons .btn.btn-add-to-wishlist.added {
+    color: var(--color-light);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 @media only screen and (max-width: 479px) {
@@ -13275,6 +13284,7 @@ body.offcanvas.show .sticky-header {
 
 .product-category li {
     font-size: 16px;
+    text-transform: capitalize;
 }
 
 .product-category li:not(:last-child)::after {
@@ -13302,6 +13312,7 @@ body.offcanvas.show .sticky-header {
 
 .product-tags li {
     font-size: 16px;
+    text-transform: capitalize;
 }
 
 .product-tags li:not(:last-child)::after {
