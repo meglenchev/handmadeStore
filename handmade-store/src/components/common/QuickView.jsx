@@ -3,20 +3,10 @@ import { useContext, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from 'react-slick';
-import { settings } from '../../utils/utils.js';
-import { NextArrow, PrevArrow } from '../../utils/SliderArrows.jsx';
 import ShopContext from '../../context/ShopContext.jsx';
 import WishlistContext from '../../context/WishlistContext.jsx';
 import { useProductQuantity } from '../../hooks/useProductQuantity.jsx';
-
-const settingsProductQuickView = {
-    ...settings,
-    dots: false,
-    slidesToShow: 1,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-};
+import { settingsProductQuickView } from '../../utils/utils.jsx';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);

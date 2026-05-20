@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 import Countdown from 'react-countdown';
 import Slider from 'react-slick';
-import { NextArrow, PrevArrow } from '../../../utils/SliderArrows.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { settings } from '../../../utils/utils.js';
+import { settings } from '../../../utils/utils.jsx';
 import QuickViewContext from '../../../context/QuickViewContext.jsx';
 import { useSlidesToShow } from '../../../hooks/useSlidesToShow.jsx';
 import { DEAL_PRODUCTS } from '../../../data/products.js';
@@ -37,13 +36,6 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     );
 };
 
-const baseSettings = {
-    ...settings,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-};
-
 export function DealOfTheDay() {
     const { openQuickView } = useContext(QuickViewContext);
     const { addToCart } = useContext(ShopContext);
@@ -52,7 +44,7 @@ export function DealOfTheDay() {
     const expiryDate = new Date('2026-12-31T23:59:59');
 
     const settingsDealOfTheDay = {
-        ...baseSettings,
+        ...settings,
         slidesToShow: useSlidesToShow(),
     };
 

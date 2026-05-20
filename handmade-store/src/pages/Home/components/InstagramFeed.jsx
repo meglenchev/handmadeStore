@@ -1,21 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from 'react-slick';
-import { NextArrow, PrevArrow } from '../../../utils/SliderArrows.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { settings } from '../../../utils/utils.js';
+import { settings } from '../../../utils/utils.jsx';
 import { useSlidesToShow } from '../../../hooks/useSlidesToShow.jsx';
-
-const baseSettings = {
-    ...settings,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-};
 
 export function InstagramFeed() {
     const settingsInsta = {
-        ...baseSettings,
+        ...settings,
         slidesToShow: useSlidesToShow(),
     };
 
