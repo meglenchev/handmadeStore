@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export function useProductQuantity(productData, cart) {
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         if (productData) {

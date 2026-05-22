@@ -13,11 +13,11 @@ export function QuickView() {
     const { cart, addToCart } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
+    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, cart);
+
     if (!productData) {
         return null;
     }
-
-    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, cart);
 
     const isInWishlist = wishlist.some((item) => item.id === productData.id);
 
@@ -97,16 +97,12 @@ export function QuickView() {
                             <div className="product-buttons">
                                 <button
                                     onClick={() => toggleWishlist(productData)}
-                                    className={
-                                        isInWishlist
-                                            ? 'btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist added'
-                                            : 'btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist'
-                                    }>
+                                    className={`btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist ${isInWishlist ? 'added' : ''}`}>
                                     <FontAwesomeIcon icon="heart" />
                                 </button>
 
                                 <button onClick={() => addToCart(productData, quantity)} className="btn btn-dark btn-outline-hover-dark" disabled={productData.outofstock}>
-                                    <FontAwesomeIcon icon="shopping-cart" /> {!!productData.outofstock ? 'Продукта не е наличен' : 'Добавяне в количката'}
+                                    <FontAwesomeIcon icon="shopping-cart" /> {productData.outofstock ? 'Продукта не е наличен' : 'Добавяне в количката'}
                                 </button>
                             </div>
                             <div className="product-meta mb-0">
