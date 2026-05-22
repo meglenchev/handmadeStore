@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
-import { settingsProductQuickView } from '@/utils/utils.jsx';
 import { QuickViewGallery } from './QuickViewGallery.jsx';
 import { QuickViewVariations } from './QuickViewVariations.jsx';
 
@@ -100,7 +99,7 @@ export function QuickView() {
                                             <td className="label">
                                                 <span>Споделете на</span>
                                             </td>
-                                            <td className="va">
+                                            <td className="value">
                                                 <div className="product-share">
                                                     <a href="#">
                                                         <FontAwesomeIcon icon={['fab', 'facebook-f']} />
