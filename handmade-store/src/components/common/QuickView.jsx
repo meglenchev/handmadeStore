@@ -1,12 +1,13 @@
 import QuickViewContext from '@/context/QuickViewContext.jsx';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Slider from 'react-slick';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
 import { settingsProductQuickView } from '@/utils/utils.jsx';
+import { QuickViewGallery } from './QuickViewGallery.jsx';
+import { QuickViewVariations } from './QuickViewVariations.jsx';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
@@ -30,20 +31,8 @@ export function QuickView() {
                 <div className="row learts-mb-n30">
                     {/* Product Images Start */}
                     <div className="col-lg-6 col-12 learts-mb-30">
-                        <div className="product-images">
-                            <div className="product-gallery-slider-quickview">
-                                <Slider {...settingsProductQuickView}>
-                                    <div className="product-zoom">
-                                        <img src={productData.image} alt={productData.title} />
-                                    </div>
-                                    <div className="product-zoom">
-                                        <img src={productData.hoverImage} alt={productData.title} />
-                                    </div>
-                                </Slider>
-                            </div>
-                        </div>
+                        <QuickViewGallery image={productData.image} hoverImage={productData.hoverImage} title={productData.title} />
                     </div>
-                    {/* Product Images End */}
                     {/* Product Summery Start */}
                     <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
                         <div className="product-summery customScroll">
@@ -54,46 +43,9 @@ export function QuickView() {
                             <div className="product-description">
                                 <p>{productData.descriptiption}</p>
                             </div>
-                            <div className="product-variations">
-                                <table>
-                                    <tbody>
-                                        {productData.size.length > 0 && (
-                                            <tr>
-                                                <td className="label">
-                                                    <span>Размер</span>
-                                                </td>
-                                                <td className="value">
-                                                    <div className="product-sizes">
-                                                        {productData.size.map((s) => (
-                                                            <button type="button" key={s}>
-                                                                {s}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                        {productData.stock > 1 && (
-                                            <tr>
-                                                <td className="label">
-                                                    <span>Количество</span>
-                                                </td>
-                                                <td className="value">
-                                                    <div className="product-quantity">
-                                                        <span onClick={handleMinus} className="qty-btn minus">
-                                                            <FontAwesomeIcon icon="minus" />
-                                                        </span>
-                                                        <input type="text" className="input-qty" value={quantity} readOnly />
-                                                        <span onClick={handlePlus} className="qty-btn plus">
-                                                            <FontAwesomeIcon icon="plus" />
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+
+                            <QuickViewVariations size={productData.size} stock={productData.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
+
                             <div className="product-buttons">
                                 <button
                                     onClick={() => toggleWishlist(productData)}
