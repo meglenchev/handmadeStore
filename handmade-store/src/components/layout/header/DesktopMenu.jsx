@@ -1,6 +1,6 @@
 import { Offcanvas } from 'react-bootstrap';
 import { NavigationLinks } from './NavigationLinks.jsx';
-import { HEADER_LINKS } from '../../../utils/constants.js';
+import { HEADER_LINKS } from '@/utils/constants.js';
 
 export function DesktopMenu({ activeMenu, toggleMenu }) {
     return (

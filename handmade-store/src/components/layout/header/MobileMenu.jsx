@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Offcanvas } from 'react-bootstrap';
 import { NavLink } from 'react-router';
-import { HEADER_LINKS } from '../../../utils/constants.js';
+import { HEADER_LINKS } from '@/utils/constants.js';
 import { useContext } from 'react';
-import ShopContext from '../../../context/ShopContext.jsx';
-import WishlistContext from '../../../context/WishlistContext.jsx';
+import ShopContext from '@/context/ShopContext.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
 
 export function MobileMenu({ activeMenu, toggleMenu }) {
     const { cartCount } = useContext(ShopContext);

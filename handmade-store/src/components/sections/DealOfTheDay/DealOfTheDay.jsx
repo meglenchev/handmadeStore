@@ -2,12 +2,12 @@ import { useContext } from 'react';
 import Countdown from 'react-countdown';
 import Slider from 'react-slick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { settings } from '../../../utils/utils.jsx';
-import QuickViewContext from '../../../context/QuickViewContext.jsx';
-import { useSlidesToShow } from '../../../hooks/useSlidesToShow.jsx';
-import { DEAL_PRODUCTS } from '../../../data/products.js';
-import ShopContext from '../../../context/ShopContext.jsx';
-import WishlistContext from '../../../context/WishlistContext.jsx';
+import { settings } from '@/utils/utils.jsx';
+import QuickViewContext from '@/context/QuickViewContext.jsx';
+import { useSlidesToShow } from '@/hooks/useSlidesToShow.jsx';
+import { DEAL_PRODUCTS } from '@/data/products.js';
+import ShopContext from '@/context/ShopContext.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {

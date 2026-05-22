@@ -3,7 +3,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { HOME_SLIDER_PRODUCTS } from '../../../data/homeSliderProducts.js';
+import { HOME_SLIDER_PRODUCTS } from '@/data/homeSliderProducts.js';
 import { Link } from 'react-router';
 
 export function HomeSlider() {

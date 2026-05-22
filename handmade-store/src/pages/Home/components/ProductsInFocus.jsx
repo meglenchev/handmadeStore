@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
-import { DEAL_PRODUCTS } from '../../../data/products.js';
-import QuickViewContext from '../../../context/QuickViewContext.jsx';
-import ShopContext from '../../../context/ShopContext.jsx';
-import WishlistContext from '../../../context/WishlistContext.jsx';
+import { DEAL_PRODUCTS } from '@/data/products.js';
+import QuickViewContext from '@/context/QuickViewContext.jsx';
+import ShopContext from '@/context/ShopContext.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
 
 export function ProductsInFocus() {
     const { openQuickView } = useContext(QuickViewContext);

@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import { Link } from 'react-router';
-import WishlistContext from '../../../context/WishlistContext.jsx';
-import ShopContext from '../../../context/ShopContext.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
+import ShopContext from '@/context/ShopContext.jsx';
 
 export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
     const { cartCount } = useContext(ShopContext);

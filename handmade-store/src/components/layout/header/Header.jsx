@@ -1,17 +1,17 @@
 import { useCallback, useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSticky } from '../../../hooks/useSticky.jsx';
+import { useSticky } from '@/hooks/useSticky.jsx';
 import { DesktopHeader } from './DesktopHeader.jsx';
-import { useAutoCloseEmptyMenu } from '../../../hooks/useAutoCloseEmptyMenu.jsx';
+import { useAutoCloseEmptyMenu } from '@/hooks/useAutoCloseEmptyMenu.jsx';
 import { MobileHeader } from './MobileHeader.jsx';
 import { SearchOffcanvas } from './SearchOffcanvas.jsx';
 import { WishlistOffcanvas } from './WishlistOffcanvas.jsx';
 import { DesktopMenu } from './DesktopMenu.jsx';
 import { CartOffcanvas } from './CartOffcanvas.jsx';
 import { MobileMenu } from './MobileMenu.jsx';
-import ShopContext from '../../../context/ShopContext.jsx';
-import { useMediaQuery } from '../../../hooks/useMediaQuery.jsx';
-import WishlistContext from '../../../context/WishlistContext.jsx';
+import ShopContext from '@/context/ShopContext.jsx';
+import { useMediaQuery } from '@/hooks/useMediaQuery.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
 
 export function Header() {
     const { isSticky, sentinelRef } = useSticky();

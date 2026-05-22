@@ -1,6 +1,6 @@
 import { createContext, useRef, useMemo } from 'react';
-import { DEAL_PRODUCTS } from '../data/products.js';
-import { useLocalStorage } from '../hooks/useLocalStorage.jsx';
+import { DEAL_PRODUCTS } from '@/data/products.js';
+import { useLocalStorage } from '@/hooks/useLocalStorage.jsx';
 
 const WishlistContext = createContext();
 

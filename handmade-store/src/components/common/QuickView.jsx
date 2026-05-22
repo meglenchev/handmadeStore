@@ -1,12 +1,12 @@
-import QuickViewContext from '../../context/QuickViewContext.jsx';
+import QuickViewContext from '@/context/QuickViewContext.jsx';
 import { useContext, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from 'react-slick';
-import ShopContext from '../../context/ShopContext.jsx';
-import WishlistContext from '../../context/WishlistContext.jsx';
-import { useProductQuantity } from '../../hooks/useProductQuantity.jsx';
-import { settingsProductQuickView } from '../../utils/utils.jsx';
+import ShopContext from '@/context/ShopContext.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
+import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
+import { settingsProductQuickView } from '@/utils/utils.jsx';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
