@@ -13,9 +13,14 @@ const productSchema = new Schema(
             trim: true,
             required: [true, "Description is required"],
             minLength: [
-                20,
-                "Description should be at least 20 characters long",
+                150,
+                "Description should be at least 150 characters long",
             ],
+        },
+        shortDescription: {
+            type: String,
+            trim: true,
+            maxLength: [150, "Short description cannot exceed 150 characters"],
         },
         oldPrice: {
             type: Number,
