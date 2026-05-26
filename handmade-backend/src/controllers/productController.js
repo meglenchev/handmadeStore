@@ -58,3 +58,15 @@ productController.get("/products/:productId/details", async (req, res) => {
         });
     }
 });
+
+productController.get("/products/discounted", async (req, res) => {
+    try {
+        const discountedProducts = await productServices.getTopDiscounted();
+        res.json(discountedProducts);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});

@@ -32,10 +32,10 @@ const productSchema = new Schema(
             required: [true, "New Price is required"],
             min: [0, "New Price should be a positive number"],
         },
-        discont: {
+        discount: {
             type: Number,
-            min: [-100, "Discont should be between -100 and 0"],
-            max: [0, "Discont should be between -100 and 0"],
+            min: [-100, "Discount should be between -100 and 0"],
+            max: [0, "Discount should be between -100 and 0"],
         },
         outofstock: {
             type: Boolean,
