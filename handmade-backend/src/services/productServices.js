@@ -14,7 +14,7 @@ export default {
         return Product.find().sort({ createdAt: -1 }).limit(6);
     },
     getTopDiscounted() {
-        return Product.find({ outofstock: false, discount: { $lt: -25 } })
+        return Product.find({ outofstock: false, discount: { $lt: -10 } })
             .sort({ discount: 1 })
             .limit(12);
     },

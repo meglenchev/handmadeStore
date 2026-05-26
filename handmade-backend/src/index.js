@@ -1,6 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import { routes } from "./routes.js";
+
+const app = express();
 
 const url = "mongodb://localhost:27017/handmade-shop";
 
@@ -14,7 +17,14 @@ try {
     console.log(`Cannot connect to DB ${error.message}`);
 }
 
-const app = express();
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true, // Позволява приемането на бисквитки
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
