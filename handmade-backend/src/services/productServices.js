@@ -21,4 +21,10 @@ export default {
     getBestSellers() {
         return Product.find({ outofstock: false }).sort({ sold: -1 }).limit(12);
     },
+    getSpecialProducts() {
+        return Product.aggregate([
+            { $match: { outofstock: false } },
+            { $sample: { size: 3 } },
+        ]);
+    },
 };

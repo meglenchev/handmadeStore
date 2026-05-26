@@ -70,3 +70,15 @@ productController.get("/products/discounted", async (req, res) => {
         });
     }
 });
+
+productController.get("/products/special", async (req, res) => {
+    try {
+        const specialProducts = await productServices.getSpecialProducts();
+        res.json(specialProducts);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});
