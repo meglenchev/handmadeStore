@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { settings } from '@/utils/utils.jsx';
 import QuickViewContext from '@/context/QuickViewContext.jsx';
 import { useSlidesToShow } from '@/hooks/useSlidesToShow.jsx';
-import { DEAL_PRODUCTS } from '@/data/products.js';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
+import { useQuery } from '@/hooks/useQuery.js';
+import { Link } from 'react-router';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -48,6 +49,8 @@ export function DealOfTheDay() {
         slidesToShow: useSlidesToShow(),
     };
 
+    const { data: products, loading } = useQuery('/products/discounted', []);
+
     return (
         <div className="section section-padding">
             <div className="container">
@@ -63,20 +66,20 @@ export function DealOfTheDay() {
                 </div>
                 <div className="product-carousel">
                     <Slider key="deal-of-the-day" {...settingsDealOfTheDay}>
-                        {DEAL_PRODUCTS.map((product) => {
-                            const isInWishlist = wishlist.some((item) => item.id === product.id);
+                        {products.map((product) => {
+                            const isInWishlist = wishlist.some((item) => item._id === product._id);
 
                             return (
-                                <div key={product.id} className="col">
+                                <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <a href="/product-details" className="image">
+                                            <Link to={`/product/${product._id}/details`} className="image">
                                                 <span className="product-badges">
-                                                    <span className="onsale">-13%</span>
+                                                    <span className="onsale">{product.discount}%</span>
                                                 </span>
                                                 <img src={product.image} alt={product.title} />
                                                 <img className="image-hover" src={product.hoverImage} alt={product.title} />
-                                            </a>
+                                            </Link>
 
                                             <button
                                                 onClick={() => toggleWishlist(product)}

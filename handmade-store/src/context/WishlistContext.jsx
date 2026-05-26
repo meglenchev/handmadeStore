@@ -1,42 +1,30 @@
-import { createContext, useRef, useMemo } from 'react';
-import { DEAL_PRODUCTS } from '@/data/products.js';
+import { createContext, useMemo } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage.jsx';
 
 const WishlistContext = createContext();
 
 export function WishlistProvider({ children }) {
     const [wishlist, setWishlist] = useLocalStorage('wishlistItems', []);
-    const detailedWishlist = useMemo(() => {
-        return (wishlist || [])
-            .map((item) => {
-                const productDetails = DEAL_PRODUCTS.find((product) => product.id === item.id);
 
-                if (!productDetails) {
-                    console.warn(`Product with ID ${item.id} not found in DEAL_PRODUCTS.`);
-                    return null;
-                }
-                return productDetails;
-            })
-            .filter((item) => item !== null);
-    }, [wishlist]);
-
-    const wishlistCount = useMemo(() => detailedWishlist.length, [detailedWishlist]);
+    const wishlistCount = useMemo(() => (wishlist || []).length, [wishlist]);
 
     function toggleWishlist(product) {
         setWishlist((prev) => {
             const safePrev = prev || [];
-            const exists = safePrev.find((item) => item.id === product.id);
+            const exists = safePrev.find((item) => item._id === product._id);
+
             if (exists) {
-                return safePrev.filter((item) => item.id !== product.id);
+                return safePrev.filter((item) => item._id !== product._id);
             }
-            return [...safePrev, { id: product.id }];
+
+            return [...safePrev, { _id: product._id, title: product.title, newPrice: product.newPrice, image: product.image }];
         });
     }
 
     return (
         <WishlistContext.Provider
             value={{
-                wishlist: detailedWishlist,
+                wishlist,
                 toggleWishlist,
                 wishlistCount,
             }}>
