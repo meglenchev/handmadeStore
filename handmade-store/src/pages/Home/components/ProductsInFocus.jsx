@@ -1,14 +1,30 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
-import { DEAL_PRODUCTS } from '@/data/products.js';
 import QuickViewContext from '@/context/QuickViewContext.jsx';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
+import { useQuery } from '@/hooks/useQuery.js';
+import { Link } from 'react-router';
+import { ENDPOINTS } from '@/utils/endpoints.js';
 
 export function ProductsInFocus() {
     const { openQuickView } = useContext(QuickViewContext);
     const { addToCart } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
+
+    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.LATEST, []);
+
+    if (loading) {
+        return <div className="text-center section-padding">Зареждане на продуктите на фокус...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
+    }
+
+    if (!products || products.length === 0) {
+        return <div className="text-center section-padding">В момента няма активни продукти на фокус.</div>;
+    }
 
     return (
         <div className="section section-padding">
@@ -42,14 +58,14 @@ export function ProductsInFocus() {
                     <div className="tab-pane fade show active" id="tab-gift-ideas">
                         {/* Products Start */}
                         <div className="products row row-cols-md-3 row-cols-sm-2 row-cols-1">
-                            {DEAL_PRODUCTS.map((product) => {
-                                const isInWishlist = wishlist.some((item) => item.id === product.id);
+                            {products.map((product) => {
+                                const isInWishlist = wishlist.some((item) => item._id === product._id);
 
                                 return (
-                                    <div key={product.id} className="col">
+                                    <div key={product._id} className="col">
                                         <div className="product">
                                             <div className="product-thumb">
-                                                <a href="product-details.html" className="image">
+                                                <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
                                                     <span className="product-badges">
                                                         {product.outofstock && (
                                                             <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
@@ -60,7 +76,7 @@ export function ProductsInFocus() {
                                                     </span>
                                                     <img src={product.image} alt={product.title} />
                                                     <img className="image-hover " src={product.hoverImage} alt={product.title} />
-                                                </a>
+                                                </Link>
                                                 <button
                                                     onClick={() => toggleWishlist(product)}
                                                     className={`add-to-wishlist hintT-left ${isInWishlist ? 'added' : ''}`}
@@ -70,7 +86,7 @@ export function ProductsInFocus() {
                                             </div>
                                             <div className="product-info">
                                                 <h6 className="title">
-                                                    <a href="product-details.html">{product.title}</a>
+                                                    <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
                                                 </h6>
                                                 <span className="price">€{product.newPrice.toFixed(2)}</span>
                                                 <div className="product-buttons">
@@ -93,9 +109,9 @@ export function ProductsInFocus() {
                     </div>
                 </div>
                 <div className="row g-0 justify-content-center learts-mt-50">
-                    <a href="#" className="btn p-0">
+                    <Link to={ENDPOINTS.PRODUCTS.ALL} className="btn p-0">
                         <FontAwesomeIcon icon="plus" /> виж повече ...
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
