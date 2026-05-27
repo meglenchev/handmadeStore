@@ -9,6 +9,7 @@ import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import { useQuery } from '@/hooks/useQuery.js';
 import { Link } from 'react-router';
+import { ENDPOINTS } from '@/utils/endpoints.js';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -49,7 +50,19 @@ export function DealOfTheDay() {
         slidesToShow: useSlidesToShow(),
     };
 
-    const { data: products, loading } = useQuery('/products/discounted', []);
+    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.DISCOUNTED, []);
+
+    if (loading) {
+        return <div className="text-center section-padding">Зареждане на сделките на деня...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
+    }
+
+    if (!products || products.length === 0) {
+        return <div className="text-center section-padding">В момента няма активни сделки.</div>;
+    }
 
     return (
         <div className="section section-padding">
@@ -73,7 +86,7 @@ export function DealOfTheDay() {
                                 <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <Link to={`/product/${product._id}/details`} className="image">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
                                                 <span className="product-badges">
                                                     <span className="onsale">{product.discount}%</span>
                                                 </span>
@@ -90,7 +103,7 @@ export function DealOfTheDay() {
                                         </div>
                                         <div className="product-info">
                                             <h6 className="title">
-                                                <a href="/product-details">{product.title}</a>
+                                                <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
                                             </h6>
                                             <span className="price">
                                                 <span className="old">€{product.oldPrice.toFixed(2)}</span>
