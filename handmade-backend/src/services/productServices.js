@@ -10,8 +10,9 @@ export default {
     getOne(productId) {
         return Product.findById(productId);
     },
-    getLatest() {
-        return Product.find().sort({ createdAt: -1 }).limit(6);
+    getLatest(category, limit) {
+        const query = category === "all" ? {} : { category };
+        return Product.find(query).sort({ createdAt: -1 }).limit(limit);
     },
     getTopDiscounted() {
         return Product.find({ outofstock: false, discount: { $lt: -10 } })

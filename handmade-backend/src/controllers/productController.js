@@ -17,7 +17,9 @@ productController.get("/products", async (req, res) => {
 
 productController.get("/products/latest", async (req, res) => {
     try {
-        const latestProducts = await productServices.getLatest();
+        const category = req.query.category;
+        const limit = parseInt(req.query.limit) || 6;
+        const latestProducts = await productServices.getLatest(category, limit);
         res.json(latestProducts);
     } catch (error) {
         res.status(500).json({

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import QuickViewContext from '@/context/QuickViewContext.jsx';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
@@ -12,7 +12,9 @@ export function ProductsInFocus() {
     const { addToCart } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.LATEST, []);
+    const [activeCategory, setActiveCategory] = useState('all');
+
+    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.LATEST_FILTERED(activeCategory), []);
 
     if (loading) {
         return <div className="text-center section-padding">Зареждане на продуктите на фокус...</div>;
@@ -41,15 +43,26 @@ export function ProductsInFocus() {
                     {/* Tab Button List Start */}
                     <div className="col-lg-auto col-12 learts-mb-30">
                         <nav className="nav mx-n1 learts-mb-n10">
-                            <a className="btn btn-md btn-light btn-hover-primary active mx-1 learts-mb-10" href="#tab-gift-ideas">
-                                идеи за подаръци
-                            </a>
-                            <a className="btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10" href="#tab-home-decor">
-                                домашен декор
-                            </a>
-                            <a className="btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10" href="#tab-kitchen">
+                            <button
+                                onClick={() => setActiveCategory('all')}
+                                className={`btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10 ${activeCategory === 'all' ? 'active' : ''}`}>
+                                всички
+                            </button>
+                            <button
+                                onClick={() => setActiveCategory('gifts')}
+                                className={`btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10 ${activeCategory === 'gifts' ? 'active' : ''}`}>
+                                подаръци
+                            </button>
+                            <button
+                                onClick={() => setActiveCategory('decor')}
+                                className={`btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10 ${activeCategory === 'decor' ? 'active' : ''}`}>
+                                декор
+                            </button>
+                            <button
+                                onClick={() => setActiveCategory('kitchen')}
+                                className={`btn btn-md btn-light btn-hover-primary mx-1 learts-mb-10 ${activeCategory === 'kitchen' ? 'active' : ''}`}>
                                 кухня
-                            </a>
+                            </button>
                         </nav>
                     </div>
                     {/* Section Title End */}
