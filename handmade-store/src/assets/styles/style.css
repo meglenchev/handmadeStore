@@ -26,6 +26,9 @@
     --bg-grey: #f8f9fd;
     --bg-black: #000000;
     --bg-main: #696969;
+
+    --bg-gray-200: #e5e7eb;
+    --bg-gray-300: #d1d5db;
     /* Background Colors Hover */
     --bg-body-light-hover: #6b6b6b;
     --bg-grey-hover: #d1d2d6;
@@ -565,6 +568,25 @@ body.homepage-bg1.offcanvas-open {
     body.homepage-bg1.offcanvas-open {
         padding-right: 15px !important;
     }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.bg-gray-200 {
+    background-color: var(--bg-gray-200);
+}
+.bg-gray-300 {
+    background-color: var(--bg-gray-300);
 }
 
 /* Notification */
