@@ -10,6 +10,7 @@ import WishlistContext from '@/context/WishlistContext.jsx';
 import { useQuery } from '@/hooks/useQuery.js';
 import { Link } from 'react-router';
 import { ENDPOINTS } from '@/utils/endpoints.js';
+import { DealOfTheDaySkeleton } from './DealOfTheDaySkeleton.jsx';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -45,22 +46,20 @@ export function DealOfTheDay() {
 
     const expiryDate = new Date('2026-12-31T23:59:59');
 
+    const slidesToShow = useSlidesToShow();
+
     const settingsDealOfTheDay = {
         ...settings,
-        slidesToShow: useSlidesToShow(),
+        slidesToShow: slidesToShow,
     };
 
     const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.DISCOUNTED, []);
-
-    if (loading) {
-        return <div className="text-center section-padding">Зареждане на сделките на деня...</div>;
-    }
 
     if (error) {
         return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
     }
 
-    if (!products || products.length === 0) {
+    if (!loading && (!products || products.length === 0)) {
         return <div className="text-center section-padding">В момента няма активни сделки.</div>;
     }
 
@@ -79,60 +78,62 @@ export function DealOfTheDay() {
                 </div>
                 <div className="product-carousel">
                     <Slider key="deal-of-the-day" {...settingsDealOfTheDay}>
-                        {products.map((product) => {
-                            const isInWishlist = wishlist.some((item) => item._id === product._id);
+                        {loading
+                            ? Array.from({ length: 12 }).map((_, index) => <DealOfTheDaySkeleton key={index} />)
+                            : products.map((product) => {
+                                  const isInWishlist = wishlist.some((item) => item._id === product._id);
 
-                            return (
-                                <div key={product._id} className="col">
-                                    <div className="product">
-                                        <div className="product-thumb">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
-                                                <span className="product-badges">
-                                                    <span className="onsale">{product.discount}%</span>
-                                                </span>
-                                                <img src={product.image} alt={product.title} />
-                                                <img className="image-hover" src={product.hoverImage} alt={product.title} />
-                                            </Link>
+                                  return (
+                                      <div key={product._id} className="col">
+                                          <div className="product">
+                                              <div className="product-thumb">
+                                                  <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
+                                                      <span className="product-badges">
+                                                          <span className="onsale">{product.discount}%</span>
+                                                      </span>
+                                                      <img src={product.image} alt={product.title} />
+                                                      <img className="image-hover" src={product.hoverImage} alt={product.title} />
+                                                  </Link>
 
-                                            <button
-                                                onClick={() => toggleWishlist(product)}
-                                                className={`add-to-wishlist hintT-left ${isInWishlist ? 'added' : ''}`}
-                                                data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
-                                                <FontAwesomeIcon icon="heart" />
-                                            </button>
-                                        </div>
-                                        <div className="product-info">
-                                            <h6 className="title">
-                                                <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
-                                            </h6>
-                                            <span className="price">
-                                                <span className="old">€{product.oldPrice.toFixed(2)}</span>
-                                                <span className="new">€{product.newPrice.toFixed(2)}</span>
-                                            </span>
-                                            <div className="product-buttons">
-                                                <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
-                                                    <FontAwesomeIcon icon="search" />
-                                                </button>
-                                                <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
-                                                    <FontAwesomeIcon icon="shopping-cart" />
-                                                </button>
-                                            </div>
-                                            <div className="product-stock-status">
-                                                <div className="bar">
-                                                    <div className="progress" style={{ width: `${(product.sold / (product.sold + product.stock)) * 100}%` }} />
-                                                </div>
-                                                <span className="sold">
-                                                    Продадени: <span>{product.sold}</span>
-                                                </span>
-                                                <span className="available">
-                                                    Налични: <span>{product.stock}</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                                  <button
+                                                      onClick={() => toggleWishlist(product)}
+                                                      className={`add-to-wishlist hintT-left ${isInWishlist ? 'added' : ''}`}
+                                                      data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
+                                                      <FontAwesomeIcon icon="heart" />
+                                                  </button>
+                                              </div>
+                                              <div className="product-info">
+                                                  <h6 className="title">
+                                                      <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
+                                                  </h6>
+                                                  <span className="price">
+                                                      <span className="old">€{product.oldPrice.toFixed(2)}</span>
+                                                      <span className="new">€{product.newPrice.toFixed(2)}</span>
+                                                  </span>
+                                                  <div className="product-buttons">
+                                                      <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
+                                                          <FontAwesomeIcon icon="search" />
+                                                      </button>
+                                                      <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
+                                                          <FontAwesomeIcon icon="shopping-cart" />
+                                                      </button>
+                                                  </div>
+                                                  <div className="product-stock-status">
+                                                      <div className="bar">
+                                                          <div className="progress" style={{ width: `${(product.sold / (product.sold + product.stock)) * 100}%` }} />
+                                                      </div>
+                                                      <span className="sold">
+                                                          Продадени: <span>{product.sold}</span>
+                                                      </span>
+                                                      <span className="available">
+                                                          Налични: <span>{product.stock}</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  );
+                              })}
                     </Slider>
                 </div>
             </div>
