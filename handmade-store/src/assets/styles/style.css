@@ -9157,24 +9157,9 @@ body.offcanvas.show .sticky-header {
     color: var(--text-dark);
 }
 
-.section-title2 .title.title-icon-both::before {
-    padding-right: 10px;
-    content: url('../images/title/title-decor-left.webp');
-}
-
-.section-title2 .title.title-icon-both::after {
-    padding-left: 10px;
-    content: url('../images/title/title-decor-right.webp');
-}
-
-.section-title2 .title.title-icon-left::before {
-    padding-right: 10px;
-    content: url('../images/title/title-decor-left.webp');
-}
-
-.section-title2 .title.title-icon-right::after {
-    padding-left: 10px;
-    content: url('../images/title/title-decor-right.webp');
+.section-title2 .title .svg-inline--fa {
+    height: 0.8em;
+    width: 0.9em;
 }
 
 .section-title2 p {

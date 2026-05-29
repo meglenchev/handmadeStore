@@ -56,11 +56,11 @@ export function DealOfTheDay() {
     const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.DISCOUNTED, []);
 
     if (error) {
-        return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
+        return <h2 className="title">Неуспешно зареждане: {error}</h2>;
     }
 
     if (!loading && (!products || products.length === 0)) {
-        return <div className="text-center section-padding">В момента няма активни сделки.</div>;
+        return <h2 className="title title-icon-right">В момента няма активни сделки.</h2>;
     }
 
     return (
@@ -69,7 +69,9 @@ export function DealOfTheDay() {
                 <div className="row learts-mb-30">
                     <div className="col-md-auto col-12 learts-mb-20">
                         <div className="section-title2 m-0">
-                            <h2 className="title title-icon-right">Сделка на деня</h2>
+                            <h2 className="title title-icon-right">
+                                Сделка на деня <FontAwesomeIcon icon="fire" className="text-primary ms-2" />
+                            </h2>
                         </div>
                     </div>
                     <div className="col-md col-12 learts-mb-20 d-flex justify-content-lg-end">

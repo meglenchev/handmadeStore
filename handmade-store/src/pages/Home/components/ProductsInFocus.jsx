@@ -21,6 +21,10 @@ export function ProductsInFocus() {
         return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
     }
 
+    if (!loading && (!products || products.length === 0)) {
+        return <h2 className="title title-icon-right">В момента няма активни продукти на фокус.</h2>;
+    }
+
     return (
         <div className="section section-padding">
             <div className="container">
@@ -28,7 +32,9 @@ export function ProductsInFocus() {
                     {/* Section Title Start */}
                     <div className="col-lg-auto col-12">
                         <div className="section-title2">
-                            <h2 className="title">Продукти на фокус</h2>
+                            <h2 className="title">
+                                Продукти на фокус <FontAwesomeIcon icon="star" className="text-primary ms-2" />
+                            </h2>
                             <p>Следвайте най-популярните тенденции и се възползвайте от ексклузивни артикули от магазина за ръкоделия Learts.</p>
                         </div>
                     </div>
