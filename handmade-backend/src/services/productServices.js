@@ -26,6 +26,15 @@ export default {
         return Product.aggregate([
             { $match: { outofstock: false } },
             { $sample: { size: 3 } },
+            {
+                $project: {
+                    _id: 1,
+                    title: 1,
+                    image: 1,
+                    newPrice: 1,
+                    category: 1,
+                },
+            },
         ]);
     },
 };
