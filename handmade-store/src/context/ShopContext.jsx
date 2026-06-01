@@ -22,10 +22,10 @@ export function ShopProvider({ children }) {
     }, []);
 
     function addToCart(product, amount = 1) {
-        const apiProduct = DEAL_PRODUCTS.find((item) => item.id === product.id);
+        const apiProduct = DEAL_PRODUCTS.find((item) => item._id === product._id);
         if (!apiProduct || apiProduct.stock <= 0 || apiProduct.outofstock) return;
 
-        const existingItem = cart.find((item) => item.id === product.id);
+        const existingItem = cart.find((item) => item._id === product._id);
         const currentQuantity = existingItem ? existingItem.quantity : 0;
         const maxAvailable = apiProduct.stock ?? 0;
 
@@ -35,20 +35,20 @@ export function ShopProvider({ children }) {
         }
 
         setCart((prev) => {
-            const itemInState = prev.find((item) => item.id === product.id);
+            const itemInState = prev.find((item) => item._id === product._id);
             if (itemInState) {
-                return prev.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + amount } : item));
+                return prev.map((item) => (item._id === product._id ? { ...item, quantity: item.quantity + amount } : item));
             }
-            return [...prev, { id: product.id, quantity: amount }];
+            return [...prev, { _id: product._id, quantity: amount }];
         });
     }
 
     const detailedCart = useMemo(() => {
         return cart
             .map((cartItem) => {
-                const productDetails = DEAL_PRODUCTS.find((product) => product.id === cartItem.id);
+                const productDetails = DEAL_PRODUCTS.find((product) => product._id === cartItem._id);
                 if (!productDetails) {
-                    console.warn(`Product with ID ${cartItem.id} not found in DEAL_PRODUCTS.`);
+                    console.warn(`Product with ID ${cartItem._id} not found in DEAL_PRODUCTS.`);
                     return null;
                 }
                 return { ...productDetails, quantity: cartItem.quantity };
@@ -60,7 +60,7 @@ export function ShopProvider({ children }) {
     const subtotal = useMemo(() => detailedCart.reduce((total, item) => total + item.newPrice * item.quantity, 0).toFixed(2), [detailedCart]);
 
     function removeFromCart(product) {
-        setCart((prev) => prev.filter((item) => item.id !== product.id));
+        setCart((prev) => prev.filter((item) => item._id !== product._id));
     }
 
     return (

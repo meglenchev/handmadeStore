@@ -16,12 +16,12 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                         <Offcanvas.Body className="body customScroll">
                             <ul className="minicart-product-list">
                                 {cart.map((item) => (
-                                    <li key={item.id}>
+                                    <li key={item._id}>
                                         <Link to={`/product-details/${item.id}`} className="image">
-                                            <img src={item.image} alt={item.title} />
+                                            <img src={item.images.gallery[0]} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={`/product-details/${item.id}`} className="title">
+                                            <Link to={`/product-details/${item._id}`} className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">
