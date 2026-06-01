@@ -93,8 +93,8 @@ export function DealOfTheDay() {
                                                       <span className="product-badges">
                                                           <span className="onsale">{product.discount}%</span>
                                                       </span>
-                                                      <img src={product.image} alt={product.title} />
-                                                      <img className="image-hover" src={product.hoverImage} alt={product.title} />
+                                                      <img src={product.images.gallery[0]} alt={product.title} />
+                                                      <img className="image-hover" src={product.images.gallery[1]} alt={product.title} />
                                                   </Link>
 
                                                   <button

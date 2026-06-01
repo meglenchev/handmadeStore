@@ -18,12 +18,12 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
                         <Offcanvas.Body className="body customScroll">
                             <ul className="minicart-product-list">
                                 {wishlistItems.map((item) => (
-                                    <li key={item.id}>
-                                        <Link to={`/product-details/${item.id}`} className="image">
+                                    <li key={item._id}>
+                                        <Link to={`/product/${item._id}/details`} className="image">
                                             <img src={item.image} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={`/product-details/${item.id}`} className="title">
+                                            <Link to={`/product/${item._id}/details`} className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">

@@ -28,7 +28,7 @@ export function HomeSlider() {
                     : products?.map((product, index) => (
                           <SwiperSlide key={product.id} className="home-slide-item">
                               <div className="home-slide-image">
-                                  <img src={product.image} alt={product.title} />
+                                  <img src={product.images} alt={product.title} />
                               </div>
                               <div className="home-slide-content">
                                   <span className="sub-title">Специално за теб</span>

@@ -17,7 +17,7 @@ export function WishlistProvider({ children }) {
                 return safePrev.filter((item) => item._id !== product._id);
             }
 
-            return [...safePrev, { _id: product._id, title: product.title, newPrice: product.newPrice, image: product.image }];
+            return [...safePrev, { _id: product._id, title: product.title, newPrice: product.newPrice, image: product.images.gallery[0] }];
         });
     }
 

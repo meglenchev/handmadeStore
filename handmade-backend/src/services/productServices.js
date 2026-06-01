@@ -30,7 +30,7 @@ export default {
                 $project: {
                     _id: 1,
                     title: 1,
-                    image: 1,
+                    images: "$images.sliderLandscape",
                     newPrice: 1,
                     category: 1,
                 },

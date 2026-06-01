@@ -8146,7 +8146,7 @@ body.offcanvas.show .sticky-header {
 .home-slide-image {
     z-index: 1;
     overflow: hidden;
-    max-width: 64%;
+    max-width: 55%;
 }
 
 .home-slide-image img {

@@ -42,17 +42,21 @@ const productSchema = new Schema(
             required: [true, "Out of Stock status is required"],
             default: false,
         },
-        image: {
-            type: String,
-            trim: true,
-            required: [true, "Image URL is required"],
-            //match: [/^https?:\/\//, "Image URL is invalid"],
-        },
-        hoverImage: {
-            type: String,
-            trim: true,
-            required: [true, "Hover image URL is required"],
-            //match: [/^https?:\/\//, "Hover image URL is invalid"],
+        images: {
+            sliderLandscape: {
+                type: String,
+                trim: true,
+                required: true,
+                //match: [/^https?:\/\//, "Image URL is invalid"],
+            }, // Slider image (3:2)
+            gallery: [
+                {
+                    type: String,
+                    trim: true,
+                    required: true,
+                    //match: [/^https?:\/\//, "Image URL is invalid"],
+                },
+            ], // Gallery image (9:16)
         },
         sold: {
             type: Number,
