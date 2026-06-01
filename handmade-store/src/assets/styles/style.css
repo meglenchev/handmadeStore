@@ -8173,15 +8173,14 @@ body.offcanvas.show .sticky-header {
 /* Home Eight Slide Content */
 .home-slide-content {
     position: absolute;
-    z-index: 1;
+    width: 40%;
     z-index: 8;
     top: 50%;
-    left: 64%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    white-space: nowrap;
+    right: 0;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: left;
 }
 
 .home-slide-content > * {
