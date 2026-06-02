@@ -37,4 +37,12 @@ export default {
             },
         ]);
     },
+    getCartProducts(productIds) {
+        return Product.find({ _id: { $in: productIds } }).select({
+            title: 1,
+            newPrice: 1,
+            stock: 1,
+            "images.gallery": { $slice: 1 },
+        });
+    },
 };

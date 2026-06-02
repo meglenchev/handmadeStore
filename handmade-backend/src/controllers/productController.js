@@ -84,3 +84,22 @@ productController.get("/products/special", async (req, res) => {
         });
     }
 });
+
+productController.post("/products/cart", async (req, res) => {
+    try {
+        const { productIds } = req.body;
+        if (!Array.isArray(productIds) || productIds.length === 0) {
+            return res.status(400).json({
+                message: "Product IDs must be a non-empty array",
+            });
+        }
+
+        const cartProducts = await productServices.getCartProducts(productIds);
+        res.json(cartProducts);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});
