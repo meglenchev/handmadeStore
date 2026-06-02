@@ -85,7 +85,7 @@ productController.get("/products/special", async (req, res) => {
     }
 });
 
-productController.post("/products/cart", async (req, res) => {
+productController.post("/products/check", async (req, res) => {
     try {
         const { productIds } = req.body;
         if (!Array.isArray(productIds) || productIds.length === 0) {
