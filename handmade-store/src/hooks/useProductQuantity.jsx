@@ -5,7 +5,7 @@ export function useProductQuantity(productData, cart) {
 
     useEffect(() => {
         if (productData) {
-            const cartItem = cart?.find((item) => item.id === productData.id);
+            const cartItem = cart?.find((item) => item._id === productData._id);
             setQuantity(cartItem ? cartItem.quantity : 1);
         }
     }, [productData, cart]);

@@ -30,7 +30,7 @@ export function QuickView() {
                 <div className="row learts-mb-n30">
                     {/* Product Images Start */}
                     <div className="col-lg-6 col-12 learts-mb-30">
-                        <QuickViewGallery image={productData.image} hoverImage={productData.hoverImage} title={productData.title} />
+                        <QuickViewGallery image={productData.images.gallery[0]} hoverImage={productData.images.gallery[1]} title={productData.title} />
                     </div>
                     {/* Product Summery Start */}
                     <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
