@@ -103,3 +103,31 @@ productController.post("/products/check", async (req, res) => {
         });
     }
 });
+
+productController.get("/products/search", async (req, res) => {
+    try {
+        const { query, category } = req.query;
+        const searchResults = await productServices.getSearchResults(
+            query,
+            category,
+        );
+        res.status(200).json(searchResults);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});
+
+productController.get("/products/categories", async (req, res) => {
+    try {
+        const categories = await productServices.getProductsCategory();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});

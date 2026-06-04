@@ -45,4 +45,26 @@ export default {
             "images.gallery": { $slice: 1 },
         });
     },
+    getSearchResults(query, category) {
+        let filter = {};
+
+        if (query) {
+            const searchRegex = new RegExp(query, "i");
+            filter.$or = [{ title: searchRegex }, { category: searchRegex }];
+        }
+
+        if (category && category !== "all") {
+            filter.category = category.toLowerCase();
+        }
+
+        return Product.find(filter).select({
+            title: 1,
+            category: 1,
+            newPrice: 1,
+            "images.gallery": { $slice: 2 },
+        });
+    },
+    getProductsCategory() {
+        return Product.find().distinct("category");
+    },
 };
