@@ -4276,6 +4276,7 @@ body.offcanvas.show .sticky-header {
 .offcanvas.offcanvas-search {
     width: 100%;
     padding: 40px;
+    overflow-y: auto;
     -webkit-transition: all 0.5s ease 0.5s;
     transition: all 0.5s ease 0.5s;
 }
@@ -4295,6 +4296,7 @@ body.offcanvas.show .sticky-header {
 
 .offcanvas.offcanvas-search .inner {
     z-index: 10;
+    width: 100%;
 }
 
 .offcanvas.offcanvas-search .inner .offcanvas-close {
@@ -4351,6 +4353,11 @@ body.offcanvas.show .sticky-header {
     width: 0;
     -webkit-transition: all 0.5s ease 0.5s;
     transition: all 0.5s ease 0.5s;
+}
+
+.offcanvas.offcanvas-search .offcanvas-body {
+    position: relative;
+    z-index: 9;
 }
 
 .offcanvas.offcanvas-header {
@@ -4626,6 +4633,15 @@ body.offcanvas.show .sticky-header {
 
 .offcanvas-search-form input[type='text']:-ms-input-placeholder {
     opacity: 0.5;
+}
+
+.offcanvas-search-form input.input-error[type='text'] {
+    border-color: var(--color-danger);
+}
+
+.offcanvas-search-form input.input-error[type='text']::placeholder {
+    color: var(--color-danger);
+    opacity: 1;
 }
 
 .offcanvas-search-form .select2 {

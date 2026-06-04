@@ -1,5 +1,7 @@
 export const ENDPOINTS = {
     PRODUCTS: {
+        SEARCH: '/products/search',
+        ALL_CATEGORY: '/products/categories',
         SPECIAL: '/products/special',
         ALL: '/products',
         CHECK_PRODUCT: '/products/check',
