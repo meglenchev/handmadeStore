@@ -45,16 +45,30 @@ export default {
             "images.gallery": { $slice: 1 },
         });
     },
+    getProductsCategory() {
+        return Product.find().distinct("category");
+    },
     getSearchResults(query, category) {
         let filter = {};
+        let conditions = [];
 
-        if (query) {
-            const searchRegex = new RegExp(query, "i");
-            filter.$or = [{ title: searchRegex }, { category: searchRegex }];
+        const cleanQuery = query ? query.trim() : "";
+
+        if (cleanQuery) {
+            const searchRegex = new RegExp(cleanQuery, "i");
+            conditions.push({
+                $or: [{ title: searchRegex }, { category: searchRegex }],
+            });
         }
 
-        if (category && category !== "all") {
-            filter.category = category.toLowerCase();
+        if (category && category.trim() !== "" && category !== "all") {
+            conditions.push({
+                category: new RegExp(`^${category.trim()}$`, "i"),
+            });
+        }
+
+        if (conditions.length > 0) {
+            filter = { $and: conditions };
         }
 
         return Product.find(filter).select({
@@ -63,8 +77,5 @@ export default {
             newPrice: 1,
             "images.gallery": { $slice: 2 },
         });
-    },
-    getProductsCategory() {
-        return Product.find().distinct("category");
     },
 };

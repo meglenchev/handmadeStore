@@ -70,7 +70,6 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
     const formattedCategories = useMemo(() => {
         if (!Array.isArray(data)) return [];
-
         return data.map((cat) => ({
             value: cat,
             label: cat
@@ -83,19 +82,23 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     const options = Array.isArray(formattedCategories) ? formattedCategories : [];
     const selectOptions = [{ value: 'all', label: 'Всички категории' }, ...options];
 
-    function validate(values) {
-        let newErrors = {};
-        if (!values.name?.trim()) {
-            newErrors.name = 'Полето е задължително!';
-        }
-        return newErrors;
-    }
+    const submitSearch = async (currentFormValues) => {
+        const searchWord = currentFormValues.name ? currentFormValues.name.trim() : '';
+        const selectedCategory = currentFormValues.category || 'all';
 
-    const submitSearch = async (formValues) => {
+        if (!searchWord && selectedCategory === 'all') {
+            return;
+        }
+
         setIsLoading(true);
 
         try {
-            const response = await fetch(`${BASE_URL}${ENDPOINTS.PRODUCTS.SEARCH}?query=${formValues.name}&category=${formValues.category}`);
+            const queryParams = new URLSearchParams({
+                query: searchWord,
+                category: selectedCategory,
+            });
+
+            const response = await fetch(`${BASE_URL}${ENDPOINTS.PRODUCTS.SEARCH}?${queryParams}`);
 
             if (!response.ok) {
                 throw new Error('Грешка при извличане на данните');
@@ -104,23 +107,23 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
             const data = await response.json();
             setProducts(data);
         } catch (err) {
-            console.error(err.message);
+            console.error('Грешка при търсене:', err.message);
             setProducts([]);
         } finally {
             setIsLoading(false);
         }
     };
 
-    const { formAction, inputPropertiesRegister, formErrors, formValues, setFormValues, setFormErrors } = useForm(submitSearch, initialSearchValues, validate);
+    const { inputPropertiesRegister, formValues, setFormValues } = useForm(() => {}, initialSearchValues, null);
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        submitSearch(formValues);
+    };
 
     const handleCloseAndClear = (menuType) => (e) => {
         setProducts([]);
         setFormValues(initialSearchValues);
-
-        if (typeof setFormErrors === 'function') {
-            setFormErrors({});
-        }
-
         toggleMenu(menuType)(e);
     };
 
@@ -129,18 +132,13 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
             <Offcanvas.Header>
                 <div className="inner">
                     <div className="offcanvas-search-form">
-                        <button onClick={handleCloseAndClear('search')} className="offcanvas-close">
+                        <button type="button" onClick={handleCloseAndClear('search')} className="offcanvas-close">
                             ×
                         </button>
-                        <form onSubmit={formAction}>
+                        <form onSubmit={handleFormSubmit}>
                             <div className="row mb-n3">
                                 <div className="col-lg-8 col-12 mb-3">
-                                    <input
-                                        type="text"
-                                        {...inputPropertiesRegister('name')}
-                                        placeholder={formErrors.name ? 'Не сте въвели име' : 'Търсене на продукти...'}
-                                        className={formErrors.name ? 'input-error' : ''}
-                                    />
+                                    <input type="text" {...inputPropertiesRegister('name')} placeholder="Търсене на продукти..." />
                                 </div>
                                 <div className="col-lg-4 col-12 mb-3">
                                     <Select
@@ -157,6 +155,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                     />
                                 </div>
                             </div>
+                            <button type="submit" style={{ display: 'none' }} aria-hidden="true" />
                         </form>
                     </div>
                     <p className="search-description text-body-light mt-2">
