@@ -62,13 +62,13 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
             const data = await response.json();
             setProducts(data);
+            setIsLoading(false);
         } catch (err) {
             if (err.name !== 'AbortError') {
                 console.error('Грешка при търсене:', err.message);
                 setProducts([]);
+                setIsLoading(false);
             }
-        } finally {
-            setIsLoading(false);
         }
     }, []);
 
