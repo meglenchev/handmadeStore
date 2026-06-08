@@ -1,65 +1,17 @@
 import { Offcanvas } from 'react-bootstrap';
 import { useForm } from '@/hooks/useForm.js';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { ENDPOINTS } from '@/utils/endpoints.js';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 import { useQuery } from '@/hooks/useQuery.js';
+import { useDebounce } from '@/hooks/useDebounce.jsx';
 import Select from 'react-select';
+import { customStyles } from '@/utils/customStyles.js';
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const initialSearchValues = {
     name: '',
     category: 'all',
-};
-
-const customStyles = {
-    control: (provided, state) => ({
-        ...provided,
-        backgroundColor: '#ffffff',
-        borderRadius: '0',
-        borderTop: 'none',
-        borderLeft: 'none',
-        borderRight: 'none',
-        borderWidth: '2px',
-        borderColor: state.isFocused ? '#f8796c' : '#333333', // Бордер при фокус и нормално състояние
-        boxShadow: state.isFocused ? '0' : 'none',
-        cursor: 'pointer',
-        '&:hover': {
-            borderColor: '#f8796c', // Бордер при ховър
-        },
-        color: '#333333',
-    }),
-    singleValue: (provided) => ({
-        ...provided,
-        color: '#333333', // Цвят на текста на избраната опция
-    }),
-    menu: (provided) => ({
-        ...provided,
-        backgroundColor: '#ffffff', // Фон на падащото меню
-        border: 'none',
-        boxShadow: 'none',
-        borderRadius: '0',
-        padding: '0',
-    }),
-    option: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected
-            ? '#ff6b6b' // Фон на избраната опция вътре в менюто
-            : state.isFocused
-              ? '#98d8ca' // Фон при посочване с мишката (hover)
-              : '#f2f2f2', // Нормален фон на опция
-        color: state.isSelected ? '#ffffff' : '#333333', // Цвят на текста
-        cursor: 'pointer',
-        '&:hover': {
-            color: '#ffffff',
-        },
-        '&:active': {
-            backgroundColor: '#f8796c',
-        },
-    }),
-    placeholder: (provided) => ({
-        ...provided,
-        color: '#666666', // Цвят на placeholder текста
-    }),
 };
 
 export function SearchOffcanvas({ activeMenu, toggleMenu }) {
@@ -81,12 +33,14 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
     const options = Array.isArray(formattedCategories) ? formattedCategories : [];
     const selectOptions = [{ value: 'all', label: 'Всички категории' }, ...options];
+    const { inputPropertiesRegister, formValues, setFormValues } = useForm(() => {}, initialSearchValues, null);
 
-    const submitSearch = async (currentFormValues) => {
-        const searchWord = currentFormValues.name ? currentFormValues.name.trim() : '';
-        const selectedCategory = currentFormValues.category || 'all';
+    const submitSearch = useCallback(async (searchName, searchCategory, abortSignal) => {
+        const searchWord = searchName ? searchName.trim() : '';
+        const selectedCategory = searchCategory || 'all';
 
-        if (!searchWord && selectedCategory === 'all') {
+        if (!searchWord) {
+            setProducts([]);
             return;
         }
 
@@ -98,7 +52,9 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                 category: selectedCategory,
             });
 
-            const response = await fetch(`${BASE_URL}${ENDPOINTS.PRODUCTS.SEARCH}?${queryParams}`);
+            const response = await fetch(`${BASE_URL}${ENDPOINTS.PRODUCTS.SEARCH}?${queryParams}`, {
+                signal: abortSignal,
+            });
 
             if (!response.ok) {
                 throw new Error('Грешка при извличане на данните');
@@ -107,19 +63,30 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
             const data = await response.json();
             setProducts(data);
         } catch (err) {
-            console.error('Грешка при търсене:', err.message);
-            setProducts([]);
+            if (err.name !== 'AbortError') {
+                console.error('Грешка при търсене:', err.message);
+                setProducts([]);
+            }
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const { inputPropertiesRegister, formValues, setFormValues } = useForm(() => {}, initialSearchValues, null);
+    }, []);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        submitSearch(formValues);
     };
+
+    const debouncedSearchTerm = useDebounce(formValues.name, 1000);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        submitSearch(debouncedSearchTerm, formValues.category, controller.signal);
+
+        return () => {
+            controller.abort();
+        };
+    }, [debouncedSearchTerm, formValues.category, submitSearch]);
 
     const handleCloseAndClear = (menuType) => (e) => {
         setProducts([]);
@@ -144,7 +111,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                     <Select
                                         options={selectOptions}
                                         styles={customStyles}
-                                        defaultValue={selectOptions[0]}
+                                        defaultValue={{ value: 'all', label: 'Всички категории' }}
                                         value={selectOptions.find((opt) => opt.value === formValues.category)}
                                         onChange={(selectedOption) => {
                                             setFormValues((state) => ({ ...state, category: selectedOption.value }));
@@ -174,6 +141,8 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 <li key={product._id}>{product.title}</li>
                             ))}
                         </ul>
+                    ) : formValues.name.trim() === '' ? (
+                        <p className="text-muted">Започнете да пишете, за да намерите продукти.</p>
                     ) : (
                         <p>Няма намерени продукти.</p>
                     )}
