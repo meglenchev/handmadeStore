@@ -6,6 +6,8 @@ import { useQuery } from '@/hooks/useQuery.js';
 import { useDebounce } from '@/hooks/useDebounce.jsx';
 import Select from 'react-select';
 import { customStyles } from '@/utils/customStyles.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
@@ -136,11 +138,37 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                     {isLoading ? (
                         <p>Търсене...</p>
                     ) : products.length > 0 ? (
-                        <ul>
+                        <div className="products row row-cols-md-4 row-cols-sm-2 row-cols-1">
                             {products.map((product) => (
-                                <li key={product._id}>{product.title}</li>
+                                <div key={product._id} className="col">
+                                    <div className="product">
+                                        <div className="product-thumb">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
+                                                <span className="product-badges">
+                                                    {product.outofstock && (
+                                                        <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
+                                                            <FontAwesomeIcon icon="frown" />
+                                                        </span>
+                                                    )}
+                                                    {product.hot && <span className="hot">hot</span>}
+                                                </span>
+                                                <img src={product.images.gallery[0]} alt={product.title} />
+                                                <img className="image-hover " src={product.images.gallery[1]} alt={product.title} />
+                                            </Link>
+                                        </div>
+                                        <div className="product-info">
+                                            <h6 className="title">{product.title}</h6>
+                                            <span className="price">€{product.newPrice.toFixed(2)}</span>
+                                            <div className="product-buttons">
+                                                <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="product-button hintT-top" data-hint="Разгледайте продукта">
+                                                    <FontAwesomeIcon icon="eye" />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     ) : formValues.name.trim() === '' ? (
                         <p className="text-muted">Започнете да пишете, за да намерите продукти.</p>
                     ) : (

@@ -18,6 +18,7 @@ import {
     faTag,
     faBolt,
     faStar,
+    faEye,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -46,5 +47,6 @@ library.add(
     faFire,
     faTag,
     faBolt,
-    faStar
+    faStar,
+    faEye
 );
