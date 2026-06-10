@@ -4276,7 +4276,6 @@ body.offcanvas.show .sticky-header {
 .offcanvas.offcanvas-search {
     width: 100%;
     padding: 40px;
-    overflow-y: auto;
     -webkit-transition: all 0.5s ease 0.5s;
     transition: all 0.5s ease 0.5s;
 }
@@ -4358,6 +4357,12 @@ body.offcanvas.show .sticky-header {
 .offcanvas.offcanvas-search .offcanvas-body {
     position: relative;
     z-index: 9;
+    overflow: hidden;
+}
+
+.offcanvas.offcanvas-search .offcanvas-body .inner .products {
+    height: calc(100vh - 205px);
+    overflow-y: auto;
 }
 
 .offcanvas-search .offcanvas-header form .col-lg-4 {
@@ -9378,6 +9383,7 @@ body.offcanvas.show .sticky-header {
 /* Page Title Section */
 .page-title-section {
     padding: 130px 0;
+    background-color: var(--bg-grey);
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px) {

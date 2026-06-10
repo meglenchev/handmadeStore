@@ -138,7 +138,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                     {isLoading ? (
                         <p>Търсене...</p>
                     ) : products.length > 0 ? (
-                        <div className="products row row-cols-md-4 row-cols-sm-2 row-cols-1">
+                        <div className="products row row-cols-lg-6 row-cols-md-4 row-cols-sm-3 row-cols-1">
                             {products.map((product) => (
                                 <div key={product._id} className="col">
                                     <div className="product">
