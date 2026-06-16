@@ -79,7 +79,7 @@ export function Product() {
                                         <span>€{data.newPrice?.toFixed(2)}</span>
                                     )}
                                 </div>
-                                <div className="product-description">{data.description}</div>
+                                <div className="product-description">{data.shortDescription}</div>
 
                                 <ProductVariations size={data.size} stock={data.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
 

@@ -41,7 +41,7 @@ export function QuickView() {
                                 <span className="old">€{productData.oldPrice.toFixed(2)}</span> - €{productData.newPrice.toFixed(2)}
                             </div>
                             <div className="product-description">
-                                <p>{productData.description}</p>
+                                <p>{productData.shortDescription}</p>
                             </div>
 
                             <ProductVariations size={productData.size} stock={productData.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
