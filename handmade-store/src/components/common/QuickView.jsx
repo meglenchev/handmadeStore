@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
-import { QuickViewGallery } from './QuickViewGallery.jsx';
-import { QuickViewVariations } from './QuickViewVariations.jsx';
+import { ProductGallery } from './ProductGallery.jsx';
+import { ProductVariations } from './ProductVariations.jsx';
+import { Link } from 'react-router';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
@@ -30,25 +31,26 @@ export function QuickView() {
                 <div className="row learts-mb-n30">
                     {/* Product Images Start */}
                     <div className="col-lg-6 col-12 learts-mb-30">
-                        <QuickViewGallery image={productData.images.gallery[0]} hoverImage={productData.images.gallery[1]} title={productData.title} />
+                        <ProductGallery images={productData.images.gallery} title={productData.title} />
                     </div>
                     {/* Product Summery Start */}
-                    <div className="col-lg-6 col-12 overflow-hidden position-relative learts-mb-30">
+                    <div className="col-lg-6 col-12 position-relative learts-mb-30">
                         <div className="product-summery customScroll">
                             <h3 className="product-title">{productData.title}</h3>
                             <div className="product-price">
-                                €{productData.newPrice.toFixed(2)} – €{productData.oldPrice.toFixed(2)}
+                                <span className="old">€{productData.oldPrice.toFixed(2)}</span> - €{productData.newPrice.toFixed(2)}
                             </div>
                             <div className="product-description">
-                                <p>{productData.descriptiption}</p>
+                                <p>{productData.description}</p>
                             </div>
 
-                            <QuickViewVariations size={productData.size} stock={productData.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
+                            <ProductVariations size={productData.size} stock={productData.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
 
                             <div className="product-buttons">
                                 <button
                                     onClick={() => toggleWishlist(productData)}
-                                    className={`btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist ${isInWishlist ? 'added' : ''}`}>
+                                    className={`btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist hintT-top ${isInWishlist ? 'added' : ''}`}
+                                    data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
                                     <FontAwesomeIcon icon="heart" />
                                 </button>
 
@@ -66,7 +68,7 @@ export function QuickView() {
                                             <td className="value">
                                                 <ul className="product-category">
                                                     <li>
-                                                        <a href="#">{productData.category}</a>
+                                                        <Link to={`/product/${productData.category}`}>{productData.category}</Link>
                                                     </li>
                                                 </ul>
                                             </td>

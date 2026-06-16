@@ -91,7 +91,7 @@ export function DealOfTheDay() {
                                               <div className="product-thumb">
                                                   <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
                                                       <span className="product-badges">
-                                                          <span className="onsale">{product.discount}%</span>
+                                                          <span className="onsale">{Math.round(product.discount)}%</span>
                                                       </span>
                                                       <img src={product.images.gallery[0]} alt={product.title} />
                                                       <img className="image-hover" src={product.images.gallery[1]} alt={product.title} />
