@@ -20,7 +20,8 @@ const productSchema = new Schema(
         shortDescription: {
             type: String,
             trim: true,
-            maxLength: [150, "Short description cannot exceed 150 characters"],
+            required: [true, "Short description is required"],
+            maxLength: [100, "Short description cannot exceed 150 characters"],
         },
         oldPrice: {
             type: Number,
@@ -31,11 +32,6 @@ const productSchema = new Schema(
             type: Number,
             required: [true, "New Price is required"],
             min: [0, "New Price should be a positive number"],
-        },
-        discount: {
-            type: Number,
-            min: [-100, "Discount should be between -100 and 0"],
-            max: [0, "Discount should be between -100 and 0"],
         },
         outofstock: {
             type: Boolean,

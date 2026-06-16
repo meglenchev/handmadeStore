@@ -15,9 +15,36 @@ export default {
         return Product.find(query).sort({ createdAt: -1 }).limit(limit);
     },
     getTopDiscounted() {
-        return Product.find({ outofstock: false, discount: { $lt: -10 } })
-            .sort({ discount: 1 })
-            .limit(12);
+        return Product.aggregate([
+            {
+                $match: {
+                    outofstock: false,
+                    oldPrice: { $exists: true, $gt: 0 },
+                },
+            },
+            {
+                $addFields: {
+                    discount: {
+                        $multiply: [
+                            {
+                                $divide: [
+                                    { $subtract: ["$newPrice", "$oldPrice"] },
+                                    "$oldPrice",
+                                ],
+                            },
+                            100,
+                        ],
+                    },
+                },
+            },
+            {
+                $match: {
+                    discount: { $lt: -10 },
+                },
+            },
+            { $sort: { discount: 1 } },
+            { $limit: 12 },
+        ]);
     },
     getBestSellers() {
         return Product.find({ outofstock: false }).sort({ sold: -1 }).limit(12);
