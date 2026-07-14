@@ -4,7 +4,7 @@ import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
 import { useQuery } from '@/hooks/useQuery.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
 import { ProductGallery } from '@/components/common/ProductGallery.jsx';
@@ -16,6 +16,7 @@ export function Product() {
     const { cart, addToCart } = useContext(ShopContext);
     const { quantity, handleMinus, handlePlus } = useProductQuantity(data, cart);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
+    const [activeTab, setActiveTab] = useState('description');
 
     if (loading) {
         return <ProductSkeleton />;
@@ -163,26 +164,22 @@ export function Product() {
             <div className="section section-padding border-bottom">
                 <div className="container">
                     <ul className="nav product-info-tab-list">
-                        <li>
-                            <a className="active" data-bs-toggle="tab" href="#tab-description">
-                                Description
-                            </a>
+                        <li className={activeTab === 'description' ? 'active' : ''} onClick={() => setActiveTab('description')}>
+                            Description
                         </li>
-                        <li>
-                            <a data-bs-toggle="tab" href="#tab-additional_information">
-                                Additional information
-                            </a>
+                        <li className={activeTab === 'additional' ? 'active' : ''} onClick={() => setActiveTab('additional')}>
+                            Additional information
                         </li>
                     </ul>
-                    <div className="tab-content product-infor-tab-content">
-                        <div className="tab-pane fade show active" id="tab-description">
-                            <div className="row">
+                    <div className="product-info-tab-content">
+                        {activeTab === 'description' && (
+                            <div className="row row-description">
                                 <div className="col-lg-10 col-12 mx-auto">{data.description}</div>
                             </div>
-                        </div>
+                        )}
 
-                        <div className="tab-pane fade" id="tab-additional_information">
-                            <div className="row">
+                        {activeTab === 'additional' && (
+                            <div className="row row-additional">
                                 <div className="col-lg-8 col-md-10 col-12 mx-auto">
                                     <div className="table-responsive">
                                         <table className="table table-bordered">
@@ -200,7 +197,7 @@ export function Product() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>
