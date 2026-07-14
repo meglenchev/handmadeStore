@@ -41,11 +41,11 @@ export function ProductItem({ product }) {
                     </h6>
                     <span className="price">€{product.newPrice.toFixed(2)}</span>
                     <div className="product-buttons">
-                        <button onClick={() => openQuickView(product)} className="product-button hintT-top" data-hint="Бърз преглед">
+                        <button onClick={() => openQuickView(product)} className="btn btn-dark btn-circle hintT-top" data-hint="Бърз преглед">
                             <FontAwesomeIcon icon="search" />
                         </button>
                         {!product.outofstock && (
-                            <button onClick={() => addToCart(product)} className="product-button hintT-top" data-hint="Добавяне в количката">
+                            <button onClick={() => addToCart(product)} className="btn btn-primary btn-circle hintT-top" data-hint="Добавяне в количката">
                                 <FontAwesomeIcon icon="shopping-cart" />
                             </button>
                         )}

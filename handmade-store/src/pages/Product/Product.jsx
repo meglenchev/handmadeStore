@@ -87,11 +87,11 @@ export function Product() {
                                 <div className="product-buttons">
                                     <button
                                         onClick={() => toggleWishlist(data)}
-                                        className={`btn btn-icon btn-outline-body btn-hover-dark hintT-top btn-add-to-wishlist ${isInWishlist ? 'added' : ''}`}
+                                        className={`btn btn-outline-dark btn-circle hintT-top ${isInWishlist ? 'added' : ''}`}
                                         data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
                                         <FontAwesomeIcon icon="heart" />
                                     </button>
-                                    <button onClick={() => addToCart(data, quantity)} className="btn btn-dark btn-outline-hover-dark">
+                                    <button onClick={() => addToCart(data, quantity)} className="btn btn-primary">
                                         <FontAwesomeIcon icon="shopping-cart" /> Добави в количката
                                     </button>
                                 </div>

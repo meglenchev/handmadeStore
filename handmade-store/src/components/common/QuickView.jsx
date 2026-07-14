@@ -49,12 +49,12 @@ export function QuickView() {
                             <div className="product-buttons">
                                 <button
                                     onClick={() => toggleWishlist(productData)}
-                                    className={`btn btn-icon btn-outline-body btn-hover-dark btn-add-to-wishlist hintT-top ${isInWishlist ? 'added' : ''}`}
+                                    className={`btn btn-outline-dark btn-circle hintT-top ${isInWishlist ? 'added' : ''}`}
                                     data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
                                     <FontAwesomeIcon icon="heart" />
                                 </button>
 
-                                <button onClick={() => addToCart(productData, quantity)} className="btn btn-dark btn-outline-hover-dark" disabled={productData.outofstock}>
+                                <button onClick={() => addToCart(productData, quantity)} className="btn btn-primary" disabled={productData.outofstock}>
                                     <FontAwesomeIcon icon="shopping-cart" /> {productData.outofstock ? 'Продукта не е наличен' : 'Добавяне в количката'}
                                 </button>
                             </div>
