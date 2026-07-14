@@ -96,6 +96,12 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
         toggleMenu(menuType)(e);
     };
 
+    const handleProductLinkClick = () => {
+        setProducts([]);
+        setFormValues(initialSearchValues);
+        toggleMenu('search')();
+    };
+
     return (
         <Offcanvas show={activeMenu.search} onHide={handleCloseAndClear('search')} placement="start" className="offcanvas offcanvas-search">
             <Offcanvas.Header>
@@ -143,7 +149,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={handleProductLinkClick}>
                                                 <span className="product-badges">
                                                     {product.outofstock && (
                                                         <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
@@ -160,7 +166,11 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                             <h6 className="title">{product.title}</h6>
                                             <span className="price">€{product.newPrice.toFixed(2)}</span>
                                             <div className="product-buttons">
-                                                <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="product-button hintT-top" data-hint="Разгледайте продукта">
+                                                <Link
+                                                    to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
+                                                    className="product-button hintT-top"
+                                                    data-hint="Разгледайте продукта"
+                                                    onClick={handleProductLinkClick}>
                                                     <FontAwesomeIcon icon="eye" />
                                                 </Link>
                                             </div>
