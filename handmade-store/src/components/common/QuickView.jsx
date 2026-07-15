@@ -6,6 +6,7 @@ import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import { useProductQuantity } from '@/hooks/useProductQuantity.jsx';
 import { ProductGallery } from './ProductGallery.jsx';
+import { ProductShare } from './ProductShare.jsx';
 import { ProductVariations } from './ProductVariations.jsx';
 import { Link } from 'react-router';
 
@@ -102,17 +103,11 @@ export function QuickView() {
                                                 <span>Споделете на</span>
                                             </td>
                                             <td className="value">
-                                                <div className="product-share">
-                                                    <a href="#">
-                                                        <FontAwesomeIcon icon={['fab', 'facebook-f']} />
-                                                    </a>
-                                                    <a href="#">
-                                                        <FontAwesomeIcon icon={['fab', 'pinterest']} />
-                                                    </a>
-                                                    <a href="#">
-                                                        <FontAwesomeIcon icon="envelope" />
-                                                    </a>
-                                                </div>
+                                                <ProductShare
+                                                    productUrl={`${window.location.origin}/products/${productData._id}/details`}
+                                                    productTitle={productData.title}
+                                                    productImage={productData.images.gallery[0]}
+                                                />
                                             </td>
                                         </tr>
                                     </tbody>

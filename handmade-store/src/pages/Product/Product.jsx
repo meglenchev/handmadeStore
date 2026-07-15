@@ -9,6 +9,7 @@ import { Link, useParams } from 'react-router';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
 import { ProductGallery } from '@/components/common/ProductGallery.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
+import { ProductShare } from '@/components/common/ProductShare.jsx';
 
 export function Product() {
     const { productId } = useParams();
@@ -63,7 +64,7 @@ export function Product() {
                                 <a href="https://www.youtube.com/watch?v=1jSsy7DtYgc" className="product-video-popup video-popup hintT-left" data-hint="Click to see video">
                                     <FontAwesomeIcon icon="play" />
                                 </a>
-                                <ProductGallery images={data.images?.gallery} title={data.title} />
+                                <ProductGallery images={data?.images?.gallery} title={data?.title} />
                             </div>
                         </div>
                         {/* Product Images End */}
@@ -139,17 +140,11 @@ export function Product() {
                                                     <span>Споделете на</span>
                                                 </td>
                                                 <td className="va">
-                                                    <div className="product-share">
-                                                        <a href="#">
-                                                            <FontAwesomeIcon icon={['fab', 'facebook-f']} />
-                                                        </a>
-                                                        <a href="#">
-                                                            <FontAwesomeIcon icon={['fab', 'pinterest']} />
-                                                        </a>
-                                                        <a href="#">
-                                                            <FontAwesomeIcon icon="envelope" />
-                                                        </a>
-                                                    </div>
+                                                    <ProductShare
+                                                        productUrl={`${window.location.origin}/products/${data?.id}/details`}
+                                                        productTitle={data?.title}
+                                                        productImage={data?.images?.gallery[0] || ''}
+                                                    />
                                                 </td>
                                             </tr>
                                         </tbody>
