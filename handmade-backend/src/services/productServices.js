@@ -86,9 +86,6 @@ export default {
             "images.gallery": { $slice: 1 },
         });
     },
-    getProductsCategory() {
-        return Product.find().distinct("category");
-    },
     getSearchResults(query, category) {
         let filter = {};
         let conditions = [];
