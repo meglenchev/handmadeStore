@@ -4,11 +4,11 @@ import { Link } from 'react-router';
 
 export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFromCart }) {
     return (
-        <Offcanvas show={activeMenu.cart} onHide={toggleMenu('cart')} placement="end" className="offcanvas offcanvas-cart">
+        <Offcanvas show={activeMenu.cart} onHide={() => toggleMenu('cart')} placement="end" className="offcanvas offcanvas-cart">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Количка</span>
-                    <button onClick={toggleMenu('cart')} className="offcanvas-close">
+                    <button onClick={() => toggleMenu('cart')} className="offcanvas-close">
                         ×
                     </button>
                 </Offcanvas.Header>
@@ -18,11 +18,11 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                             <ul className="minicart-product-list">
                                 {cart.map((item) => (
                                     <li key={item._id}>
-                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')(null)} className="image">
+                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')} className="image">
                                             <img src={item.images.gallery[0]} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')(null)} className="title">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')} className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">

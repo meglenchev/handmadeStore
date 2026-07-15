@@ -90,24 +90,18 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
         };
     }, [debouncedSearchTerm, formValues.category, submitSearch]);
 
-    const handleCloseAndClear = (menuType) => (e) => {
+    const handleCloseAndClear = (menuType) => {
         setProducts([]);
         setFormValues(initialSearchValues);
-        toggleMenu(menuType)(e);
-    };
-
-    const handleProductLinkClick = () => {
-        setProducts([]);
-        setFormValues(initialSearchValues);
-        toggleMenu('search')(null);
+        toggleMenu(menuType);
     };
 
     return (
-        <Offcanvas show={activeMenu.search} onHide={handleCloseAndClear('search')} placement="start" className="offcanvas offcanvas-search">
+        <Offcanvas show={activeMenu.search} onHide={() => handleCloseAndClear('search')} placement="start" className="offcanvas offcanvas-search">
             <Offcanvas.Header>
                 <div className="inner">
                     <div className="offcanvas-search-form">
-                        <button type="button" onClick={handleCloseAndClear('search')} className="offcanvas-close">
+                        <button type="button" onClick={() => handleCloseAndClear('search')} className="offcanvas-close">
                             ×
                         </button>
                         <form onSubmit={handleFormSubmit}>
@@ -149,7 +143,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={handleProductLinkClick}>
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={handleCloseAndClear('search')}>
                                                 <span className="product-badges">
                                                     {product.outofstock && (
                                                         <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
@@ -170,7 +164,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                                     to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
                                                     className="product-button hintT-top"
                                                     data-hint="Разгледайте продукта"
-                                                    onClick={handleProductLinkClick}>
+                                                    onClick={() => handleCloseAndClear('search')}>
                                                     <FontAwesomeIcon icon="eye" />
                                                 </Link>
                                             </div>

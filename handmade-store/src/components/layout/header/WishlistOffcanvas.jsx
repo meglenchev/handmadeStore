@@ -1,15 +1,16 @@
 import { Offcanvas } from 'react-bootstrap';
+import { ENDPOINTS } from '@/utils/endpoints.js';
 import { Link } from 'react-router';
 
 export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWishlist }) {
     const wishlistItems = wishlist || [];
 
     return (
-        <Offcanvas show={activeMenu.wishlist} onHide={toggleMenu('wishlist')} placement="end" className="offcanvas offcanvas-wishlist">
+        <Offcanvas show={activeMenu.wishlist} onHide={() => toggleMenu('wishlist')} placement="end" className="offcanvas offcanvas-wishlist">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Любми</span>
-                    <button className="offcanvas-close" onClick={toggleMenu('wishlist')}>
+                    <button className="offcanvas-close" onClick={() => toggleMenu('wishlist')}>
                         ×
                     </button>
                 </Offcanvas.Header>
@@ -19,17 +20,17 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
                             <ul className="minicart-product-list">
                                 {wishlistItems.map((item) => (
                                     <li key={item._id}>
-                                        <Link to={`/product/${item._id}/details`} className="image">
+                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('wishlist')} className="image">
                                             <img src={item.image} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={`/product/${item._id}/details`} className="title">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('wishlist')} className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">
                                                 1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
                                             </span>
-                                            <button onClick={() => toggleWishlist(item)} className="remove">
+                                            <button onClick={() => toggleMenu('wishlist')} className="remove">
                                                 ×
                                             </button>
                                         </div>

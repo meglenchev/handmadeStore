@@ -11,9 +11,9 @@ export function MobileMenu({ activeMenu, toggleMenu }) {
     const { wishlistCount } = useContext(WishlistContext);
 
     return (
-        <Offcanvas show={activeMenu.mobile} onHide={toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
+        <Offcanvas show={activeMenu.mobile} onHide={() => toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
             <Offcanvas.Header className="head">
-                <button onClick={toggleMenu('mobile')} className="offcanvas-close">
+                <button onClick={() => toggleMenu('mobile')} className="offcanvas-close">
                     ×
                 </button>
             </Offcanvas.Header>

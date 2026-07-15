@@ -16,7 +16,7 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col">
                         <div className="header-tools">
                             <div className="mobile-menu-toggle">
-                                <button onClick={toggleMenu('desktop')} className="offcanvas-toggle">
+                                <button onClick={() => toggleMenu('desktop')} className="offcanvas-toggle">
                                     <svg viewBox="0 0 800 600">
                                         <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" className="top" />
                                         <path d="M300,320 L540,320" className="middle" />
@@ -49,18 +49,18 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                                 </Link>
                             </div>
                             <div className="header-search d-none d-sm-block">
-                                <button onClick={toggleMenu('search')} className={`offcanvas-toggle ${activeMenu.search ? 'close' : ''}`}>
+                                <button onClick={() => toggleMenu('search')} className={`offcanvas-toggle ${activeMenu.search ? 'close' : ''}`}>
                                     <FontAwesomeIcon icon="search" />
                                 </button>
                             </div>
                             <div className="header-wishlist">
-                                <button onClick={toggleMenu('wishlist')} className={`offcanvas-toggle ${activeMenu.wishlist ? 'close' : ''}`}>
+                                <button onClick={() => toggleMenu('wishlist')} className={`offcanvas-toggle ${activeMenu.wishlist ? 'close' : ''}`}>
                                     {wishlistCount > 0 && <span className="wishlist-count">{wishlistCount}</span>}
                                     <FontAwesomeIcon icon="heart" />
                                 </button>
                             </div>
                             <div className="header-cart">
-                                <button onClick={toggleMenu('cart')} className={`offcanvas-toggle ${activeMenu.cart ? 'close' : ''}`}>
+                                <button onClick={() => toggleMenu('cart')} className={`offcanvas-toggle ${activeMenu.cart ? 'close' : ''}`}>
                                     {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                                     <FontAwesomeIcon icon="shopping-cart" />
                                 </button>

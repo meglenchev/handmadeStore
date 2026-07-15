@@ -24,13 +24,9 @@ export function Header() {
         search: false,
     });
 
-    const toggleMenu = useCallback(
-        (name) => (e) => {
-            e?.preventDefault();
-            setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
-        },
-        []
-    );
+    const toggleMenu = useCallback((name) => {
+        setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
+    }, []);
 
     const { cart, cartCount, subtotal, removeFromCart, notification } = useContext(ShopContext);
     const { wishlist, toggleWishlist, wishlistCount } = useContext(WishlistContext);
