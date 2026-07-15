@@ -69,7 +69,7 @@ export function QuickView() {
                                             <td className="value">
                                                 <ul className="product-category">
                                                     <li>
-                                                        <Link to={`/product/${productData.category}`}>{productData.category}</Link>
+                                                        <Link to={`/products?category=${productData.category}`}>{productData.category}</Link>
                                                     </li>
                                                 </ul>
                                             </td>

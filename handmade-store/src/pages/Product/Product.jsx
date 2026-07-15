@@ -106,7 +106,7 @@ export function Product() {
                                                 <td className="value">
                                                     <ul className="product-category">
                                                         <li>
-                                                            <Link to={`/product/${data.category}`}>{data.category}</Link>
+                                                            <Link to={`/products?category=${data.category}`}>{data.category}</Link>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -192,7 +192,7 @@ export function Product() {
                                                 <tr>
                                                     <td>Category</td>
                                                     <td>
-                                                        <Link to={`/product/${data.category}`}>{data.category}</Link>
+                                                        <Link to={`/products?category=${data.category}`}>{data.category}</Link>
                                                     </td>
                                                 </tr>
                                             </tbody>
