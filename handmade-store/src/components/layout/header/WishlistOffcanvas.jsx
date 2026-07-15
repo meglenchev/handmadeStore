@@ -30,7 +30,7 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
                                             <span className="quantity-price">
                                                 1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
                                             </span>
-                                            <button onClick={() => toggleMenu('wishlist')} className="remove">
+                                            <button onClick={() => toggleWishlist(item)} className="remove">
                                                 ×
                                             </button>
                                         </div>
