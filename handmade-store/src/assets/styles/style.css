@@ -1856,314 +1856,11 @@ body.homepage-bg1.offcanvas-open {
     padding: 0;
 }
 
-/* .btn-primary {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary);
-    color: var(--text-white);
-}
-
-.btn-primary:hover {
-    border-color: var(--color-primary-hover);
-    background-color: var(--color-primary-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-primary {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-    background-color: transparent;
-}
-
-.btn-outline-primary:hover {
-    border-color: var(--color-primary-hover);
-    background-color: var(--color-primary-hover);
-    color: var(--text-white);
-}
-
-.btn-primary2 {
-    border-color: var(--color-primary-2);
-    background-color: var(--color-primary-2);
-    color: var(--text-white);
-}
-
-.btn-primary2:hover {
-    border-color: var(--color-primary-2-hover);
-    background-color: var(--color-primary-2-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-primary2 {
-    color: var(--color-primary-2);
-    border-color: var(--color-primary-2);
-    background-color: transparent;
-}
-
-.btn-outline-primary2:hover {
-    border-color: var(--color-primary-2);
-    background-color: var(--color-primary-2);
-    color: var(--text-white);
-}
-
-.btn-primary3 {
-    border-color: var(--color-primary-3);
-    background-color: var(--color-primary-3);
-    color: var(--text-white);
-}
-
-.btn-primary3:hover {
-    border-color: var(--color-primary-3-hover);
-    background-color: var(--color-primary-3-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-primary3 {
-    color: var(--color-primary-3);
-    border-color: var(--color-primary-3);
-    background-color: transparent;
-}
-
-.btn-outline-primary3:hover {
-    border-color: var(--color-primary-3-hover);
-    background-color: var(--color-primary-3-hover);
-    color: var(--text-white);
-}
-
-.btn-secondary {
-    border-color: var(--color-secondary);
-    background-color: var(--color-secondary);
-    color: var(--text-white);
-}
-
-.btn-secondary:hover {
-    border-color: var(--color-secondary-hover);
-    background-color: var(--color-secondary-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-secondary {
-    color: var(--color-secondary);
-    border-color: var(--color-secondary);
-    background-color: transparent;
-}
-
-.btn-outline-secondary:hover {
-    border-color: var(--color-secondary-hover);
-    background-color: var(--color-secondary-hover);
-    color: var(--text-white);
-}
-
-.btn-success {
-    border-color: var(--color-success);
-    background-color: var(--color-success);
-    color: var(--text-white);
-}
-
-.btn-success:hover {
-    border-color: var(--color-success-hover);
-    background-color: var(--color-success-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-success {
-    color: var(--color-success);
-    border-color: var(--color-success);
-    background-color: transparent;
-}
-
-.btn-outline-success:hover {
-    border-color: var(--color-success-hover);
-    background-color: var(--color-success-hover);
-    color: var(--text-white);
-}
-
-.btn-danger {
-    border-color: var(--color-danger);
-    background-color: var(--color-danger);
-    color: var(--text-white);
-}
-
-.btn-danger:hover {
-    border-color: var(--color-danger-hover);
-    background-color: var(--color-danger-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-danger {
-    color: var(--color-danger);
-    border-color: var(--color-danger);
-    background-color: transparent;
-}
-
-.btn-outline-danger:hover {
-    border-color: var(--color-danger-hover);
-    background-color: var(--color-danger-hover);
-    color: var(--text-white);
-}
-
-.btn-warning {
-    border-color: var(--color-warning);
-    background-color: var(--color-warning);
-    color: var(--text-dark);
-}
-
-.btn-warning:hover {
-    border-color: var(--color-warning-hover);
-    background-color: var(--color-warning-hover);
-    color: var(--text-dark);
-}
-
-.btn-outline-warning {
-    color: var(--color-warning);
-    border-color: var(--color-warning);
-    background-color: transparent;
-}
-
-.btn-outline-warning:hover {
-    border-color: var(--color-warning-hover);
-    background-color: var(--color-warning-hover);
-    color: var(--text-dark);
-}
-
-.btn-info {
-    border-color: var(--color-info);
-    background-color: var(--color-info);
-    color: var(--text-white);
-}
-
-.btn-info:hover {
-    border-color: var(--color-info-hover);
-    background-color: var(--color-info-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-info {
-    color: var(--color-info);
-    border-color: var(--color-info);
-    background-color: transparent;
-}
-
-.btn-outline-info:hover {
-    border-color: var(--color-info-hover);
-    background-color: var(--color-info-hover);
-    color: var(--text-white);
-}
-
-.btn-light {
-    border-color: var(--color-light);
-    background-color: var(--color-light);
-    color: var(--text-dark);
-}
-
-.btn-light:hover {
-    border-color: var(--color-light-hover);
-    background-color: var(--color-light-hover);
-    color: var(--text-dark);
-}
-
-.btn-outline-light {
-    color: var(--color-light);
-    border-color: var(--color-light);
-    background-color: transparent;
-}
-
-.btn-outline-light:hover {
-    border-color: var(--color-light-hover);
-    background-color: var(--color-light-hover);
-    color: var(--text-dark);
-}
-
-.btn-dark {
-    border-color: var(--color-dark);
-    background-color: var(--color-dark);
-    color: var(--text-white);
-}
-
-.btn-dark:hover {
-    border-color: var(--color-dark-hover);
-    background-color: var(--color-dark-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-dark {
-    color: var(--text-dark);
-    border-color: var(--color-dark);
-    background-color: transparent;
-}
-
-.btn-outline-dark:hover {
-    border-color: var(--color-dark-hover);
-    background-color: var(--color-dark-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-dark.added {
-    color: var(--color-primary);
-}
-
-.btn-outline-dark.added:hover {
-    color: var(--color-primary);
-}
-
-.btn-black {
-    border-color: var(--bg-black);
-    background-color: var(--bg-black);
-    color: var(--text-white);
-}
-
-.btn-black:hover {
-    border-color: var(--bg-black);
-    background-color: var(--bg-black);
-    color: var(--text-white);
-}
-
-.btn-outline-black {
-    color: var(--bg-black);
-    border-color: var(--bg-black);
-    background-color: transparent;
-}
-
-.btn-outline-black:hover {
-    border-color: var(--bg-black);
-    background-color: var(--bg-black);
-    color: var(--text-white);
-}
-
-.btn-grey {
-    border-color: var(--bg-grey);
-    background-color: var(--bg-grey);
-    color: var(--text-white);
-}
-
-.btn-grey:hover {
-    border-color: var(--bg-grey-hover);
-    background-color: var(--bg-grey-hover);
-    color: var(--text-white);
-}
-
-.btn-outline-grey {
-    color: var(--bg-grey);
-    border-color: var(--bg-grey);
-    background-color: transparent;
-}
-
-.btn-outline-grey:hover {
-    border-color: var(--bg-grey-hover);
-    background-color: var(--bg-grey-hover);
-    color: var(--text-white);
-} */
-
-/* -------------------------------------------------------------
-   0. ГЛОБАЛНО ПРЕМАХВАНЕ НА BOOTSTRAP СЕНКИТЕ ПРИ ФОКУС И КЛИК
-------------------------------------------------------------- */
 .btn:focus,
 .btn:active,
 .btn:focus-visible {
     box-shadow: none;
 }
-
-/* -------------------------------------------------------------
-   1. ВАШИТЕ СТИЛОВЕ С ДОБАВЕНИ СЪСТОЯНИЯ И ПОВИШЕНА СПЕЦИФИКА
-------------------------------------------------------------- */
 
 /* PRIMARY */
 .btn.btn-primary {
@@ -12273,7 +11970,7 @@ body.offcanvas.show .sticky-header {
 .product-thumb .add-to-wishlist {
     position: absolute;
     z-index: 7;
-    top: 15px;
+    top: 20px;
     right: 15px;
     visibility: hidden;
     width: 48px;
@@ -12285,9 +11982,7 @@ body.offcanvas.show .sticky-header {
     transform: translateY(10px);
     text-align: center;
     opacity: 0;
-    color: var(--color-secondary);
     border: none;
-    background: none;
 }
 
 .product-thumb .add-to-wishlist:hover {
@@ -12337,7 +12032,8 @@ body.offcanvas.show .sticky-header {
 }
 
 .product-badges span {
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 48px;
     z-index: 5;
     width: 48px;
