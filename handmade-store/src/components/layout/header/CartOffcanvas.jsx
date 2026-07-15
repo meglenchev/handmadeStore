@@ -1,3 +1,4 @@
+import { ENDPOINTS } from '@/utils/endpoints.js';
 import { Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router';
 
@@ -17,11 +18,11 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                             <ul className="minicart-product-list">
                                 {cart.map((item) => (
                                     <li key={item._id}>
-                                        <Link to={`/product-details/${item.id}`} className="image">
+                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')(null)} className="image">
                                             <img src={item.images.gallery[0]} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={`/product-details/${item._id}`} className="title">
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')(null)} className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">

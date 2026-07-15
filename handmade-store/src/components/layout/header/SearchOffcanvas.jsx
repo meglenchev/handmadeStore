@@ -99,7 +99,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     const handleProductLinkClick = () => {
         setProducts([]);
         setFormValues(initialSearchValues);
-        toggleMenu('search')();
+        toggleMenu('search')(null);
     };
 
     return (

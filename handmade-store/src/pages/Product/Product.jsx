@@ -181,11 +181,19 @@ export function Product() {
                                             <tbody>
                                                 <tr>
                                                     <td>Size</td>
-                                                    <td>Large, Medium, Small</td>
+                                                    <td>
+                                                        {data.size.map((s) => (
+                                                            <span className="learts-pr-10" key={s}>
+                                                                {s}
+                                                            </span>
+                                                        ))}
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Color</td>
-                                                    <td>Black, White</td>
+                                                    <td>Category</td>
+                                                    <td>
+                                                        <Link to={`/product/${data.category}`}>{data.category}</Link>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
