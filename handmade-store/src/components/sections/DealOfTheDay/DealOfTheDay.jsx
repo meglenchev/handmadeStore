@@ -99,7 +99,7 @@ export function DealOfTheDay() {
 
                                                   <button
                                                       onClick={() => toggleWishlist(product)}
-                                                      className={`add-to-wishlist hintT-left ${isInWishlist ? 'added' : ''}`}
+                                                      className={`add-to-wishlist btn-circle btn-light hintT-left ${isInWishlist ? 'added' : ''}`}
                                                       data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
                                                       <FontAwesomeIcon icon="heart" />
                                                   </button>
