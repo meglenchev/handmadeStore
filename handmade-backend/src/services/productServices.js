@@ -4,8 +4,22 @@ export default {
     create(productData, ownerId) {
         return Product.create({ ...productData, ownerId });
     },
-    getAll() {
-        return Product.find().sort({ createdAt: -1 });
+    getAll(filters) {
+        let query = {};
+
+        if (filters.tag) {
+            query.tag = filters.tag;
+        }
+
+        if (filters.category) {
+            query.category = filters.category;
+        }
+
+        if (filters.code) {
+            query.code = filters.code;
+        }
+
+        return Product.find(query).sort({ createdAt: -1 });
     },
     getOne(productId) {
         return Product.findById(productId);

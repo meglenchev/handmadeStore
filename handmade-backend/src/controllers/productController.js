@@ -5,8 +5,13 @@ export const productController = Router();
 
 productController.get("/products", async (req, res) => {
     try {
-        const products = await productServices.getAll();
-        res.json(products);
+        const { tag, category, code } = req.query;
+        const products = await productServices.getAll({
+            tag,
+            category,
+            code,
+        });
+        res.status(200).json(products);
     } catch (error) {
         res.status(500).json({
             message: "Internal Server Error",
