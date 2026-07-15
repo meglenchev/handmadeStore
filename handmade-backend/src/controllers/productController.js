@@ -102,6 +102,14 @@ productController.post("/products/check", async (req, res) => {
         const cartProducts = await productServices.getCartProducts(productIds);
         res.json(cartProducts);
     } catch (error) {
+        // Error due to invalid ID format for MongoDB
+        if (error.name === "CastError") {
+            return res.status(400).json({
+                message: "Invalid Product ID format",
+                error: error.message,
+            });
+        }
+
         res.status(500).json({
             message: "Internal Server Error",
             error: error.message,
