@@ -4,7 +4,7 @@ export function useAutoCloseEmptyMenu(items, isOpen, menuName, toggleMenu, delay
     useEffect(() => {
         if (items.length === 0 && isOpen) {
             const timer = setTimeout(() => {
-                toggleMenu(menuName)();
+                toggleMenu(menuName);
             }, delay);
 
             return () => clearTimeout(timer);
