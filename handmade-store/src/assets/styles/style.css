@@ -13182,7 +13182,7 @@ body.offcanvas.show .sticky-header {
     line-height: 1.175;
     display: block;
     margin-bottom: 25px;
-    color: var(--text-dark);
+    color: var(--color-primary);
 }
 
 .product-price .old {
