@@ -132,3 +132,15 @@ productController.get("/products/search", async (req, res) => {
         });
     }
 });
+
+productController.get("/products/categories", async (req, res) => {
+    try {
+        const categories = await productServices.getProductsCategory();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+});
