@@ -8,8 +8,13 @@ import { useContext, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
 import { ProductGallery } from '@/components/common/ProductGallery.jsx';
-import WishlistContext from '@/context/WishlistContext.jsx';
 import { ProductShare } from '@/components/common/ProductShare.jsx';
+import WishlistContext from '@/context/WishlistContext.jsx';
+import Lightbox from 'yet-another-react-lightbox';
+import { Zoom } from 'yet-another-react-lightbox/plugins';
+import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
 export function Product() {
     const { productId } = useParams();
@@ -18,6 +23,7 @@ export function Product() {
     const { quantity, handleMinus, handlePlus } = useProductQuantity(data, cart);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
     const [activeTab, setActiveTab] = useState('description');
+    const [lightboxIndex, setLightboxIndex] = useState(-1);
 
     if (loading) {
         return <ProductSkeleton />;
@@ -32,6 +38,7 @@ export function Product() {
     }
 
     const isInWishlist = wishlist.some((item) => item.id === data.id);
+    const galleryImages = data?.images?.gallery || [];
 
     return (
         <>
@@ -58,13 +65,32 @@ export function Product() {
                         {/* Product Images Start */}
                         <div className="col-lg-6 col-12 learts-mb-40">
                             <div className="product-images">
-                                <button className="product-gallery-popup hintT-left" data-hint="Click to enlarge">
+                                <button
+                                    className="product-gallery-popup hintT-left"
+                                    data-hint="Кликнете, за да увеличите"
+                                    onClick={() => galleryImages.length > 0 && setLightboxIndex(0)}
+                                    disabled={galleryImages.length === 0}>
                                     <FontAwesomeIcon icon="expand" />
                                 </button>
-                                <a href="https://www.youtube.com/watch?v=1jSsy7DtYgc" className="product-video-popup video-popup hintT-left" data-hint="Click to see video">
+                                <a
+                                    href="https://www.youtube.com/watch?v=1jSsy7DtYgc"
+                                    className="product-video-popup video-popup hintT-left"
+                                    data-hint="Кликнете, за да видите видео">
                                     <FontAwesomeIcon icon="play" />
                                 </a>
-                                <ProductGallery images={data?.images?.gallery} title={data?.title} />
+                                <ProductGallery images={data?.images?.gallery} title={data?.title} onImageClick={setLightboxIndex} />
+                                <Lightbox
+                                    open={lightboxIndex >= 0}
+                                    index={lightboxIndex}
+                                    close={() => setLightboxIndex(-1)}
+                                    slides={galleryImages.map((src) => ({ src, alt: data?.title }))}
+                                    plugins={[Zoom, Thumbnails]}
+                                    carousel={{ finite: true }}
+                                    zoom={{
+                                        maxZoom: 4,
+                                    }}
+                                    animation={{ fade: 250, swipe: 250 }}
+                                />
                             </div>
                         </div>
                         {/* Product Images End */}

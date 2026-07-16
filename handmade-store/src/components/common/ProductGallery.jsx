@@ -1,7 +1,7 @@
 import Slider from 'react-slick';
 import { settingsProductQuickView } from '@/utils/utils.jsx';
 
-export function ProductGallery({ images, title }) {
+export function ProductGallery({ images, title, onImageClick }) {
     const hasImages = images && images.length > 0;
     return (
         <div className="product-images">
@@ -9,7 +9,7 @@ export function ProductGallery({ images, title }) {
                 {hasImages ? (
                     <Slider {...settingsProductQuickView}>
                         {images.map((image, i) => (
-                            <div className="product-zoom" key={i}>
+                            <div className="product-zoom" key={i} onClick={() => onImageClick(i)} style={{ cursor: 'pointer' }}>
                                 <img src={image} alt={title} />
                             </div>
                         ))}
