@@ -21,6 +21,12 @@ import {
     faEye,
     faExpand,
     faPlay,
+    faTableCells,
+    faTableCellsLarge,
+    faGrip,
+    faList,
+    faFilter,
+    faSliders,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -52,5 +58,11 @@ library.add(
     faStar,
     faEye,
     faExpand,
-    faPlay
+    faPlay,
+    faTableCells,
+    faTableCellsLarge,
+    faGrip,
+    faList,
+    faFilter,
+    faSliders
 );

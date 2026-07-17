@@ -8,6 +8,7 @@ import { Home } from './pages/Home/Home.jsx';
 import { ScrollToTop } from './components/common/ScrollToTop.jsx';
 import { ScrollToTopOnNavigation } from './utils/ScrollToTopOnNavigation.jsx';
 import { Route, Routes } from 'react-router';
+import { Products } from './pages/Products/Products.jsx';
 
 const Product = lazy(() => import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })));
 
@@ -47,6 +48,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/products/:productId/details" element={<Product />} />
+                            <Route path="/shop" element={<Products />} />
                         </Routes>
                     </Suspense>
                 </ErrorBoundary>

@@ -16055,6 +16055,10 @@ body.offcanvas.show .sticky-header {
     padding-bottom: 10px;
 }
 
+.shop-toolbar > .container > .row {
+    align-items: center;
+}
+
 /* Shop Product Filter */
 .shop-product-filter {
     display: -webkit-box;
@@ -16110,6 +16114,7 @@ body.offcanvas.show .sticky-header {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    align-items: center;
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -16247,16 +16252,8 @@ body.offcanvas.show .sticky-header {
     color: var(--text-main);
 }
 
-.product-filter-toggle::before {
-    font-family: 'Font Awesome 5 Free';
-    font-size: 13px;
-    line-height: 1;
-    margin-right: 6px;
-    margin-bottom: -3px;
-    font-weight: 900;
-    content: '\f0b0';
-    -webkit-transition: all 0.5s ease 0s;
-    transition: all 0.5s ease 0s;
+.product-filter-toggle .svg-inline--fa {
+    margin-right: 5px;
 }
 
 .product-filter-toggle::after {
