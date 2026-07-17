@@ -3,12 +3,10 @@ import { useAutoCloseEmptyMenu } from './useAutoCloseEmptyMenu';
 
 describe('useAutoCloseEmptyMenu', () => {
     let toggleMenu;
-    let innerToggle;
 
     beforeEach(() => {
         vi.useFakeTimers();
-        innerToggle = vi.fn();
-        toggleMenu = vi.fn(() => innerToggle);
+        toggleMenu = vi.fn();
     });
 
     afterEach(() => {
@@ -21,7 +19,7 @@ describe('useAutoCloseEmptyMenu', () => {
             useAutoCloseEmptyMenu(['item1'], true, 'cart', toggleMenu)
         );
         vi.runAllTimers();
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
     it('does not schedule close when menu is closed and has no items', () => {
@@ -29,7 +27,7 @@ describe('useAutoCloseEmptyMenu', () => {
             useAutoCloseEmptyMenu([], false, 'cart', toggleMenu)
         );
         vi.runAllTimers();
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
     it('does not schedule close when menu is closed and has items', () => {
@@ -37,20 +35,20 @@ describe('useAutoCloseEmptyMenu', () => {
             useAutoCloseEmptyMenu(['item1'], false, 'cart', toggleMenu)
         );
         vi.runAllTimers();
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
-    it('calls toggleMenu(menuName)() after default delay when empty and open', () => {
+    it('calls toggleMenu(menuName) after default delay when empty and open', () => {
         renderHook(() =>
             useAutoCloseEmptyMenu([], true, 'cart', toggleMenu)
         );
 
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
 
         vi.advanceTimersByTime(1500);
 
         expect(toggleMenu).toHaveBeenCalledWith('cart');
-        expect(innerToggle).toHaveBeenCalledTimes(1);
+        expect(toggleMenu).toHaveBeenCalledTimes(1);
     });
 
     it('does not fire before the default delay elapses', () => {
@@ -59,7 +57,7 @@ describe('useAutoCloseEmptyMenu', () => {
         );
 
         vi.advanceTimersByTime(1499);
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
     it('calls toggleMenu after a custom delay', () => {
@@ -68,10 +66,10 @@ describe('useAutoCloseEmptyMenu', () => {
         );
 
         vi.advanceTimersByTime(2999);
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
 
         vi.advanceTimersByTime(1);
-        expect(innerToggle).toHaveBeenCalledTimes(1);
+        expect(toggleMenu).toHaveBeenCalledTimes(1);
     });
 
     it('cancels the timer when an item is added before delay elapses', () => {
@@ -84,7 +82,7 @@ describe('useAutoCloseEmptyMenu', () => {
         rerender({ items: ['newItem'] });
         vi.runAllTimers();
 
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
     it('cancels the timer when menu closes before delay elapses', () => {
@@ -97,7 +95,7 @@ describe('useAutoCloseEmptyMenu', () => {
         rerender({ isOpen: false });
         vi.runAllTimers();
 
-        expect(innerToggle).not.toHaveBeenCalled();
+        expect(toggleMenu).not.toHaveBeenCalled();
     });
 
     it('passes the correct menuName to toggleMenu', () => {
