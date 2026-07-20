@@ -17,6 +17,10 @@ export function useQuery(urlPath, initialValue = null) {
         async function fetchData() {
             setLoading(true);
             setError(null);
+            setData(initialValue);
+
+            // Simulate a delay for demonstration purposes (optional)
+            // await new Promise((resolve) => setTimeout(resolve, 3000));
 
             try {
                 const response = await fetch(`${BASE_URL}${urlPath}`, { signal: abortController.signal });

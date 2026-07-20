@@ -3,7 +3,7 @@ export const ENDPOINTS = {
         SEARCH: '/products/search',
         ALL_CATEGORY: '/products/categories',
         SPECIAL: '/products/special',
-        ALL: '/products',
+        ALL: (search) => `/products${search}`,
         CHECK_PRODUCT: '/products/check',
         LATEST_FILTERED: (category) => `/products/latest?category=${category}&limit=6`,
         DISCOUNTED: '/products/discounted',

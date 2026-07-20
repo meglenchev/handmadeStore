@@ -11674,6 +11674,12 @@ body.offcanvas.show .sticky-header {
     margin-bottom: 0;
 }
 
+.products.products-grid .col,
+.products.products-grid > * {
+    transition: all 0.4s ease-in-out;
+    animation: fadeIn 0.4s ease-in-out forward;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767px) {
     .products {
         margin-bottom: -50px;
@@ -16071,8 +16077,10 @@ body.offcanvas.show .sticky-header {
     margin: 0 -20px -10px;
 }
 
-.shop-product-filter button {
-    font-size: 16px;
+.shop-product-filter a {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 1;
     margin: 0 20px 10px;
     padding: 0;
@@ -16081,9 +16089,9 @@ body.offcanvas.show .sticky-header {
     background-color: transparent;
 }
 
-.shop-product-filter button:hover,
-.shop-product-filter button.active {
-    color: var(--text-dark);
+.shop-product-filter a:hover,
+.shop-product-filter a.active {
+    color: var(--color-primary);
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767px) {
@@ -16091,7 +16099,7 @@ body.offcanvas.show .sticky-header {
         margin: 0 -15px -10px;
     }
 
-    .shop-product-filter button {
+    .shop-product-filter a {
         font-size: 16px;
         margin: 0 15px 10px;
     }
@@ -16102,7 +16110,7 @@ body.offcanvas.show .sticky-header {
         margin: 0 -10px -10px;
     }
 
-    .shop-product-filter button {
+    .shop-product-filter a {
         font-size: 14px;
         margin: 0 10px 10px;
     }
@@ -16232,7 +16240,7 @@ body.offcanvas.show .sticky-header {
 
 .product-column-toggle .toggle:hover,
 .product-column-toggle .toggle.active {
-    color: var(--text-dark);
+    color: var(--color-primary);
 }
 
 /* Product Filter Toggle */

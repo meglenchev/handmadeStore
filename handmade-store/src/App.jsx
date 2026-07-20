@@ -48,7 +48,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/products/:productId/details" element={<Product />} />
-                            <Route path="/shop" element={<Products />} />
+                            <Route path="/products" element={<Products />} />
                         </Routes>
                     </Suspense>
                 </ErrorBoundary>
