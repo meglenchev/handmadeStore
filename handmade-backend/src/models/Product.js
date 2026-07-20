@@ -25,8 +25,8 @@ const productSchema = new Schema(
         },
         oldPrice: {
             type: Number,
-            required: [true, "Old Price is required"],
             min: [0, "Old Price should be a positive number"],
+            default: null,
         },
         newPrice: {
             type: Number,
@@ -90,6 +90,7 @@ const productSchema = new Schema(
             lowercase: true,
             default: [],
         },
+        createdAt: { type: Date },
     },
     { timestamps: true },
 );

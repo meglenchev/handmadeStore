@@ -7,8 +7,20 @@ export default {
     getAll(filters) {
         let query = {};
 
-        if (filters.tag) {
-            query.tag = filters.tag;
+        if (filters.tag === "new") {
+            const dateFilter = new Date();
+            dateFilter.setDate(dateFilter.getDate() - 7);
+            dateFilter.setHours(0, 0, 0, 0);
+
+            query.createdAt = { $gte: dateFilter };
+        }
+
+        if (filters.tag === "sale") {
+            query.$expr = { $lt: ["$newPrice", "$oldPrice"] };
+        }
+
+        if (filters.tag === "hit") {
+            query.tags = "hit";
         }
 
         if (filters.category) {
