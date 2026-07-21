@@ -6,6 +6,7 @@ export default {
     },
     getAll(filters) {
         let query = {};
+        let sortQuery = { createdAt: -1 };
 
         if (filters.tag === "new") {
             const dateFilter = new Date();
@@ -31,7 +32,15 @@ export default {
             query.code = filters.code;
         }
 
-        return Product.find(query).sort({ createdAt: -1 });
+        if (filters.sort === "price") {
+            sortQuery = { newPrice: 1 }; // Low to high price
+        } else if (filters.sort === "price-desc") {
+            sortQuery = { newPrice: -1 }; // High to low price
+        } else if (filters.sort === "menu_order") {
+            sortQuery = { createdAt: -1 }; // Return to default
+        }
+
+        return Product.find(query).sort(sortQuery);
     },
     getOne(productId) {
         return Product.findById(productId);

@@ -5,11 +5,12 @@ export const productController = Router();
 
 productController.get("/products", async (req, res) => {
     try {
-        const { tag, category, code } = req.query;
+        const { tag, category, code, sort } = req.query;
         const products = await productServices.getAll({
             tag,
             category,
             code,
+            sort,
         });
         res.status(200).json(products);
     } catch (error) {
