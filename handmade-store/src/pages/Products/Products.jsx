@@ -67,9 +67,6 @@ export function Products() {
                                         <div className="product-sorting">
                                             <select className="nice-select">
                                                 <option value="menu_order">по подразбиране</option>
-                                                <option value="popularity">по популярност</option>
-                                                <option value="rating">по средна оценка</option>
-                                                <option value="date">последно добавени</option>
                                                 <option value="price">цена: ниска към висока</option>
                                                 <option value="price-desc">цена: висока към ниска</option>
                                             </select>
