@@ -18,6 +18,7 @@ export function ProductItem({ product }) {
                 <div className="product-thumb">
                     <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
                         <span className="product-badges">
+                            {product.discount < 0 && <span className="onsale">{product.discount > -1 ? -1 : Math.round(product.discount)}%</span>}
                             {product.outofstock && (
                                 <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
                                     <FontAwesomeIcon icon="frown" />
