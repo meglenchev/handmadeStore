@@ -3,7 +3,7 @@ import { useQuery } from '@/hooks/useQuery.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { ProductSkeleton } from '../Home/components/ProductSkeleton.jsx';
 import { ProductItem } from '@/components/common/ProductItem.jsx';
-import { Link, useLocation } from 'react-router';
+import { Link, useSearchParams, useLocation } from 'react-router';
 import { useState } from 'react';
 
 const GRID_VIEW_CLASSES = {
@@ -14,9 +14,24 @@ const GRID_VIEW_CLASSES = {
 
 export function Products() {
     const [gridView, setGridView] = useState('grid-5');
+    const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
-    const searchParams = location.search;
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.ALL(searchParams), []);
+    const currentSort = searchParams.get('sort') || 'menu_order';
+    const currentTag = searchParams.get('tag');
+    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
+
+    const handleSortChange = (e) => {
+        const selectedSort = e.target.value;
+        const newParams = new URLSearchParams(searchParams);
+
+        if (selectedSort === 'menu_order') {
+            newParams.delete('sort');
+        } else {
+            newParams.set('sort', selectedSort);
+        }
+
+        setSearchParams(newParams);
+    };
 
     if (error) {
         return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
@@ -45,16 +60,16 @@ export function Products() {
                             {/* Isotop Filter Start */}
                             <div className="col-md col-12 align-self-center">
                                 <div className="isotope-filter shop-product-filter">
-                                    <Link to="/products" className={searchParams === '' ? 'active' : ''}>
+                                    <Link to={`/products${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={!currentTag ? 'active' : ''}>
                                         Всички
                                     </Link>
-                                    <Link to="/products?tag=hit" className={searchParams === '?tag=hit' ? 'active' : ''}>
+                                    <Link to={`/products?tag=hit${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'hit' ? 'active' : ''}>
                                         Горещи продукти
                                     </Link>
-                                    <Link to="/products?tag=new" className={searchParams === '?tag=new' ? 'active' : ''}>
+                                    <Link to={`/products?tag=new${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'new' ? 'active' : ''}>
                                         Нови продукти
                                     </Link>
-                                    <Link to="/products?tag=sale" className={searchParams === '?tag=sale' ? 'active' : ''}>
+                                    <Link to={`/products?tag=sale${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'sale' ? 'active' : ''}>
                                         Продукти на разпродажба
                                     </Link>
                                 </div>
@@ -65,7 +80,7 @@ export function Products() {
                                 <ul className="shop-toolbar-controls">
                                     <li>
                                         <div className="product-sorting">
-                                            <select className="nice-select">
+                                            <select className="nice-select" value={currentSort} onChange={handleSortChange}>
                                                 <option value="menu_order">по подразбиране</option>
                                                 <option value="price">цена: ниска към висока</option>
                                                 <option value="price-desc">цена: висока към ниска</option>
