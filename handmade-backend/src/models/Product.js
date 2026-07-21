@@ -95,4 +95,14 @@ const productSchema = new Schema(
     { timestamps: true },
 );
 
+productSchema.virtual("discount").get(function () {
+    if (!this.oldPrice || this.oldPrice <= 0) {
+        return 0;
+    }
+    return ((this.newPrice - this.oldPrice) / this.oldPrice) * 100;
+});
+
+productSchema.set("toJSON", { virtuals: true });
+productSchema.set("toObject", { virtuals: true });
+
 export const Product = model("Product", productSchema, "product");
