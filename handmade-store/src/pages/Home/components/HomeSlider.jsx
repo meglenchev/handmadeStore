@@ -8,9 +8,14 @@ import 'swiper/css/pagination';
 import { HOME_SLIDER_PRODUCTS } from '@/data/homeSliderProducts.js';
 import { Link } from 'react-router';
 import { HomeSliderSkeleton } from './HomeSliderSkeleton.jsx';
+import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 
 export function HomeSlider() {
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.SPECIAL, []);
+    const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.SPECIAL, []);
+
+    if (error) {
+        return <SectionErrorFallback error={new Error(error)} title="Слайдера с продукти не зареди" resetErrorBoundary={refresh} />;
+    }
     return (
         <div className="section section-fluid">
             <Swiper

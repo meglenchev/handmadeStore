@@ -5,14 +5,15 @@ import { Link } from 'react-router';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
 import { ProductItem } from '@/components/common/ProductItem.jsx';
+import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 
 export function ProductsInFocus() {
     const [activeCategory, setActiveCategory] = useState('all');
 
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.LATEST_FILTERED(activeCategory), []);
+    const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.LATEST_FILTERED(activeCategory), []);
 
     if (error) {
-        return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
+        return <SectionErrorFallback error={new Error(error)} title="Продукти на фокус не зареди" resetErrorBoundary={refresh} />;
     }
 
     if (!loading && (!products || products.length === 0)) {

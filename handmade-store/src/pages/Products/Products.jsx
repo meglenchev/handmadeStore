@@ -5,6 +5,7 @@ import { ProductSkeleton } from '../Home/components/ProductSkeleton.jsx';
 import { ProductItem } from '@/components/common/ProductItem.jsx';
 import { Link, useSearchParams, useLocation } from 'react-router';
 import { useState } from 'react';
+import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 
 const GRID_VIEW_CLASSES = {
     'grid-5': 'row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1',
@@ -18,7 +19,8 @@ export function Products() {
     const location = useLocation();
     const currentSort = searchParams.get('sort') || 'menu_order';
     const currentTag = searchParams.get('tag');
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
+
+    const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
 
     const handleSortChange = (e) => {
         const selectedSort = e.target.value;
@@ -34,7 +36,7 @@ export function Products() {
     };
 
     if (error) {
-        return <div className="text-center text-danger section-padding">Неуспешно зареждане: {error}</div>;
+        return <SectionErrorFallback error={new Error(error)} title="Продуктите не могат да се заредят" resetErrorBoundary={refresh} />;
     }
 
     return (

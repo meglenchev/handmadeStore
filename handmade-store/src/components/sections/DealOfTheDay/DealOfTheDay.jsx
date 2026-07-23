@@ -11,6 +11,7 @@ import { useQuery } from '@/hooks/useQuery.js';
 import { Link } from 'react-router';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { DealOfTheDaySkeleton } from './DealOfTheDaySkeleton.jsx';
+import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -53,10 +54,10 @@ export function DealOfTheDay() {
         slidesToShow: slidesToShow,
     };
 
-    const { data: products, loading, error } = useQuery(ENDPOINTS.PRODUCTS.DISCOUNTED, []);
+    const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.DISCOUNTED, []);
 
     if (error) {
-        return <h2 className="title">Неуспешно зареждане: {error}</h2>;
+        return <SectionErrorFallback error={new Error(error)} title="Сделките на деня не заредиха" resetErrorBoundary={refresh} />;
     }
 
     if (!loading && (!products || products.length === 0)) {
@@ -86,7 +87,7 @@ export function DealOfTheDay() {
                                   const isInWishlist = wishlist.some((item) => item._id === product._id);
 
                                   return (
-                                      <div key={product._id} className="col">
+                                      <div className="col">
                                           <div className="product">
                                               <div className="product-thumb">
                                                   <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
@@ -109,7 +110,7 @@ export function DealOfTheDay() {
                                                       <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
                                                   </h6>
                                                   <span className="price">
-                                                      <span className="old">€{product.oldPrice.toFixed(2)}</span>
+                                                      {product.oldPrice && <span className="old">€{product.oldPrice.toFixed(2)}</span>}
                                                       <span className="new">€{product.newPrice.toFixed(2)}</span>
                                                   </span>
                                                   <div className="product-buttons">

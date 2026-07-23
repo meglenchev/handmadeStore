@@ -27,6 +27,7 @@ import {
     faList,
     faFilter,
     faSliders,
+    faWifi,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -64,5 +65,6 @@ library.add(
     faGrip,
     faList,
     faFilter,
-    faSliders
+    faSliders,
+    faWifi
 );
