@@ -1,7 +1,7 @@
 export const products = [
     {
         title: "Кожен ключодържател акордион",
-        oldPrice: null,
+        oldPrice: 0,
         newPrice: 39.0,
         outofstock: false,
         images: {
@@ -23,7 +23,7 @@ export const products = [
     },
     {
         title: "Чаша за кафе с орнаменти",
-        oldPrice: null,
+        oldPrice: 0,
         newPrice: 29.0,
         outofstock: false,
         images: {
