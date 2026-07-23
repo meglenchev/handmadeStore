@@ -30,13 +30,19 @@ export function useQuery(urlPath, initialValue = null) {
                 }
 
                 const result = await response.json();
-                setData(result);
+
+                if (!abortController.signal.aborted) {
+                    setData(result);
+                    setError(null);
+                }
             } catch (error) {
                 if (error.name !== 'AbortError') {
                     setError(error.message);
                 }
             } finally {
-                setLoading(false);
+                if (!abortController.signal.aborted) {
+                    setLoading(false);
+                }
             }
         }
 

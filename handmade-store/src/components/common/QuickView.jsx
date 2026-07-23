@@ -39,7 +39,12 @@ export function QuickView() {
                         <div className="product-summery customScroll">
                             <h3 className="product-title">{productData.title}</h3>
                             <div className="product-price">
-                                <span className="old">€{productData.oldPrice.toFixed(2)}</span> - €{productData.newPrice.toFixed(2)}
+                                {productData.oldPrice && (
+                                    <>
+                                        <span className="old">€{productData.oldPrice.toFixed(2)}</span> -
+                                    </>
+                                )}
+                                €{productData.newPrice.toFixed(2)}
                             </div>
                             <div className="product-description">
                                 <p>{productData.shortDescription}</p>

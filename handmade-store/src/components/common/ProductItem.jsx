@@ -13,7 +13,7 @@ export function ProductItem({ product }) {
     const isInWishlist = wishlist.some((item) => item._id === product._id);
 
     return (
-        <div key={product._id} className="col">
+        <div className="col">
             <div className="product">
                 <div className="product-thumb">
                     <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
@@ -25,7 +25,7 @@ export function ProductItem({ product }) {
                                     <FontAwesomeIcon icon="frown" />
                                 </span>
                             )}
-                            {product.hit && <span className="hot">hot</span>}
+                            {product.tags.hit && <span className="hot">hot</span>}
                         </span>
                         <img src={product.images.gallery[0]} alt={product.title} />
                         <img className="image-hover " src={product.images.gallery[1]} alt={product.title} />
