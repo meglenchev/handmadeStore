@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 export function CallToAction() {
     return (
         <div className="section section-fluid">
@@ -11,7 +13,7 @@ export function CallToAction() {
                     <h2 className="title">Магазин за занаяти</h2>
                     <h3 className="sub-title">Специално за теб</h3>
                     <div className="link">
-                        <a href="shop.html">Вземи сега</a>
+                        <Link to={'/products'}>Вземи сега</Link>
                     </div>
                 </div>
             </div>
