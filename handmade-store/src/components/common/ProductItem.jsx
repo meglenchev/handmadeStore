@@ -6,7 +6,7 @@ import QuickViewContext from '@/context/QuickViewContext.jsx';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 
-export function ProductItem({ product }) {
+export function ProductItem({ product, currentFilters }) {
     const { openQuickView } = useContext(QuickViewContext);
     const { addToCart } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
@@ -16,7 +16,7 @@ export function ProductItem({ product }) {
         <div className="col">
             <div className="product">
                 <div className="product-thumb">
-                    <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image">
+                    <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} state={{ fromFilters: currentFilters }} className="image">
                         <span className="product-badges">
                             {product.discount < 0 && <span className="onsale">{product.discount > -1 ? -1 : Math.round(product.discount)}%</span>}
                             {product.tags.includes('hit') && <span className="hot">hot</span>}
@@ -39,7 +39,9 @@ export function ProductItem({ product }) {
                 </div>
                 <div className="product-info">
                     <h6 className="title">
-                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}>{product.title}</Link>
+                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} state={{ fromFilters: currentFilters }}>
+                            {product.title}
+                        </Link>
                     </h6>
                     <span className="price">€{product.newPrice.toFixed(2)}</span>
                     <div className="product-buttons">

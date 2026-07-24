@@ -5,7 +5,7 @@ import { useQuery } from '@/hooks/useQuery.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
 import { ProductGallery } from '@/components/common/ProductGallery.jsx';
 import { ProductShare } from '@/components/common/ProductShare.jsx';
@@ -24,6 +24,9 @@ export function Product() {
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
     const [activeTab, setActiveTab] = useState('description');
     const [lightboxIndex, setLightboxIndex] = useState(-1);
+    const location = useLocation();
+
+    const savedFilters = location.state?.fromFilters || '';
 
     if (loading) {
         return <ProductSkeleton />;
@@ -50,7 +53,7 @@ export function Product() {
                                 <h1 className="title">Shop</h1>
                                 <ul className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <Link to="/products">Products</Link>
+                                        <Link to={`/products${savedFilters}`}>Products</Link>
                                     </li>
                                     <li className="breadcrumb-item active">{data.title}</li>
                                 </ul>

@@ -62,16 +62,16 @@ export function Products() {
                             {/* Isotop Filter Start */}
                             <div className="col-md col-12 align-self-center">
                                 <div className="isotope-filter shop-product-filter">
-                                    <Link to={`/products${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={!currentTag ? 'active' : ''}>
+                                    <Link to={`/products${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={!currentTag ? 'active' : ''}>
                                         Всички
                                     </Link>
-                                    <Link to={`/products?tag=hit${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'hit' ? 'active' : ''}>
+                                    <Link to={`/products?tag=hit${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'hit' ? 'active' : ''}>
                                         Горещи продукти
                                     </Link>
-                                    <Link to={`/products?tag=new${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'new' ? 'active' : ''}>
+                                    <Link to={`/products?tag=new${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'new' ? 'active' : ''}>
                                         Нови продукти
                                     </Link>
-                                    <Link to={`/products?tag=sale${currentSort !== 'menu_order' ? `?sort=${currentSort}` : ''}`} className={currentTag === 'sale' ? 'active' : ''}>
+                                    <Link to={`/products?tag=sale${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'sale' ? 'active' : ''}>
                                         Продукти на разпродажба
                                     </Link>
                                 </div>
@@ -130,7 +130,7 @@ export function Products() {
                                 Array.from({ length: 10 }).map((_, index) => <ProductSkeleton key={index} />)
                             ) : products && products.length > 0 ? (
                                 products.map((product) => {
-                                    return <ProductItem key={product._id} product={product} />;
+                                    return <ProductItem key={product._id} product={product} currentFilters={location.search} />;
                                 })
                             ) : (
                                 <div className="col-12 text-center section-padding w-100">
