@@ -15,6 +15,7 @@ const GRID_VIEW_CLASSES = {
 
 export function Products() {
     const [gridView, setGridView] = useState('grid-5');
+    const [productFilterView, setProductFilterView] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const currentSort = searchParams.get('sort') || 'menu_order';
@@ -112,10 +113,13 @@ export function Products() {
                                         </div>
                                     </li>
                                     <li>
-                                        <a className="product-filter-toggle" href="#product-filter">
+                                        <button
+                                            onClick={() => setProductFilterView((prev) => !prev)}
+                                            className="btn btn-outline-secondary btn-product-filter"
+                                            aria-expanded={productFilterView}>
                                             <FontAwesomeIcon icon="sliders" />
                                             Филтри
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -123,6 +127,116 @@ export function Products() {
                     </div>
                 </div>
                 {/* Shop Toolbar End */}
+                <div className={`product-filter section-fluid bg-light ${productFilterView ? 'open' : 'close'}`}>
+                    <div className="container">
+                        <div className="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                            {/* Sort by Start */}
+                            <div className="col learts-mb-30">
+                                <h3 className="widget-title product-filter-widget-title">Сортирай по</h3>
+                                <ul className="widget-list product-filter-widget">
+                                    <li>
+                                        <a href="#">Цена: ниска към висока</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Цена: висока към ниска</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Price filter Start */}
+                            <div className="col learts-mb-30">
+                                <h3 className="widget-title product-filter-widget-title">Price filter</h3>
+                                <ul className="widget-list product-filter-widget customScroll">
+                                    <li>
+                                        <a href="#">All</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>0.00
+                                            </span>
+                                            -
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>80.00
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>80.00
+                                            </span>
+                                            -
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>160.00
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>160.00
+                                            </span>
+                                            -
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>240.00
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>240.00
+                                            </span>
+                                            -
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>320.00
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span className="amount">
+                                                <span className="cur-symbol">£</span>320.00
+                                            </span>
+                                            +
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* Price filter End */}
+
+                            <div className="col learts-mb-30">
+                                <h3 className="widget-title product-filter-widget-title">Categories</h3>
+                                <ul className="widget-list product-filter-widget customScroll">
+                                    <li>
+                                        <a href="#">Gift ideas</a> <span className="count">16</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Home Decor</a> <span className="count">16</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Kids &amp; Babies</a> <span className="count">6</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Kitchen</a> <span className="count">15</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Kniting &amp; Sewing</a> <span className="count">4</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Pots</a> <span className="count">4</span>
+                                    </li>
+                                    <li>
+                                        <a href="#">Toys</a> <span className="count">6</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* Categories End */}
+                        </div>
+                    </div>
+                </div>
+                {/* Product Filter End*/}
                 <div className="section section-fluid learts-mt-70">
                     <div className="container">
                         <div className={`products products-grid row ${GRID_VIEW_CLASSES[gridView]}`}>
