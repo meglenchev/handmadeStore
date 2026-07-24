@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 export function SaleBanner() {
     return (
         <div className="section section-fluid">
@@ -11,9 +13,9 @@ export function SaleBanner() {
                                     ВСИЧКО С КОД: <span className="code">NEW 30</span>
                                 </span>
                                 <span className="offer">- 30%</span>
-                                <a href="shop.html" className="btn btn-dark btn-hover-primary">
+                                <Link to="/products?tag=new" className="btn btn-dark btn-hover-primary">
                                     Вземи сега
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

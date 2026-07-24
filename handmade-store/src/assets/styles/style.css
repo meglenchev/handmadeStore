@@ -5198,7 +5198,8 @@ body.offcanvas.show .sticky-header {
     color: var(--text-dark);
 }
 
-.overlay-menu > ul > li > a:hover {
+.overlay-menu > ul > li > a:hover,
+.overlay-menu > ul > li > a.active {
     color: var(--color-primary);
 }
 

@@ -79,7 +79,7 @@ export function ProductsInFocus() {
                     </div>
                 </div>
                 <div className="row g-0 justify-content-center learts-mt-50">
-                    <Link to={ENDPOINTS.PRODUCTS.ALL} className="btn p-0">
+                    <Link to={activeCategory === 'all' ? '/products' : `/products?category=${activeCategory}`} className="btn p-0">
                         <FontAwesomeIcon icon="plus" /> виж повече ...
                     </Link>
                 </div>
