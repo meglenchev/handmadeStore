@@ -4,7 +4,7 @@ import { ENDPOINTS } from '@/utils/endpoints.js';
 import { ProductSkeleton } from '../Home/components/ProductSkeleton.jsx';
 import { ProductItem } from '@/components/common/ProductItem.jsx';
 import { Link, useSearchParams, useLocation } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 
 const GRID_VIEW_CLASSES = {
@@ -13,6 +13,8 @@ const GRID_VIEW_CLASSES = {
     'grid-3': 'row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1',
 };
 
+const MAX_LIMIT = 1000;
+
 export function Products() {
     const [gridView, setGridView] = useState('grid-5');
     const [productFilterView, setProductFilterView] = useState(false);
@@ -20,6 +22,13 @@ export function Products() {
     const location = useLocation();
     const currentSort = searchParams.get('sort') || 'menu_order';
     const currentTag = searchParams.get('tag');
+
+    const urlMaxPrice = Number(searchParams.get('max_price') || MAX_LIMIT);
+    const [localMaxPrice, setLocalMaxPrice] = useState(urlMaxPrice);
+
+    useEffect(() => {
+        setLocalMaxPrice(urlMaxPrice);
+    }, [urlMaxPrice]);
 
     const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
 
@@ -33,6 +42,28 @@ export function Products() {
             newParams.set('sort', selectedSort);
         }
 
+        setSearchParams(newParams);
+    };
+
+    const handleSliderInput = (e) => {
+        setLocalMaxPrice(Number(e.target.value));
+    };
+
+    const handleSliderChangeCommitted = (e) => {
+        const newParams = new URLSearchParams(searchParams);
+
+        if (localMaxPrice < MAX_LIMIT) {
+            newParams.set('max_price', localMaxPrice);
+        } else {
+            newParams.delete('max_price');
+        }
+
+        setSearchParams(newParams);
+    };
+
+    const handleResetPrice = () => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.delete('max_price');
         setSearchParams(newParams);
     };
 
@@ -130,84 +161,8 @@ export function Products() {
                 <div className={`product-filter section-fluid bg-light ${productFilterView ? 'open' : 'close'}`}>
                     <div className="container">
                         <div className="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                            {/* Sort by Start */}
                             <div className="col learts-mb-30">
-                                <h3 className="widget-title product-filter-widget-title">Сортирай по</h3>
-                                <ul className="widget-list product-filter-widget">
-                                    <li>
-                                        <a href="#">Цена: ниска към висока</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Цена: висока към ниска</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            {/* Price filter Start */}
-                            <div className="col learts-mb-30">
-                                <h3 className="widget-title product-filter-widget-title">Price filter</h3>
-                                <ul className="widget-list product-filter-widget customScroll">
-                                    <li>
-                                        <a href="#">All</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>0.00
-                                            </span>
-                                            -
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>80.00
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>80.00
-                                            </span>
-                                            -
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>160.00
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>160.00
-                                            </span>
-                                            -
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>240.00
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>240.00
-                                            </span>
-                                            -
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>320.00
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span className="amount">
-                                                <span className="cur-symbol">£</span>320.00
-                                            </span>
-                                            +
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            {/* Price filter End */}
-
-                            <div className="col learts-mb-30">
-                                <h3 className="widget-title product-filter-widget-title">Categories</h3>
+                                <h3 className="widget-title product-filter-widget-title">Категория</h3>
                                 <ul className="widget-list product-filter-widget customScroll">
                                     <li>
                                         <a href="#">Gift ideas</a> <span className="count">16</span>
@@ -233,6 +188,27 @@ export function Products() {
                                 </ul>
                             </div>
                             {/* Categories End */}
+                            <div className="col learts-mb-30">
+                                <h3 className="widget-title product-filter-widget-title">Ценови диапазон</h3>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span>Цена до:</span>
+                                    <strong>{localMaxPrice} €</strong>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max={MAX_LIMIT}
+                                    value={localMaxPrice}
+                                    onChange={handleSliderInput}
+                                    onMouseUp={handleSliderChangeCommitted}
+                                    onTouchEnd={handleSliderChangeCommitted}
+                                    style={{ width: '100%', cursor: 'pointer' }}
+                                />
+                            </div>
+                            {/* Price filter End */}
+                            <div className="col learts-mb-30">
+                                <button className="btn btn-secondary btn-product-filter">Изчисти филтрите</button>
+                            </div>
                         </div>
                     </div>
                 </div>

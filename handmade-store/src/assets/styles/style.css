@@ -15465,7 +15465,7 @@ body.offcanvas.show .sticky-header {
 }
 
 .widget-list li + li {
-    margin-top: 25px;
+    margin-top: 10px;
 }
 
 .widget-list li i {
@@ -15480,6 +15480,10 @@ body.offcanvas.show .sticky-header {
 .widget-list li a:hover {
     color: var(--text-dark);
     border-color: rgba(51, 51, 51, 0.2);
+}
+
+.widget-list li a .separator {
+    padding: 0 5px;
 }
 
 .widget-list li .count {
