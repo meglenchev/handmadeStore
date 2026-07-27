@@ -6,7 +6,6 @@ export const productController = Router();
 productController.get("/products", async (req, res) => {
     try {
         const { tag, category, code, sort, max_price } = req.query;
-        console.log(req.query);
         const products = await productServices.getAll({
             tag,
             category,
