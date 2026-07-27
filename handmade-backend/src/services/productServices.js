@@ -28,6 +28,14 @@ export default {
             query.category = filters.category;
         }
 
+        if (filters.max_price) {
+            const maxPriceNum = Number(filters.max_price);
+
+            if (!isNaN(maxPriceNum)) {
+                query.newPrice = { $lt: maxPriceNum };
+            }
+        }
+
         if (filters.code) {
             query.code = filters.code;
         }
