@@ -161,7 +161,7 @@ export function Products() {
                 <div className={`product-filter section-fluid bg-light ${productFilterView ? 'open' : 'close'}`}>
                     <div className="container">
                         <div className="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                            <div className="col learts-mb-30">
+                            <div className="col">
                                 <h3 className="widget-title product-filter-widget-title">Категория</h3>
                                 <ul className="widget-list product-filter-widget customScroll">
                                     <li>
@@ -188,12 +188,11 @@ export function Products() {
                                 </ul>
                             </div>
                             {/* Categories End */}
-                            <div className="col learts-mb-30">
+                            <div className="col">
                                 <h3 className="widget-title product-filter-widget-title">Ценови диапазон</h3>
-                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <span>Цена до:</span>
-                                    <strong>{localMaxPrice} €</strong>
-                                </div>
+                                <p className="learts-mb-10">
+                                    Цена до: <strong>{localMaxPrice} €</strong>
+                                </p>
                                 <input
                                     type="range"
                                     min="0"
@@ -206,8 +205,8 @@ export function Products() {
                                 />
                             </div>
                             {/* Price filter End */}
-                            <div className="col learts-mb-30">
-                                <button className="btn btn-secondary btn-product-filter">Изчисти филтрите</button>
+                            <div className="col">
+                                <button className="btn btn-md btn-primary2">Изчисти филтрите</button>
                             </div>
                         </div>
                     </div>

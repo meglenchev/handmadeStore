@@ -116,7 +116,11 @@ export default {
         });
     },
     getProductsCategory() {
-        return Product.find().distinct("category");
+        return Product.aggregate([
+            { $group: { _id: "$category", count: { $sum: 1 } } },
+            { $project: { _id: 0, name: "$_id", count: 1 } },
+            { $sort: { name: 1 } },
+        ]);
     },
     getSearchResults(query, category) {
         let filter = {};

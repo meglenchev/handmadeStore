@@ -25,8 +25,8 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     const formattedCategories = useMemo(() => {
         if (!Array.isArray(data)) return [];
         return data.map((cat) => ({
-            value: cat,
-            label: cat
+            value: cat.name,
+            label: cat.name
                 .split('-')
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' '),
@@ -143,7 +143,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={handleCloseAndClear('search')}>
+                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={() => handleCloseAndClear('search')}>
                                                 <span className="product-badges">
                                                     {product.outofstock && (
                                                         <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
