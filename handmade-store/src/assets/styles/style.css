@@ -2161,19 +2161,23 @@ body.homepage-bg1.offcanvas-open {
 .btn.btn-outline-dark:focus,
 .btn.btn-outline-dark:active,
 .btn.btn-outline-dark.active {
-    border-color: var(--color-dark-hover);
-    background-color: var(--color-dark-hover);
-    color: var(--text-white);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: transparent;
 }
 
 .btn.btn-outline-dark.added {
     color: var(--color-primary);
+    border-color: var(--color-primary);
+    background-color: transparent;
 }
 .btn.btn-outline-dark.added:hover,
 .btn.btn-outline-dark.added:focus,
 .btn.btn-outline-dark.added:active,
 .btn.btn-outline-dark.added.active {
-    color: var(--color-primary);
+    color: var(--text-white);
+    border-color: var(--color-dark-hover);
+    background-color: var(--color-dark-hover);
 }
 
 /* BLACK */
