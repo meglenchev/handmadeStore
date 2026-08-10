@@ -21,7 +21,7 @@ const productSchema = new Schema(
             type: String,
             trim: true,
             required: [true, "Short description is required"],
-            maxLength: [100, "Short description cannot exceed 150 characters"],
+            maxLength: [100, "Short description cannot exceed 100 characters"],
         },
         oldPrice: {
             type: Number,
@@ -58,6 +58,7 @@ const productSchema = new Schema(
             type: Number,
             required: [true, "Sold quantity is required"],
             min: [0, "Sold quantity should be a positive number"],
+            default: 0,
         },
         stock: {
             type: Number,
@@ -90,16 +91,15 @@ const productSchema = new Schema(
             lowercase: true,
             default: [],
         },
-        createdAt: { type: Date },
     },
     { timestamps: true },
 );
 
 productSchema.virtual("discount").get(function () {
-    if (!this.oldPrice || this.oldPrice <= 0) {
+    if (!this.oldPrice || this.oldPrice <= this.newPrice) {
         return 0;
     }
-    return ((this.newPrice - this.oldPrice) / this.oldPrice) * 100;
+    return Math.round(((this.newPrice - this.oldPrice) / this.oldPrice) * 100);
 });
 
 productSchema.set("toJSON", { virtuals: true });
