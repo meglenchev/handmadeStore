@@ -32,7 +32,7 @@ export default {
             const maxPriceNum = Number(filters.max_price);
 
             if (!isNaN(maxPriceNum)) {
-                query.newPrice = { $lt: maxPriceNum };
+                query.newPrice = { $lte: maxPriceNum };
             }
         }
 
@@ -119,7 +119,7 @@ export default {
         return Product.aggregate([
             { $group: { _id: "$category", count: { $sum: 1 } } },
             { $project: { _id: 0, name: "$_id", count: 1 } },
-            { $sort: { name: 1 } },
+            { $sort: { name: -1 } },
         ]);
     },
     getSearchResults(query, category) {
