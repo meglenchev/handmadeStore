@@ -16280,6 +16280,10 @@ body.offcanvas.show .sticky-header {
     margin-bottom: 30px;
 }
 
+.widget-list.product-filter-widget li.active a {
+    color: var(--color-primary);
+}
+
 /* Filter Widget Content */
 .product-filter p {
     font-size: 16px;

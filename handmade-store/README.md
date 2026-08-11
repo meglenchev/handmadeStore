@@ -38,3 +38,4 @@
 - [ ] Remove `jquery.magnific-popup.min.js` Use Modal from `react-bootstrap`
 - [x] Install `react-medium-image-zoom` or `react-image-magnify` for product image quick view zoom
 - [x] To create a `QuickViewContext`
+- [] Write a `useCategories()` hook to avoid duplicating the query in two places (search offCanvas, products filters)

@@ -6,6 +6,7 @@ import { ProductItem } from '@/components/common/ProductItem.jsx';
 import { Link, useSearchParams, useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
+import { ProductsFilters } from './components/ProductsFilters.jsx';
 
 const GRID_VIEW_CLASSES = {
     'grid-5': 'row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1',
@@ -23,14 +24,12 @@ export function Products() {
     const currentSort = searchParams.get('sort') || 'menu_order';
     const currentTag = searchParams.get('tag');
 
-    const urlMaxPrice = Number(searchParams.get('max_price') || MAX_LIMIT);
-    const [localMaxPrice, setLocalMaxPrice] = useState(urlMaxPrice);
-
-    useEffect(() => {
-        setLocalMaxPrice(urlMaxPrice);
-    }, [urlMaxPrice]);
+    const maxPriceParam = searchParams.get('max_price');
+    const maxPrice = maxPriceParam !== null ? Number(maxPriceParam) : MAX_LIMIT;
+    const activeCategory = searchParams.get('category');
 
     const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
+    const { data: categories, loading: categoriesLoading, error: categoriesError } = useQuery(ENDPOINTS.PRODUCTS.ALL_CATEGORY, []);
 
     const handleSortChange = (e) => {
         const selectedSort = e.target.value;
@@ -45,24 +44,29 @@ export function Products() {
         setSearchParams(newParams);
     };
 
-    const handleSliderInput = (e) => {
-        setLocalMaxPrice(Number(e.target.value));
-    };
-
-    const handleSliderChangeCommitted = (e) => {
+    const handleCategorySelect = (category) => {
         const newParams = new URLSearchParams(searchParams);
-
-        if (localMaxPrice < MAX_LIMIT) {
-            newParams.set('max_price', localMaxPrice);
+        if (!category || activeCategory === category) {
+            newParams.delete('category');
         } else {
-            newParams.delete('max_price');
+            newParams.set('category', category);
         }
-
         setSearchParams(newParams);
     };
 
-    const handleResetPrice = () => {
+    const handlePriceCommit = (value) => {
         const newParams = new URLSearchParams(searchParams);
+        if (value < MAX_LIMIT) {
+            newParams.set('max_price', value);
+        } else {
+            newParams.delete('max_price');
+        }
+        setSearchParams(newParams);
+    };
+
+    const handleClear = () => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.delete('category');
         newParams.delete('max_price');
         setSearchParams(newParams);
     };
@@ -158,59 +162,16 @@ export function Products() {
                     </div>
                 </div>
                 {/* Shop Toolbar End */}
-                <div className={`product-filter section-fluid bg-light ${productFilterView ? 'open' : 'close'}`}>
-                    <div className="container">
-                        <div className="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                            <div className="col">
-                                <h3 className="widget-title product-filter-widget-title">Категория</h3>
-                                <ul className="widget-list product-filter-widget customScroll">
-                                    <li>
-                                        <a href="#">Gift ideas</a> <span className="count">16</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Home Decor</a> <span className="count">16</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kids &amp; Babies</a> <span className="count">6</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kitchen</a> <span className="count">15</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kniting &amp; Sewing</a> <span className="count">4</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Pots</a> <span className="count">4</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Toys</a> <span className="count">6</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            {/* Categories End */}
-                            <div className="col">
-                                <h3 className="widget-title product-filter-widget-title">Ценови диапазон</h3>
-                                <p className="learts-mb-10">
-                                    Цена до: <strong>{localMaxPrice} €</strong>
-                                </p>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max={MAX_LIMIT}
-                                    value={localMaxPrice}
-                                    onChange={handleSliderInput}
-                                    onMouseUp={handleSliderChangeCommitted}
-                                    onTouchEnd={handleSliderChangeCommitted}
-                                    style={{ width: '100%', cursor: 'pointer' }}
-                                />
-                            </div>
-                            {/* Price filter End */}
-                            <div className="col">
-                                <button className="btn btn-md btn-primary2">Изчисти филтрите</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ProductsFilters
+                    maxPrice={maxPrice}
+                    maxLimit={MAX_LIMIT}
+                    onPriceCommit={handlePriceCommit}
+                    categories={categories}
+                    activeCategory={activeCategory}
+                    isOpen={productFilterView}
+                    onCategorySelect={handleCategorySelect}
+                    onClear={handleClear}
+                />
                 {/* Product Filter End*/}
                 <div className="section section-fluid learts-mt-70">
                     <div className="container">
