@@ -12,14 +12,8 @@ export function ProductsFilters({ categories = [], activeCategory, isOpen, onCat
                         <h3 className="widget-title product-filter-widget-title">Категория</h3>
                         {categories.length > 0 && (
                             <ul className="widget-list product-filter-widget customScroll">
-                                <li className={!activeCategory ? 'active' : ''}>
-                                    <Link
-                                        to="/products"
-                                        onClick={() => {
-                                            onCategorySelect(null);
-                                        }}>
-                                        Всички категории
-                                    </Link>
+                                <li onClick={() => onCategorySelect(null)} className={!activeCategory ? 'active' : ''}>
+                                    Всички категории
                                     <span className="count">{categories.reduce((sum, c) => sum + c.count, 0)}</span>
                                 </li>
                                 {categories.map((category) => (

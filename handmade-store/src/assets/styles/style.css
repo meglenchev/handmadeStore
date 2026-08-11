@@ -15477,7 +15477,7 @@ body.offcanvas.show .sticky-header {
 }
 
 .widget-list li a {
-    color: #999999;
+    color: var(--text-body-light);
     border-bottom: 1px solid transparent;
 }
 
@@ -16280,6 +16280,12 @@ body.offcanvas.show .sticky-header {
     margin-bottom: 30px;
 }
 
+.widget-list.product-filter-widget li {
+    cursor: pointer;
+    color: var(--text-body-light);
+}
+
+.widget-list.product-filter-widget li.active,
 .widget-list.product-filter-widget li.active a {
     color: var(--color-primary);
 }
