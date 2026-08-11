@@ -27,3 +27,7 @@
 - [ ] Connect React frontend with the live API endpoints
 - [ ] Add basic request validation
 - [ ] Implement error handling middleware
+
+#### ToDo
+
+- [ ] Add Vendor on Product Model when entering auth

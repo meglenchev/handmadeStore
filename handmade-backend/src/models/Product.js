@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { slugify } from "../utils/slugify.js";
 
 const productSchema = new Schema(
     {
@@ -7,6 +8,13 @@ const productSchema = new Schema(
             trim: true,
             required: [true, "Title is required"],
             minLength: [5, "Title should be at least 5 characters long"],
+        },
+        slug: {
+            type: String,
+            unique: true,
+            index: true,
+            lowercase: true,
+            trim: true,
         },
         description: {
             type: String,
@@ -91,6 +99,8 @@ const productSchema = new Schema(
             lowercase: true,
             default: [],
         },
+        // TODO: add when entering auth
+        // vendor: { type: Schema.Types.ObjectId, ref: "Vendor", required: true, index: true },
     },
     { timestamps: true },
 );
@@ -100,6 +110,23 @@ productSchema.virtual("discount").get(function () {
         return 0;
     }
     return Math.round(((this.newPrice - this.oldPrice) / this.oldPrice) * 100);
+});
+
+productSchema.pre("save", async function (next) {
+    if (!this.isModified("title")) {
+        return next();
+    }
+
+    const baseSlug = slugify(this.title);
+    let slug = baseSlug;
+    let counter = 1;
+
+    while (await this.constructor.exists({ slug, _id: { $ne: this._id } })) {
+        slug = `${baseSlug}-${counter++}`;
+    }
+
+    this.slug = slug;
+    next();
 });
 
 productSchema.set("toJSON", { virtuals: true });
