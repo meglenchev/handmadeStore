@@ -1,12 +1,12 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@/hooks/useQuery.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { ProductSkeleton } from '../Home/components/ProductSkeleton.jsx';
 import { ProductItem } from '@/components/common/ProductItem.jsx';
-import { Link, useSearchParams, useLocation } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useSearchParams, useLocation } from 'react-router';
+import { useState } from 'react';
 import { SectionErrorFallback } from '@/components/common/SectionErrorFallback.jsx';
 import { ProductsFilters } from './components/ProductsFilters.jsx';
+import { ProductsToolbar } from './components/Products.Tolbar.jsx';
 
 const GRID_VIEW_CLASSES = {
     'grid-5': 'row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1',
@@ -25,7 +25,8 @@ export function Products() {
     const currentTag = searchParams.get('tag');
 
     const maxPriceParam = searchParams.get('max_price');
-    const maxPrice = maxPriceParam !== null ? Number(maxPriceParam) : MAX_LIMIT;
+    const parsedMaxPrice = maxPriceParam !== null ? Number(maxPriceParam) : null;
+    const maxPrice = Number.isFinite(parsedMaxPrice) && parsedMaxPrice >= 0 ? parsedMaxPrice : MAX_LIMIT;
     const activeCategory = searchParams.get('category');
 
     const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
@@ -92,75 +93,16 @@ export function Products() {
             {/* Shop Products Section Start */}
             <div className="section section-padding pt-0">
                 {/* Shop Toolbar Start */}
-                <div className="shop-toolbar section-fluid border-bottom">
-                    <div className="container">
-                        <div className="row">
-                            {/* Isotop Filter Start */}
-                            <div className="col-md col-12 align-self-center">
-                                <div className="isotope-filter shop-product-filter">
-                                    <Link to={`/products${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={!currentTag ? 'active' : ''}>
-                                        Всички
-                                    </Link>
-                                    <Link to={`/products?tag=hit${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'hit' ? 'active' : ''}>
-                                        Горещи продукти
-                                    </Link>
-                                    <Link to={`/products?tag=new${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'new' ? 'active' : ''}>
-                                        Нови продукти
-                                    </Link>
-                                    <Link to={`/products?tag=sale${currentSort !== 'menu_order' ? `&sort=${currentSort}` : ''}`} className={currentTag === 'sale' ? 'active' : ''}>
-                                        Продукти на разпродажба
-                                    </Link>
-                                </div>
-                            </div>
-                            {/* Isotop Filter End */}
-
-                            <div className="col-md-auto col-12">
-                                <ul className="shop-toolbar-controls">
-                                    <li>
-                                        <div className="product-sorting">
-                                            <select className="nice-select" value={currentSort} onChange={handleSortChange}>
-                                                <option value="menu_order">по подразбиране</option>
-                                                <option value="price">цена: ниска към висока</option>
-                                                <option value="price-desc">цена: висока към ниска</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="product-column-toggle d-none d-xl-flex">
-                                            <button
-                                                onClick={() => setGridView('grid-5')}
-                                                className={`toggle hintT-top ${gridView === 'grid-5' ? 'active' : ''}`}
-                                                data-hint="5 Колони">
-                                                <FontAwesomeIcon icon="grip" />
-                                            </button>
-                                            <button
-                                                onClick={() => setGridView('grid-4')}
-                                                className={`toggle hintT-top ${gridView === 'grid-4' ? 'active' : ''}`}
-                                                data-hint="4 Колони">
-                                                <FontAwesomeIcon icon="table-cells" />
-                                            </button>
-                                            <button
-                                                onClick={() => setGridView('grid-3')}
-                                                className={`toggle hintT-top ${gridView === 'grid-3' ? 'active' : ''}`}
-                                                data-hint="3 Колони">
-                                                <FontAwesomeIcon icon="table-cells-large" />
-                                            </button>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={() => setProductFilterView((prev) => !prev)}
-                                            className="btn btn-outline-secondary btn-product-filter"
-                                            aria-expanded={productFilterView}>
-                                            <FontAwesomeIcon icon="sliders" />
-                                            Филтри
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ProductsToolbar
+                    currentSort={currentSort}
+                    currentTag={currentTag}
+                    onSortChange={handleSortChange}
+                    gridView={gridView}
+                    setGridView={setGridView}
+                    productFilterView={productFilterView}
+                    setProductFilterView={setProductFilterView}
+                    searchParams={searchParams}
+                />
                 {/* Shop Toolbar End */}
                 <ProductsFilters
                     maxPrice={maxPrice}
@@ -171,6 +113,7 @@ export function Products() {
                     isOpen={productFilterView}
                     onCategorySelect={handleCategorySelect}
                     onClear={handleClear}
+                    searchParams={searchParams}
                 />
                 {/* Product Filter End*/}
                 <div className="section section-fluid learts-mt-70">
@@ -188,13 +131,6 @@ export function Products() {
                                 </div>
                             )}
                         </div>
-                        {products && products.length > 0 && (
-                            <div className="text-center learts-mt-70">
-                                <a href="#" className="btn btn-dark btn-outline-hover-dark">
-                                    <FontAwesomeIcon icon="plus" /> More
-                                </a>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
