@@ -152,4 +152,6 @@ export default {
             "images.gallery": { $slice: 2 },
         });
     },
+    // TODO(slug): при create/update на продукт използвай saveWithUniqueSlug(doc),
+    // НЕ product.save(). Изисква auth да е готов преди да заключиш mutations.
 };

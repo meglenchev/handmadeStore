@@ -15,6 +15,8 @@ const productSchema = new Schema(
             index: true,
             lowercase: true,
             trim: true,
+            // NB: уникалността се пази от този индекс + saveWithUniqueSlug helper-а.
+            // Не разчитай на pre-save цикъл — при конкурентни записи не е атомарен.
         },
         description: {
             type: String,
@@ -109,27 +111,38 @@ productSchema.virtual("discount").get(function () {
     if (!this.oldPrice || this.oldPrice <= this.newPrice) {
         return 0;
     }
-    return Math.round(((this.newPrice - this.oldPrice) / this.oldPrice) * 100);
+    return Math.round(((this.oldPrice - this.newPrice) / this.oldPrice) * 100);
 });
 
 productSchema.pre("save", async function (next) {
     if (!this.isModified("title")) {
         return next();
     }
-
-    const baseSlug = slugify(this.title);
-    let slug = baseSlug;
-    let counter = 1;
-
-    while (await this.constructor.exists({ slug, _id: { $ne: this._id } })) {
-        slug = `${baseSlug}-${counter++}`;
-    }
-
-    this.slug = slug;
+    this.slug = slugify(this.title);
+    this._slugBase = this.slug;
     next();
 });
 
-productSchema.set("toJSON", { virtuals: true });
+productSchema.pre(["updateOne", "findOneAndUpdate"], async function (next) {
+    const update = this.getUpdate();
+    const newTitle = update.title ?? update.$set?.title;
+
+    if (!newTitle) {
+        return next();
+    }
+
+    const baseSlug = slugify(newTitle);
+
+    if (update.$set) {
+        update.$set.slug = baseSlug;
+    } else {
+        update.slug = baseSlug;
+    }
+
+    next();
+});
+
+productSchema.set("toJSON", { virtuals: true, versionKey: false });
 productSchema.set("toObject", { virtuals: true });
 
 export const Product = model("Product", productSchema, "product");

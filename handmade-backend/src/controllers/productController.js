@@ -1,3 +1,6 @@
+// TODO(slug): при create/update на продукт използвай saveWithUniqueSlug(doc),
+// НЕ product.save(). Изисква auth да е готов преди да заключиш mutations.
+
 import { Router } from "express";
 import productServices from "../services/productServices.js";
 
@@ -146,3 +149,6 @@ productController.get("/products/categories", async (req, res) => {
         });
     }
 });
+
+// TODO(slug): при create/update на продукт използвай saveWithUniqueSlug(doc),
+// НЕ product.save(). Изисква auth да е готов преди да заключиш mutations.

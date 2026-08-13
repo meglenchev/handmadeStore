@@ -34,14 +34,16 @@ const cyrillicToLatin = {
 function transliterate(text) {
     return text
         .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
         .split("")
         .map((char) => cyrillicToLatin[char] ?? char)
         .join("");
 }
 
 export function slugify(text) {
-    return transliterate(text)
+    const slug = transliterate(text)
         .replace(/[^a-z0-9]+/g, "-")
-        .replace(/-{2,}/g, "-")
         .replace(/^-+|-+$/g, "");
+    return slug || "product";
 }
