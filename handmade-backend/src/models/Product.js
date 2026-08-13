@@ -101,8 +101,12 @@ const productSchema = new Schema(
             lowercase: true,
             default: [],
         },
-        // TODO: add when entering auth
-        // vendor: { type: Schema.Types.ObjectId, ref: "Vendor", required: true, index: true },
+        vendor: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+            index: true,
+        },
     },
     { timestamps: true },
 );
