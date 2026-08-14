@@ -1,10 +1,11 @@
 import { User } from "../models/User.js";
-import { generateUserToken } from "../utils/token.js";
 
 export default {
     async register(username, email, password, confirmPassword) {
         if (password !== confirmPassword) {
-            throw new Error("Passwords are not the same!");
+            const err = new Error("Passwords are not the same!");
+            err.statusCode = 400;
+            throw err;
         }
 
         const userExist = await User.exists({
@@ -12,9 +13,11 @@ export default {
         });
 
         if (userExist) {
-            throw new Error(
+            const err = new Error(
                 "User with the same email or username already exists!",
             );
+            err.statusCode = 409;
+            throw err;
         }
 
         try {
@@ -24,13 +27,14 @@ export default {
                 _id: user._id,
                 username: user.username,
                 vendorStatus: user.vendorStatus,
-                accessToken: generateUserToken(user),
             };
         } catch (err) {
             if (err.code === 11000) {
-                throw new Error(
+                const dupErr = new Error(
                     "User with the same email or username already exists!",
                 );
+                dupErr.statusCode = 409;
+                throw dupErr;
             }
 
             throw err;
@@ -57,7 +61,6 @@ export default {
             _id: user._id,
             username: user.username,
             vendorStatus: user.vendorStatus,
-            accessToken: generateUserToken(user),
         };
     },
 };
