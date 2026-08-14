@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { generateUserToken } from "../utils/token.js";
 
 export default {
     async register(username, email, password, confirmPassword) {
@@ -23,7 +24,7 @@ export default {
                 _id: user._id,
                 username: user.username,
                 vendorStatus: user.vendorStatus,
-                // TODO: Implement user token generation logic
+                accessToken: generateUserToken(user),
             };
         } catch (err) {
             if (err.code === 11000) {
@@ -56,7 +57,7 @@ export default {
             _id: user._id,
             username: user.username,
             vendorStatus: user.vendorStatus,
-            // TODO: Implement user token generation logic
+            accessToken: generateUserToken(user),
         };
     },
 };
