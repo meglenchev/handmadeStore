@@ -39,13 +39,17 @@ export default {
         const user = await User.findOne({ email }).select("+password");
 
         if (!user) {
-            throw new Error("Invalid user or password!");
+            const err = new Error("Invalid user or password!");
+            err.statusCode = 401;
+            throw err;
         }
 
         const isValid = await user.comparePassword(password);
 
         if (!isValid) {
-            throw new Error("Invalid user or password!");
+            const err = new Error("Invalid user or password!");
+            err.statusCode = 401;
+            throw err;
         }
 
         return {
