@@ -44,7 +44,7 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col">
                         <div className="header-tools justify-content-end">
                             <div className="header-login">
-                                <Link to="/my-account">
+                                <Link to="/auth/login">
                                     <FontAwesomeIcon icon="user" />
                                 </Link>
                             </div>

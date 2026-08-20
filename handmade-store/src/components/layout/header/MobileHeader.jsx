@@ -25,7 +25,7 @@ export function MobileHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col-auto">
                         <div className="header-tools justify-content-end">
                             <div className="header-login d-none d-sm-block">
-                                <Link to="/my-account">
+                                <Link to="/auth/login">
                                     <FontAwesomeIcon icon="user" />
                                 </Link>
                             </div>

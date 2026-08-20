@@ -16839,7 +16839,11 @@ input[type='range']::-moz-range-thumb {
 }
 
 .login-register-form form a {
-    color: var(--text-dark);
+    color: var(--color-primary);
+}
+
+.login-register-form form a:hover {
+    color: var(--color-primary-2);
 }
 
 /* 18.01.07. Lost Password CSS */

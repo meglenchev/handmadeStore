@@ -6,7 +6,7 @@ export function useForm(callback, initialValues, validateFn) {
 
     const changeHandler = (e) => {
         const { name, value } = e.target;
-        const fieldToTrim = ['email', 'password', 'confirmPassword'];
+        const fieldToTrim = ['email'];
 
         const trimmedValue = fieldToTrim.includes(name) ? value.trim() : value.trimStart();
 
@@ -24,7 +24,7 @@ export function useForm(callback, initialValues, validateFn) {
         }));
     };
 
-    const formAction = (e) => {
+    const submitHandler = (e) => {
         if (e && typeof e.preventDefault === 'function') {
             e.preventDefault();
         }
@@ -52,7 +52,7 @@ export function useForm(callback, initialValues, validateFn) {
     return {
         formValues,
         changeHandler,
-        formAction,
+        submitHandler,
         formErrors,
         setFormErrors,
         setFormValues,

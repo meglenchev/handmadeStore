@@ -41,7 +41,7 @@ export function MobileMenu({ activeMenu, toggleMenu }) {
                     <div className="offcanvas-buttons">
                         <div className="header-tools">
                             <div className="header-login">
-                                <NavLink to="/my-account">
+                                <NavLink to="/auth/login">
                                     <FontAwesomeIcon icon="user" />
                                 </NavLink>
                             </div>
