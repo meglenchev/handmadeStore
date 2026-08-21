@@ -31,6 +31,7 @@ export function useForm(callback, initialValues, validateFn) {
 
         if (validateFn) {
             const validationErrors = validateFn(formValues);
+
             if (Object.keys(validationErrors).length > 0) {
                 setFormErrors(validationErrors);
                 return;

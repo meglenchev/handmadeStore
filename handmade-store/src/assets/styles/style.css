@@ -3394,6 +3394,14 @@ fieldset legend {
     background-color: var(--text-white);
 }
 
+form .error {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 5px;
+    color: var(--color-danger);
+}
+
 /*----------------------------------------*/
 /* 05. Header CSS 
 /*----------------------------------------*/

@@ -8,8 +8,43 @@ const initialLoginValues = {
 
 const initialRegisterValues = {
     email: '',
+    username: '',
     password: '',
     confirmPassword: '',
+};
+
+const validateFn = (values) => {
+    const errors = {};
+
+    if (!values.email) {
+        errors.email = 'Имейлът е задължителен!';
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors.email = 'Имейл формата е неправилен!';
+    }
+
+    if (!values.password) {
+        errors.password = 'Паролата е задължителна!';
+    } else if (values.password.length < 8) {
+        errors.password = 'Паролата трябва да бъде поне 8 символа!';
+    }
+
+    if (values.confirmPassword !== undefined) {
+        if (!values.confirmPassword) {
+            errors.confirmPassword = 'Повторната парола е задължителна!';
+        } else if (values.password !== values.confirmPassword) {
+            errors.confirmPassword = 'Паролите не съвпадат!';
+        }
+    }
+
+    if (values.username !== undefined) {
+        if (!values.username) {
+            errors.username = 'Юзърнеймът е задължителен!';
+        } else if (values.username.length < 3) {
+            errors.username = 'Юзърнеймът трябва да бъде поне 3 символа!';
+        }
+    }
+
+    return errors;
 };
 
 export function Login() {
@@ -21,8 +56,8 @@ export function Login() {
         return console.log('Register form submitted with values:', formValues);
     };
 
-    const loginForm = useForm(loginSubmitHandler, initialLoginValues);
-    const registerForm = useForm(registerSubmitHandler, initialRegisterValues);
+    const loginForm = useForm(loginSubmitHandler, initialLoginValues, validateFn);
+    const registerForm = useForm(registerSubmitHandler, initialRegisterValues, validateFn);
 
     return (
         <>
@@ -53,10 +88,22 @@ export function Login() {
                                     <form onSubmit={loginForm.submitHandler}>
                                         <div className="row learts-mb-n50">
                                             <div className="col-12 learts-mb-50">
-                                                <input type="email" {...loginForm.inputPropertiesRegister('email')} placeholder="Имейл адрес" />
+                                                <input
+                                                    type="email"
+                                                    {...loginForm.inputPropertiesRegister('email')}
+                                                    className={loginForm.formErrors.email && `form-control is-invalid`}
+                                                    placeholder="Имейл адрес"
+                                                />
+                                                {loginForm.formErrors.email && <span className="error">{loginForm.formErrors.email}</span>}
                                             </div>
                                             <div className="col-12 learts-mb-50">
-                                                <input type="password" {...loginForm.inputPropertiesRegister('password')} placeholder="Парола" />
+                                                <input
+                                                    type="password"
+                                                    {...loginForm.inputPropertiesRegister('password')}
+                                                    className={loginForm.formErrors.password && `form-control is-invalid`}
+                                                    placeholder="Парола"
+                                                />
+                                                {loginForm.formErrors.password && <span className="error">{loginForm.formErrors.password}</span>}
                                             </div>
                                             <div className="col-12 text-center learts-mb-50">
                                                 <button type="submit" className="btn btn-primary2">
@@ -90,19 +137,49 @@ export function Login() {
                                                 <label htmlFor="registerEmail">
                                                     Имейл адрес <abbr className="required">*</abbr>
                                                 </label>
-                                                <input type="email" {...registerForm.inputPropertiesRegister('email')} id="registerEmail" />
+                                                <input
+                                                    type="email"
+                                                    {...registerForm.inputPropertiesRegister('email')}
+                                                    className={registerForm.formErrors.email && `form-control is-invalid`}
+                                                    id="registerEmail"
+                                                />
+                                                {registerForm.formErrors.email && <span className="error">{registerForm.formErrors.email}</span>}
+                                            </div>
+                                            <div className="col-12 learts-mb-20">
+                                                <label htmlFor="registerUsername">
+                                                    Юзърнейм <abbr className="required">*</abbr>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    {...registerForm.inputPropertiesRegister('username')}
+                                                    className={registerForm.formErrors.username && `form-control is-invalid`}
+                                                    id="registerUsername"
+                                                />
+                                                {registerForm.formErrors.username && <span className="error">{registerForm.formErrors.username}</span>}
                                             </div>
                                             <div className="col-12 learts-mb-20">
                                                 <label htmlFor="registerPassword">
                                                     Парола <abbr className="required">*</abbr>
                                                 </label>
-                                                <input type="password" {...registerForm.inputPropertiesRegister('password')} id="registerPassword" />
+                                                <input
+                                                    type="password"
+                                                    {...registerForm.inputPropertiesRegister('password')}
+                                                    className={registerForm.formErrors.password && `form-control is-invalid`}
+                                                    id="registerPassword"
+                                                />
+                                                {registerForm.formErrors.password && <span className="error">{registerForm.formErrors.password}</span>}
                                             </div>
                                             <div className="col-12 learts-mb-20">
                                                 <label htmlFor="confirmPassword">
                                                     Повтори паролата <abbr className="required">*</abbr>
                                                 </label>
-                                                <input type="password" {...registerForm.inputPropertiesRegister('confirmPassword')} id="confirmPassword" />
+                                                <input
+                                                    type="password"
+                                                    {...registerForm.inputPropertiesRegister('confirmPassword')}
+                                                    className={registerForm.formErrors.confirmPassword && `form-control is-invalid`}
+                                                    id="confirmPassword"
+                                                />
+                                                {registerForm.formErrors.confirmPassword && <span className="error">{registerForm.formErrors.confirmPassword}</span>}
                                             </div>
                                             <div className="col-12 learts-mb-50">
                                                 <p>
