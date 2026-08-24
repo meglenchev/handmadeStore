@@ -6,21 +6,21 @@ import { useContext } from 'react';
 import ShopContext from '@/context/ShopContext.jsx';
 import WishlistContext from '@/context/WishlistContext.jsx';
 
-export function MobileMenu({ activeMenu, toggleMenu }) {
+export function MobileMenu({ activeMenu, closeMenu }) {
     const { cartCount } = useContext(ShopContext);
     const { wishlistCount } = useContext(WishlistContext);
 
     return (
-        <Offcanvas show={activeMenu.mobile} onHide={() => toggleMenu('mobile')} placement="start" className="mobileMenu offcanvas offcanvas-mobile-menu">
+        <Offcanvas show={activeMenu.mobile} onHide={() => closeMenu('mobile')} placement="start" className="mobileMenu">
             <Offcanvas.Header className="head">
-                <button onClick={() => toggleMenu('mobile')} className="offcanvas-close">
+                <button onClick={() => closeMenu('mobile')} className="btn offcanvas-close">
                     ×
                 </button>
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <div className="inner customScroll">
                     <div className="offcanvas-menu-search-form">
-                        <form action="#">
+                        <form>
                             <input type="text" placeholder="Search..." />
                             <button>
                                 <FontAwesomeIcon icon="search" />
@@ -31,7 +31,7 @@ export function MobileMenu({ activeMenu, toggleMenu }) {
                         <ul>
                             {HEADER_LINKS.map((link) => (
                                 <li key={link.to}>
-                                    <NavLink to={link.to}>
+                                    <NavLink to={link.to} onClick={() => closeMenu('mobile')}>
                                         <span className="menu-text">{link.label}</span>
                                     </NavLink>
                                 </li>
@@ -41,18 +41,18 @@ export function MobileMenu({ activeMenu, toggleMenu }) {
                     <div className="offcanvas-buttons">
                         <div className="header-tools">
                             <div className="header-login">
-                                <NavLink to="/auth/login">
+                                <NavLink to="/auth/login" onClick={() => closeMenu('mobile')}>
                                     <FontAwesomeIcon icon="user" />
                                 </NavLink>
                             </div>
                             <div className="header-wishlist">
-                                <NavLink to="/wishlist">
+                                <NavLink to="/wishlist" onClick={() => closeMenu('mobile')}>
                                     {wishlistCount > 0 && <span>{wishlistCount}</span>}
                                     <FontAwesomeIcon icon="heart" />
                                 </NavLink>
                             </div>
                             <div className="header-cart">
-                                <NavLink to="/shopping-cart">
+                                <NavLink to="/shopping-cart" onClick={() => closeMenu('mobile')}>
                                     {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                                     <FontAwesomeIcon icon="shopping-cart" />
                                 </NavLink>

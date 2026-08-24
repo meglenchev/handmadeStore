@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFromCart }) {
     return (
-        <Offcanvas show={activeMenu.cart} onHide={() => toggleMenu('cart')} placement="end" className="offcanvas offcanvas-cart">
+        <Offcanvas show={activeMenu.cart} onHide={() => toggleMenu('cart')} placement="end" className="offcanvas-cart">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Количка</span>

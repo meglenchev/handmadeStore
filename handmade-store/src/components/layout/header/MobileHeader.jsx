@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import ShopContext from '@/context/ShopContext.jsx';
@@ -25,9 +25,9 @@ export function MobileHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col-auto">
                         <div className="header-tools justify-content-end">
                             <div className="header-login d-none d-sm-block">
-                                <Link to="/auth/login">
+                                <NavLink to="/auth/login">
                                     <FontAwesomeIcon icon="user" />
-                                </Link>
+                                </NavLink>
                             </div>
                             <div className="header-search d-none d-sm-block">
                                 <button onClick={() => toggleMenu('search')} className={`offcanvas-toggle ${activeMenu.search ? 'close' : ''}`}>

@@ -6,7 +6,7 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
     const wishlistItems = wishlist || [];
 
     return (
-        <Offcanvas show={activeMenu.wishlist} onHide={() => toggleMenu('wishlist')} placement="end" className="offcanvas offcanvas-wishlist">
+        <Offcanvas show={activeMenu.wishlist} onHide={() => toggleMenu('wishlist')} placement="end" className="offcanvas-wishlist">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Любми</span>

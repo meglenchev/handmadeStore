@@ -97,7 +97,7 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     };
 
     return (
-        <Offcanvas show={activeMenu.search} onHide={() => handleCloseAndClear('search')} placement="start" className="offcanvas offcanvas-search">
+        <Offcanvas show={activeMenu.search} onHide={() => handleCloseAndClear('search')} placement="start" className="offcanvas-search">
             <Offcanvas.Header>
                 <div className="inner">
                     <div className="offcanvas-search-form">

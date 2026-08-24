@@ -18,8 +18,8 @@ export function ProductsToolbar({ gridView, setGridView, productFilterView, setP
             <div className="container">
                 <div className="row">
                     {/* Isotop Filter Start */}
-                    <div className="col-md col-12 align-self-center">
-                        <div className="isotope-filter shop-product-filter">
+                    <div className="col-md col-12 align-self-center product-categories">
+                        <div className="shop-product-filter">
                             <Link to={buildTagHref(null)} className={!currentTag ? 'active' : ''}>
                                 Всички
                             </Link>
@@ -40,7 +40,7 @@ export function ProductsToolbar({ gridView, setGridView, productFilterView, setP
                         <ul className="shop-toolbar-controls">
                             <li>
                                 <div className="product-sorting">
-                                    <select className="nice-select" value={currentSort} onChange={onSortChange}>
+                                    <select className="nice-select" name="productSorting" value={currentSort} onChange={onSortChange}>
                                         <option value="menu_order">по подразбиране</option>
                                         <option value="price">цена: ниска към висока</option>
                                         <option value="price-desc">цена: висока към ниска</option>

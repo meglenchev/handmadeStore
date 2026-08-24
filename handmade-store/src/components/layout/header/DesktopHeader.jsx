@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import ShopContext from '@/context/ShopContext.jsx';
 
@@ -44,9 +44,9 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col">
                         <div className="header-tools justify-content-end">
                             <div className="header-login">
-                                <Link to="/auth/login">
+                                <NavLink to="/auth/login">
                                     <FontAwesomeIcon icon="user" />
-                                </Link>
+                                </NavLink>
                             </div>
                             <div className="header-search d-none d-sm-block">
                                 <button onClick={() => toggleMenu('search')} className={`offcanvas-toggle ${activeMenu.search ? 'close' : ''}`}>

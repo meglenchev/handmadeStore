@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSticky } from '@/hooks/useSticky.jsx';
 import { DesktopHeader } from './DesktopHeader.jsx';
@@ -26,6 +26,10 @@ export function Header() {
 
     const toggleMenu = useCallback((name) => {
         setActiveMenu((prev) => ({ ...prev, [name]: !prev[name] }));
+    }, []);
+
+    const closeMenu = useCallback((name) => {
+        setActiveMenu((prev) => ({ ...prev, [name]: false }));
     }, []);
 
     const { cart, cartCount, subtotal, removeFromCart, notification } = useContext(ShopContext);
@@ -62,7 +66,7 @@ export function Header() {
             ) : (
                 <>
                     <MobileHeader isSticky={isSticky} toggleMenu={toggleMenu} activeMenu={activeMenu} />
-                    <MobileMenu activeMenu={activeMenu} toggleMenu={toggleMenu} />
+                    <MobileMenu activeMenu={activeMenu} closeMenu={closeMenu} />
                 </>
             )}
             {/* OffCanvas Search Start */}
