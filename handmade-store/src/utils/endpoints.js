@@ -9,4 +9,7 @@ export const ENDPOINTS = {
         DISCOUNTED: '/products/discounted',
         DETAILS: (productId) => `/products/${productId}/details`,
     },
+    AUTH: {
+        LOGIN: '/users/login',
+    },
 };
