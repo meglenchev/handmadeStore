@@ -30,7 +30,7 @@ export function QuickView() {
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
             <Modal.Body>
-                <button className="close" onClick={onCloseQuickView}>
+                <button className="btn close" onClick={onCloseQuickView}>
                     ×
                 </button>
                 <div className="row learts-mb-n30">
