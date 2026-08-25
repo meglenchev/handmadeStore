@@ -1567,6 +1567,10 @@ body.homepage-bg1.offcanvas-open {
         padding-right: 20px;
         padding-left: 20px;
     }
+
+    .slick-slider .slick-arrow.slick-prev {
+        left: 0 !important;
+    }
 }
 
 .slick-slider:hover .slick-arrow {
@@ -13178,7 +13182,7 @@ body.offcanvas.show .sticky-header {
 
 @media only screen and (max-width: 479px) {
     .product-title {
-        font-size: 30px;
+        font-size: 25px;
     }
 }
 
@@ -13917,7 +13921,6 @@ body.offcanvas.show .sticky-header {
 
 /* 09.04. Quick View CSS */
 .quickViewModal .modal-dialog {
-    width: calc(100% - 30px);
     max-width: 1200px;
 }
 
@@ -13949,6 +13952,7 @@ body.offcanvas.show .sticky-header {
     justify-content: center;
     width: 40px;
     height: 40px;
+    padding: 0;
     border: none;
     border-radius: 50%;
     background-color: transparent;
@@ -13966,6 +13970,18 @@ body.offcanvas.show .sticky-header {
 @media only screen and (max-width: 479px) {
     .quickViewModal .modal-dialog .modal-content {
         padding: 20px;
+    }
+
+    .quickViewModal .modal-dialog .modal-content .close {
+        font-size: 21px;
+        line-height: 30px;
+        width: 30px;
+        height: 30px;
+        z-index: 1;
+        top: -15px;
+        right: -15px;
+        background-color: var(--bg-body-light);
+        color: var(--color-light);
     }
 }
 
