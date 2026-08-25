@@ -1,5 +1,7 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useForm } from '../../../hooks/useForm.js';
+import { useContext, useState } from 'react';
+import AuthContext from '@/context/AuthContext.jsx';
 
 const initialValues = {
     email: '',
@@ -23,8 +25,19 @@ const validateFn = (values) => {
 };
 
 export function LoginForm() {
-    const loginSubmitHandler = (formValues) => {
-        return console.log('Login form submitted with values:', formValues);
+    const { onLogin } = useContext(AuthContext);
+    const [submitError, setSubmitError] = useState(null);
+    const navigate = useNavigate();
+
+    const loginSubmitHandler = async (formValues) => {
+        setSubmitError(null);
+
+        try {
+            await onLogin(formValues);
+            navigate('/', { replace: true });
+        } catch (err) {
+            setSubmitError(err.message || 'Грешен имейл или парола.');
+        }
     };
 
     const { inputPropertiesRegister, submitHandler, formErrors } = useForm(loginSubmitHandler, initialValues, validateFn);
@@ -39,11 +52,16 @@ export function LoginForm() {
                 <form onSubmit={submitHandler} noValidate>
                     <div className="row learts-mb-n50">
                         <div className="col-12 learts-mb-50">
-                            <input type="email" {...inputPropertiesRegister('email')} className={formErrors.email && `form-control is-invalid`} placeholder="Имейл адрес" />
+                            <input type="email" {...inputPropertiesRegister('email')} className={`form-control ${formErrors.email && 'is-invalid'}`} placeholder="Имейл адрес" />
                             {formErrors.email && <span className="error">{formErrors.email}</span>}
                         </div>
                         <div className="col-12 learts-mb-50">
-                            <input type="password" {...inputPropertiesRegister('password')} className={formErrors.password && `form-control is-invalid`} placeholder="Парола" />
+                            <input
+                                type="password"
+                                {...inputPropertiesRegister('password')}
+                                className={`form-control ${formErrors.password && 'is-invalid'}`}
+                                placeholder="Парола"
+                            />
                             {formErrors.password && <span className="error">{formErrors.password}</span>}
                         </div>
                         <div className="col-12 text-center learts-mb-50">
@@ -51,6 +69,11 @@ export function LoginForm() {
                                 Вход
                             </button>
                         </div>
+                        {submitError && (
+                            <div className="col-12 learts-mb-20">
+                                <span className="error">{submitError}</span>
+                            </div>
+                        )}
                         <div className="col-12 learts-mb-50">
                             <div className="row learts-mb-n20">
                                 <div className="col-12 learts-mb-20">

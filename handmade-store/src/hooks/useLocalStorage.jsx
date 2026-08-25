@@ -13,7 +13,11 @@ export function useLocalStorage(key, initialValue = []) {
 
     useEffect(() => {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
+            if (value === undefined || value === null) {
+                localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, JSON.stringify(value));
+            }
         } catch (error) {
             console.error(`Error saving ${key} to localStorage:`, error);
         }
