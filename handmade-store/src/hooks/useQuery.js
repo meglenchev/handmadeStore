@@ -22,8 +22,15 @@ export function useQuery(urlPath, initialValue = null) {
             // Simulate a delay for demonstration purposes (optional)
             // await new Promise((resolve) => setTimeout(resolve, 3000));
 
+            const options = {
+                method: 'GET',
+                headers: {},
+                credentials: 'include',
+                signal: abortController.signal,
+            };
+
             try {
-                const response = await fetch(`${BASE_URL}${urlPath}`, { signal: abortController.signal });
+                const response = await fetch(`${BASE_URL}${urlPath}`, options);
 
                 if (!response.ok) {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);

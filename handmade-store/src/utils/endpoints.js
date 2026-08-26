@@ -11,5 +11,6 @@ export const ENDPOINTS = {
     },
     AUTH: {
         LOGIN: '/users/login',
+        ME: '/users/me',
     },
 };

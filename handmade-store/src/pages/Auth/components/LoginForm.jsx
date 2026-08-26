@@ -69,6 +69,7 @@ export function LoginForm() {
                                 Вход
                             </button>
                         </div>
+                        {/* TODO: Add styles for better visual representation of this error */}
                         {submitError && (
                             <div className="col-12 learts-mb-20">
                                 <span className="error">{submitError}</span>
