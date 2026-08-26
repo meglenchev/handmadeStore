@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { routes } from "./routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(
     }),
 );
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(routes);
