@@ -4,6 +4,7 @@ export function generateUserToken(user) {
     const payload = {
         id: user._id,
         username: user.username,
+        role: user.role,
         vendorStatus: user.vendorStatus,
     };
 

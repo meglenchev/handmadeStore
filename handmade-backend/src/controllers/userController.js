@@ -84,3 +84,14 @@ userController.post("/users/logout", (req, res) => {
         isLoggedIn: false,
     });
 });
+
+userController.get("/users/me", (req, res) => {
+    res.status(200).json({
+        user: {
+            _id: user._id,
+            username: user.username,
+            role: user.role,
+            vendorStatus: user.vendorStatus,
+        },
+    });
+});
