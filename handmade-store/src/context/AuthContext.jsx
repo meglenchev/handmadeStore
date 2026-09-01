@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage.jsx';
 import { useMutation } from '@/hooks/useMutation.jsx';
-import { useQuery } from '@/hooks/useQuery.js';
+import { apiGet } from '@/utils/apiClient.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { createContext, useEffect, useState } from 'react';
 
@@ -24,17 +24,23 @@ export function AuthProvider({ children }) {
     const isLoggedIn = !!auth?._id;
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         const verifySession = async () => {
             try {
-                const result = await useQuery(ENDPOINTS.AUTH.ME);
-
-                setAuth({ _id: result.user._id, username: result.user.username, role: result.user.role });
-                setAuthRole(result.user.vendorStatus);
+                const result = await apiGet(ENDPOINTS.AUTH.ME, { signal: abortController.signal });
+                setAuth({ _id: result._id, username: result.username, role: result.role });
+                setAuthRole(result.role);
             } catch (err) {
-                setAuth(null);
-                setAuthRole(null);
+                if (err.name !== 'AbortError') {
+                    setAuth(null);
+                    setAuthRole(null);
+                    console.error('Session verification failed:', err.message);
+                }
             } finally {
-                setIsAuthLoading(false);
+                if (!abortController.signal.aborted) {
+                    setIsAuthLoading(false);
+                }
             }
         };
 
