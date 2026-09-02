@@ -31,13 +31,17 @@ export function AuthProvider({ children }) {
         const verifySession = async () => {
             try {
                 const result = await apiGet(ENDPOINTS.AUTH.ME, { signal: abortController.signal });
+
                 setAuth({ _id: result.user._id, username: result.user.username, role: result.user.role });
                 setVendorStatus(result.user.vendorStatus);
             } catch (err) {
                 if (err.name !== 'AbortError') {
                     setAuth(null);
                     setVendorStatus(null);
-                    console.error('Session verification failed:', err.message);
+
+                    if (err.statusCode !== 401) {
+                        console.error('Session verification failed:', err.message);
+                    }
                 }
             } finally {
                 if (!abortController.signal.aborted) {

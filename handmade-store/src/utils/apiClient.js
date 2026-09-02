@@ -12,7 +12,9 @@ async function request(urlPath, options = {}) {
 
     if (!response.ok) {
         const errorBody = await response.json().catch(() => null);
-        throw new Error(errorBody?.message || `Error ${response.status}: ${response.statusText}`);
+        const err = new Error(errorBody?.message || `Error ${response.status}: ${response.statusText}`);
+        err.statusCode = response.status;
+        throw err;
     }
 
     return response.json();
