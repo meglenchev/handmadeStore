@@ -22,4 +22,4 @@ export const apiGet = (urlPath, options) => request(urlPath, { method: 'GET', ..
 export const apiPost = (urlPath, body, options) => request(urlPath, { method: 'POST', body: JSON.stringify(body), ...options });
 export const apiPut = (urlPath, body, options) => request(urlPath, { method: 'PUT', body: JSON.stringify(body), ...options });
 export const apiPatch = (urlPath, body, options) => request(urlPath, { method: 'PATCH', body: JSON.stringify(body), ...options });
-export const apiDelete = (urlPath, options) => request(urlPath, { method: 'DELETE', ...options });
+export const apiDelete = (urlPath, body, options) => request(urlPath, { method: 'DELETE', ...(body !== undefined ? { body: JSON.stringify(body) } : {}), ...options });
