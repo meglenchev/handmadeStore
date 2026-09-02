@@ -10,7 +10,8 @@ const AuthContext = createContext({
     vendorStatus: null,
     isLoggedIn: false,
     isAuthLoading: true,
-    onLogin: () => {},
+    onLogin: async () => {},
+    onRegister: async () => {},
     onLogout: () => {},
 });
 
@@ -20,6 +21,7 @@ export function AuthProvider({ children }) {
     const [isAuthLoading, setIsAuthLoading] = useState(true);
 
     const { mutate: login, loading: loginLoading, error: loginError } = useMutation(ENDPOINTS.AUTH.LOGIN);
+    const { mutate: register, loading: registerLoading, error: registerError } = useMutation(ENDPOINTS.AUTH.REGISTER);
 
     const isLoggedIn = !!auth?._id;
 
@@ -51,6 +53,20 @@ export function AuthProvider({ children }) {
         };
     }, []);
 
+    const onRegister = async (registerData) => {
+        const result = await register(registerData);
+
+        setAuth({
+            _id: result.user._id,
+            username: result.user.username,
+            role: result.user.role,
+        });
+
+        setVendorStatus(result.user.vendorStatus);
+
+        return result;
+    };
+
     const onLogin = async (loginData) => {
         const result = await login(loginData);
 
@@ -76,9 +92,12 @@ export function AuthProvider({ children }) {
         vendorStatus,
         isLoggedIn,
         onLogin,
-        onLogout,
         loginLoading,
         loginError,
+        onRegister,
+        registerLoading,
+        registerError,
+        onLogout,
     };
 
     return <AuthContext.Provider value={authContextValue}>{isAuthLoading ? null : children}</AuthContext.Provider>;

@@ -6,7 +6,7 @@ export function useForm(callback, initialValues, validateFn) {
 
     const changeHandler = (e) => {
         const { name, value } = e.target;
-        const fieldToTrim = ['email'];
+        const fieldToTrim = ['email', 'username'];
 
         const trimmedValue = fieldToTrim.includes(name) ? value.trim() : value.trimStart();
 

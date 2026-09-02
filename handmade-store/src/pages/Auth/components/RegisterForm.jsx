@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router';
+import { useState, useContext } from 'react';
 import { useForm } from '../../../hooks/useForm.js';
+import AuthContext from '@/context/AuthContext.jsx';
 
 const initialValues = {
     email: '',
@@ -38,8 +41,19 @@ const validateFn = (values) => {
 };
 
 export function RegisterForm() {
-    const registerSubmitHandler = (formValues) => {
-        return console.log('Register form submitted with values:', formValues);
+    const { onRegister } = useContext(AuthContext);
+    const [submitError, setSubmitError] = useState(null);
+    const navigate = useNavigate();
+
+    const registerSubmitHandler = async (formValues) => {
+        setSubmitError(null);
+
+        try {
+            await onRegister(formValues);
+            navigate('/', { replace: true });
+        } catch (err) {
+            setSubmitError(err.message || 'Грешка при регистрация. Моля, опитайте отново.');
+        }
     };
 
     const { inputPropertiesRegister, submitHandler, formErrors } = useForm(registerSubmitHandler, initialValues, validateFn);
@@ -57,21 +71,39 @@ export function RegisterForm() {
                             <label htmlFor="registerEmail">
                                 Имейл адрес <abbr className="required">*</abbr>
                             </label>
-                            <input type="email" {...inputPropertiesRegister('email')} className={formErrors.email && `form-control is-invalid`} id="registerEmail" />
+                            <input
+                                type="email"
+                                autoComplete="email"
+                                {...inputPropertiesRegister('email')}
+                                className={formErrors.email && `form-control is-invalid`}
+                                id="registerEmail"
+                            />
                             {formErrors.email && <span className="error">{formErrors.email}</span>}
                         </div>
                         <div className="col-12 learts-mb-20">
                             <label htmlFor="registerUsername">
                                 Юзърнейм <abbr className="required">*</abbr>
                             </label>
-                            <input type="text" {...inputPropertiesRegister('username')} className={formErrors.username && `form-control is-invalid`} id="registerUsername" />
+                            <input
+                                type="text"
+                                autoComplete="username"
+                                {...inputPropertiesRegister('username')}
+                                className={formErrors.username && `form-control is-invalid`}
+                                id="registerUsername"
+                            />
                             {formErrors.username && <span className="error">{formErrors.username}</span>}
                         </div>
                         <div className="col-12 learts-mb-20">
                             <label htmlFor="registerPassword">
                                 Парола <abbr className="required">*</abbr>
                             </label>
-                            <input type="password" {...inputPropertiesRegister('password')} className={formErrors.password && `form-control is-invalid`} id="registerPassword" />
+                            <input
+                                type="password"
+                                autoComplete="new-password"
+                                {...inputPropertiesRegister('password')}
+                                className={formErrors.password && `form-control is-invalid`}
+                                id="registerPassword"
+                            />
                             {formErrors.password && <span className="error">{formErrors.password}</span>}
                         </div>
                         <div className="col-12 learts-mb-20">
@@ -80,6 +112,7 @@ export function RegisterForm() {
                             </label>
                             <input
                                 type="password"
+                                autoComplete="new-password"
                                 {...inputPropertiesRegister('confirmPassword')}
                                 className={formErrors.confirmPassword && `form-control is-invalid`}
                                 id="confirmPassword"

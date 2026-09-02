@@ -52,12 +52,19 @@ export function LoginForm() {
                 <form onSubmit={submitHandler} noValidate>
                     <div className="row learts-mb-n50">
                         <div className="col-12 learts-mb-50">
-                            <input type="email" {...inputPropertiesRegister('email')} className={`form-control ${formErrors.email && 'is-invalid'}`} placeholder="Имейл адрес" />
+                            <input
+                                type="email"
+                                autoComplete="email"
+                                {...inputPropertiesRegister('email')}
+                                className={`form-control ${formErrors.email && 'is-invalid'}`}
+                                placeholder="Имейл адрес"
+                            />
                             {formErrors.email && <span className="error">{formErrors.email}</span>}
                         </div>
                         <div className="col-12 learts-mb-50">
                             <input
                                 type="password"
+                                autoComplete="current-password"
                                 {...inputPropertiesRegister('password')}
                                 className={`form-control ${formErrors.password && 'is-invalid'}`}
                                 placeholder="Парола"
