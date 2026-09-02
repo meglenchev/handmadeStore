@@ -7,7 +7,7 @@ import { createContext, useEffect, useState } from 'react';
 const AuthContext = createContext({
     auth: null,
     isAuthenticated: false,
-    authRole: null,
+    vendorStatus: null,
     isLoggedIn: false,
     isAuthLoading: true,
     onLogin: () => {},
@@ -15,7 +15,7 @@ const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-    const [authRole, setAuthRole] = useState(null);
+    const [vendorStatus, setVendorStatus] = useState(null);
     const [auth, setAuth] = useLocalStorage('auth', null);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
 
@@ -29,12 +29,12 @@ export function AuthProvider({ children }) {
         const verifySession = async () => {
             try {
                 const result = await apiGet(ENDPOINTS.AUTH.ME, { signal: abortController.signal });
-                setAuth({ _id: result._id, username: result.username, role: result.role });
-                setAuthRole(result.role);
+                setAuth({ _id: result.user._id, username: result.user.username, role: result.user.role });
+                setVendorStatus(result.user.vendorStatus);
             } catch (err) {
                 if (err.name !== 'AbortError') {
                     setAuth(null);
-                    setAuthRole(null);
+                    setVendorStatus(null);
                     console.error('Session verification failed:', err.message);
                 }
             } finally {
@@ -45,6 +45,10 @@ export function AuthProvider({ children }) {
         };
 
         verifySession();
+
+        return () => {
+            abortController.abort();
+        };
     }, []);
 
     const onLogin = async (loginData) => {
@@ -56,20 +60,20 @@ export function AuthProvider({ children }) {
             role: result.user.role,
         });
 
-        setAuthRole(result.user.vendorStatus);
+        setVendorStatus(result.user.vendorStatus);
 
         return result;
     };
 
     const onLogout = () => {
         setAuth(null);
-        setAuthRole(null);
+        setVendorStatus(null);
     };
 
     const authContextValue = {
         auth,
         isAuthenticated: !!auth?._id,
-        authRole,
+        vendorStatus,
         isLoggedIn,
         onLogin,
         onLogout,
