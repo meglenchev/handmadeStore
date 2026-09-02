@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { toUserDTO } from "../utils/userDTO.js";
 
 export default {
     async register(username, email, password, confirmPassword) {
@@ -23,11 +24,7 @@ export default {
         try {
             const user = await User.create({ username, email, password });
 
-            return {
-                _id: user._id,
-                username: user.username,
-                vendorStatus: user.vendorStatus,
-            };
+            return toUserDTO(user);
         } catch (err) {
             if (err.code === 11000) {
                 const dupErr = new Error(
@@ -57,12 +54,7 @@ export default {
             throw err;
         }
 
-        return {
-            _id: user._id,
-            username: user.username,
-            role: user.role,
-            vendorStatus: user.vendorStatus,
-        };
+        return toUserDTO(user);
     },
     async getMe(userId) {
         const user = await User.findById(userId);
@@ -73,11 +65,6 @@ export default {
             throw err;
         }
 
-        return {
-            _id: user._id,
-            username: user.username,
-            role: user.role,
-            vendorStatus: user.vendorStatus,
-        };
+        return toUserDTO(user);
     },
 };

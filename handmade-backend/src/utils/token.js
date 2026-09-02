@@ -1,12 +1,8 @@
 import jwt from "jsonwebtoken";
+import { toUserDTO } from "./userDTO.js";
 
 export function generateUserToken(user) {
-    const payload = {
-        _id: user._id,
-        username: user.username,
-        role: user.role,
-        vendorStatus: user.vendorStatus,
-    };
+    const payload = toUserDTO(user);
 
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 }
