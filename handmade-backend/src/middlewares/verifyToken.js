@@ -1,4 +1,4 @@
-import { jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export function verifyToken(allowedRoles = []) {
     return async (req, res, next) => {

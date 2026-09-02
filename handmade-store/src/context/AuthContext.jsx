@@ -74,7 +74,6 @@ export function AuthProvider({ children }) {
         onLogin,
         onLogout,
         loginLoading,
-        loginLoading,
         loginError,
     };
 

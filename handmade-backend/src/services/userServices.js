@@ -64,4 +64,20 @@ export default {
             vendorStatus: user.vendorStatus,
         };
     },
+    async getMe(userId) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        return {
+            _id: user._id,
+            username: user.username,
+            role: user.role,
+            vendorStatus: user.vendorStatus,
+        };
+    },
 };

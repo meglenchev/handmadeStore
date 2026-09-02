@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userServices from "../services/userServices.js";
 import { generateUserToken, authCookieOptions } from "../utils/token.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 export const userController = Router();
 
@@ -85,13 +86,11 @@ userController.post("/users/logout", (req, res) => {
     });
 });
 
-userController.get("/users/me", (req, res) => {
-    res.status(200).json({
-        user: {
-            _id: user._id,
-            username: user.username,
-            role: user.role,
-            vendorStatus: user.vendorStatus,
-        },
-    });
+userController.get("/users/me", verifyToken(), async (req, res, next) => {
+    try {
+        const user = await userServices.getMe(req.user._id);
+        res.status(200).json({ user });
+    } catch (err) {
+        next(err);
+    }
 });

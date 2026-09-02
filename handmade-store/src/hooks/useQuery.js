@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+import { apiGet } from '@/utils/apiClient.js';
 
 export function useQuery(urlPath, initialValue = null) {
     const [data, setData] = useState(initialValue);
@@ -22,21 +22,8 @@ export function useQuery(urlPath, initialValue = null) {
             // Simulate a delay for demonstration purposes (optional)
             // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-            const options = {
-                method: 'GET',
-                headers: {},
-                credentials: 'include',
-                signal: abortController.signal,
-            };
-
             try {
-                const response = await fetch(`${BASE_URL}${urlPath}`, options);
-
-                if (!response.ok) {
-                    throw new Error(`Error ${response.status}: ${response.statusText}`);
-                }
-
-                const result = await response.json();
+                const result = await apiGet(urlPath, { signal: abortController.signal });
 
                 if (!abortController.signal.aborted) {
                     setData(result);
