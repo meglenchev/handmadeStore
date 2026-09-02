@@ -2,11 +2,10 @@ import { useLocalStorage } from '@/hooks/useLocalStorage.jsx';
 import { useMutation } from '@/hooks/useMutation.jsx';
 import { apiGet } from '@/utils/apiClient.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState, useMemo } from 'react';
 
 const AuthContext = createContext({
     auth: null,
-    isAuthenticated: false,
     vendorStatus: null,
     isLoggedIn: false,
     isAuthLoading: true,
@@ -23,6 +22,19 @@ export function AuthProvider({ children }) {
     const { mutate: login, loading: loginLoading, error: loginError } = useMutation(ENDPOINTS.AUTH.LOGIN);
     const { mutate: register, loading: registerLoading, error: registerError } = useMutation(ENDPOINTS.AUTH.REGISTER);
 
+    const applySession = useCallback(
+        (user) => {
+            setAuth({ _id: user._id, username: user.username, role: user.role });
+            setVendorStatus(user.vendorStatus);
+        },
+        [setAuth]
+    );
+
+    const clearSession = useCallback(() => {
+        setAuth(null);
+        setVendorStatus(null);
+    }, [setAuth]);
+
     const isLoggedIn = !!auth?._id;
 
     useEffect(() => {
@@ -32,12 +44,10 @@ export function AuthProvider({ children }) {
             try {
                 const result = await apiGet(ENDPOINTS.AUTH.ME, { signal: abortController.signal });
 
-                setAuth({ _id: result.user._id, username: result.user.username, role: result.user.role });
-                setVendorStatus(result.user.vendorStatus);
+                applySession(result.user);
             } catch (err) {
                 if (err.name !== 'AbortError') {
-                    setAuth(null);
-                    setVendorStatus(null);
+                    clearSession();
 
                     if (err.statusCode !== 401) {
                         console.error('Session verification failed:', err.message);
@@ -60,13 +70,7 @@ export function AuthProvider({ children }) {
     const onRegister = async (registerData) => {
         const result = await register(registerData);
 
-        setAuth({
-            _id: result.user._id,
-            username: result.user.username,
-            role: result.user.role,
-        });
-
-        setVendorStatus(result.user.vendorStatus);
+        applySession(result.user);
 
         return result;
     };
@@ -74,35 +78,31 @@ export function AuthProvider({ children }) {
     const onLogin = async (loginData) => {
         const result = await login(loginData);
 
-        setAuth({
-            _id: result.user._id,
-            username: result.user.username,
-            role: result.user.role,
-        });
-
-        setVendorStatus(result.user.vendorStatus);
+        applySession(result.user);
 
         return result;
     };
 
-    const onLogout = () => {
-        setAuth(null);
-        setVendorStatus(null);
-    };
+    const onLogout = useCallback(() => {
+        clearSession();
+    }, [clearSession]);
 
-    const authContextValue = {
-        auth,
-        isAuthenticated: !!auth?._id,
-        vendorStatus,
-        isLoggedIn,
-        onLogin,
-        loginLoading,
-        loginError,
-        onRegister,
-        registerLoading,
-        registerError,
-        onLogout,
-    };
+    const authContextValue = useMemo(
+        () => ({
+            auth,
+            isLoggedIn,
+            vendorStatus,
+            isAuthLoading,
+            onLogin,
+            loginLoading,
+            loginError,
+            onRegister,
+            registerLoading,
+            registerError,
+            onLogout,
+        }),
+        [auth, isLoggedIn, vendorStatus, isAuthLoading, onLogin, loginLoading, loginError, onRegister, registerLoading, registerError, onLogout]
+    );
 
     return <AuthContext.Provider value={authContextValue}>{isAuthLoading ? null : children}</AuthContext.Provider>;
 }
