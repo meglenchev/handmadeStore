@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router';
 import { Products } from './pages/Products/Products.jsx';
 import { ProtectedRoute } from './routes/ProtectedRoute.jsx';
 import { PublicOnlyRoute } from './routes/PublicOnlyRoute.jsx';
+import { NotFound } from './pages/NotFound.jsx';
 
 const Product = lazy(() => import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })));
 const Login = lazy(() => import('./pages/Auth/Login.jsx').then((module) => ({ default: module.Login })));
@@ -59,6 +60,7 @@ function App() {
                             {/* <Route element={<ProtectedRoute />}>
                                 <Route path="/auth/profile" element={<AuthProfile />} />
                             </Route> */}
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Suspense>
                 </ErrorBoundary>

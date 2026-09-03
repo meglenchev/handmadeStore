@@ -17334,7 +17334,7 @@ input[type='range']::-moz-range-thumb {
 
 /* 404 Content */
 .content-404 {
-    padding: 100px 0;
+    padding: 80px 0;
 }
 
 .content-404 .title {
@@ -17364,12 +17364,10 @@ input[type='range']::-moz-range-thumb {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -20px;
-    margin-bottom: -20px;
 }
 
 .content-404 .buttons .btn {
     margin-right: 20px;
-    margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 767px) {
