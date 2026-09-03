@@ -12,6 +12,7 @@ import { Products } from './pages/Products/Products.jsx';
 import { ProtectedRoute } from './routes/ProtectedRoute.jsx';
 import { PublicOnlyRoute } from './routes/PublicOnlyRoute.jsx';
 import { NotFound } from './pages/NotFound.jsx';
+import { Profile } from './pages/Account/Profile.jsx';
 
 const Product = lazy(() => import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })));
 const Login = lazy(() => import('./pages/Auth/Login.jsx').then((module) => ({ default: module.Login })));
@@ -57,9 +58,9 @@ function App() {
                             <Route element={<PublicOnlyRoute />}>
                                 <Route path="/auth/login" element={<Login />} />
                             </Route>
-                            {/* <Route element={<ProtectedRoute />}>
-                                <Route path="/auth/profile" element={<AuthProfile />} />
-                            </Route> */}
+                            <Route element={<ProtectedRoute />}>
+                                <Route path="/account/profile" element={<Profile />} />
+                            </Route>
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Suspense>

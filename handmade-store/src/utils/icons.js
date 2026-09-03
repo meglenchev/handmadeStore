@@ -28,6 +28,10 @@ import {
     faFilter,
     faSliders,
     faWifi,
+    faHome,
+    faFileAlt,
+    faMapMarkerAlt,
+    faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
@@ -66,5 +70,9 @@ library.add(
     faList,
     faFilter,
     faSliders,
-    faWifi
+    faWifi,
+    faHome,
+    faFileAlt,
+    faMapMarkerAlt,
+    faSignOutAlt
 );

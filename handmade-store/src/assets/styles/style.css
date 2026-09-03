@@ -16950,7 +16950,7 @@ input[type='range']::-moz-range-thumb {
     border: 1px solid var(--border-secondary);
 }
 
-.myaccount-tab-list a {
+.myaccount-tab-list li {
     font-weight: 500;
     display: -webkit-box;
     display: -webkit-flex;
@@ -16967,15 +16967,15 @@ input[type='range']::-moz-range-thumb {
     padding: 14px 20px;
 }
 
-.myaccount-tab-list a + a {
+.myaccount-tab-list li + li {
     border-top: 1px solid var(--border-secondary);
 }
 
-.myaccount-tab-list a:hover {
+.myaccount-tab-list li:hover {
     color: var(--text-dark);
 }
 
-.myaccount-tab-list a.active {
+.myaccount-tab-list li.active {
     cursor: default;
     background-color: #fafafa;
 }

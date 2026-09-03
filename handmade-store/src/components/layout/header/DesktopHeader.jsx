@@ -46,7 +46,7 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col">
                         <div className="header-tools justify-content-end">
                             <div className="header-login">
-                                <NavLink to={isLoggedIn ? '/auth/profile' : '/auth/login'}>
+                                <NavLink to={isLoggedIn ? '/account/profile' : '/auth/login'}>
                                     <FontAwesomeIcon icon="user" />
                                 </NavLink>
                             </div>
