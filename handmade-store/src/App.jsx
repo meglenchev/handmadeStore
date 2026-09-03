@@ -9,6 +9,8 @@ import { ScrollToTop } from './components/common/ScrollToTop.jsx';
 import { ScrollToTopOnNavigation } from './utils/ScrollToTopOnNavigation.jsx';
 import { Route, Routes } from 'react-router';
 import { Products } from './pages/Products/Products.jsx';
+import { ProtectedRoute } from './routes/ProtectedRoute.jsx';
+import { PublicOnlyRoute } from './routes/PublicOnlyRoute.jsx';
 
 const Product = lazy(() => import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })));
 const Login = lazy(() => import('./pages/Auth/Login.jsx').then((module) => ({ default: module.Login })));
@@ -51,6 +53,12 @@ function App() {
                             <Route path="/products/:productId/details" element={<Product />} />
                             <Route path="/products" element={<Products />} />
                             <Route path="/auth/login" element={<Login />} />
+                            <Route element={<PublicOnlyRoute />}>
+                                <Route path="/auth/login" element={<Login />} />
+                            </Route>
+                            {/* <Route element={<ProtectedRoute />}>
+                                <Route path="/auth/profile" element={<AuthProfile />} />
+                            </Route> */}
                         </Routes>
                     </Suspense>
                 </ErrorBoundary>

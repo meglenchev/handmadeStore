@@ -3,10 +3,12 @@ import { useContext } from 'react';
 import { Link, NavLink } from 'react-router';
 import WishlistContext from '@/context/WishlistContext.jsx';
 import ShopContext from '@/context/ShopContext.jsx';
+import AuthContext from '@/context/AuthContext.jsx';
 
 export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
     const { cartCount } = useContext(ShopContext);
     const { wishlistCount } = useContext(WishlistContext);
+    const { isLoggedIn } = useContext(AuthContext);
 
     return (
         <header className={`header-section header-menu-center section bg-white d-none d-xl-block ${isSticky ? 'sticky-header is-sticky' : 'py-3'}`}>
@@ -44,7 +46,7 @@ export function DesktopHeader({ isSticky, toggleMenu, activeMenu }) {
                     <div className="col">
                         <div className="header-tools justify-content-end">
                             <div className="header-login">
-                                <NavLink to="/auth/login">
+                                <NavLink to={isLoggedIn ? '/auth/profile' : '/auth/login'}>
                                     <FontAwesomeIcon icon="user" />
                                 </NavLink>
                             </div>

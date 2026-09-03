@@ -104,6 +104,7 @@ export function AuthProvider({ children }) {
         [auth, isLoggedIn, vendorStatus, isAuthLoading, onLogin, loginLoading, loginError, onRegister, registerLoading, registerError, onLogout]
     );
 
+    // TODO: Да се замени `null` с loading spinner/skeleton, докато isAuthLoading е true - за да няма чисто бял екран по време на първоначалната проверка на сесията.
     return <AuthContext.Provider value={authContextValue}>{isAuthLoading ? null : children}</AuthContext.Provider>;
 }
 
