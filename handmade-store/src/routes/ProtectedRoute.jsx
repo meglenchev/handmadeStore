@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router';
+import { Navigate, useLocation, Outlet } from 'react-router';
 import AuthContext from '@/context/AuthContext.jsx';
 
 export function ProtectedRoute({ allowedRoles }) {

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router';
+import { Navigate, useLocation, Outlet } from 'react-router';
 import AuthContext from '@/context/AuthContext.jsx';
 
 export function PublicOnlyRoute() {
@@ -11,7 +11,7 @@ export function PublicOnlyRoute() {
     }
 
     if (isLoggedIn) {
-        return <Navigate to="/auth/profile" state={{ from: location }} replace />;
+        return <Navigate to="/account/profile" state={{ from: location }} replace />;
     }
 
     return <Outlet />;
