@@ -21,11 +21,7 @@ export function QuickView() {
         return null;
     }
 
-    console.log('wishlist in QuickView:', wishlist);
-
     const isInWishlist = wishlist.some((item) => item._id === productData._id);
-
-    console.log(isInWishlist);
 
     return (
         <Modal show={showQuickView} onHide={onCloseQuickView} size="lg" className="quickViewModal">
