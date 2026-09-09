@@ -17,6 +17,7 @@ try {
     console.log("Successfully conntected to MDB");
 } catch (error) {
     console.log(`Cannot connect to DB ${error.message}`);
+    process.exit();
 }
 
 app.use(
