@@ -16,7 +16,7 @@ export function Profile() {
                     <div className="col-lg-4 col-12 learts-mb-30">
                         <ul className="myaccount-tab-list nav">
                             {ACCOUNT_TABS.map((tab) => (
-                                <li className={`nav-item ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+                                <li key={tab.id} className={`nav-item ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
                                     {tab.label}
                                     <FontAwesomeIcon icon={tab.icon} />
                                 </li>
