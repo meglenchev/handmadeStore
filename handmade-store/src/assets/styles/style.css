@@ -16973,11 +16973,17 @@ input[type='range']::-moz-range-thumb {
 
 .myaccount-tab-list li:hover {
     color: var(--text-dark);
+    cursor: pointer;
 }
 
 .myaccount-tab-list li.active {
     cursor: default;
-    background-color: #fafafa;
+    color: var(--color-primary);
+    background-color: var(--color-light);
+}
+
+.myaccount-tab-list li.active .svg-inline--fa {
+    color: var(--color-primary);
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px), only screen and (max-width: 767px) {
@@ -17009,35 +17015,42 @@ input[type='range']::-moz-range-thumb {
     white-space: nowrap;
 }
 
-.myaccount-content.address > p {
+.myaccount-content.address > p,
+.myaccount-content.dashboard > p {
     padding: 20px;
     background-color: #fafafa;
 }
 
-.myaccount-content.address > p:not(:last-child) {
+.myaccount-content.address > p:not(:last-child),
+.myaccount-content.dashboard > p:not(:last-child) {
     margin-bottom: 24px;
 }
 
-.myaccount-content.address > p span {
+.myaccount-content.address > p span,
+.myaccount-content.dashboard > p span {
     text-decoration: underline;
 }
 
-.myaccount-content.address .title {
+.myaccount-content.address .title,
+.myaccount-content.dashboard .title {
     margin-bottom: 20px;
 }
 
-.myaccount-content.address .title .edit-link {
+.myaccount-content.address .title .edit-link,
+.myaccount-content.dashboard .title .edit-link {
     font-size: 12px;
     margin-left: 5px;
     text-transform: capitalize;
     color: var(--text-body-light);
 }
 
-.myaccount-content.address .title .edit-link:hover {
+.myaccount-content.address .title .edit-link:hover,
+.myaccount-content.dashboard .title .edit-link:hover {
     color: var(--color-primary);
 }
 
-.myaccount-content.address address {
+.myaccount-content.address address,
+.myaccount-content.dashboard address {
     margin-bottom: 0;
 }
 

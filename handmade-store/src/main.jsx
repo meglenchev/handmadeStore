@@ -16,7 +16,7 @@ import { QuickViewProvider } from './context/QuickViewContext.jsx';
 import { BrowserRouter } from 'react-router';
 import { ShopProvider } from './context/ShopContext.jsx';
 import { WishlistProvider } from './context/WishlistContext.jsx';
-import AuthContext, { AuthProvider } from './context/AuthContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 createRoot(document.getElementById('root')).render(
     <BrowserRouter>
