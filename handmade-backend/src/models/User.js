@@ -1,6 +1,51 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
 
+const addressSchema = new Schema(
+    {
+        label: {
+            type: String,
+            trim: true,
+        }, // "Home", "Work" — по избор на юзъра
+        fullName: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        phone: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        country: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        city: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        postalCode: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        addressLine1: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        addressLine2: {
+            type: String,
+            trim: true,
+        },
+        isDefault: { type: Boolean, default: false },
+    },
+    { timestamps: true },
+);
+
 const userSchema = new Schema(
     {
         username: {
@@ -37,6 +82,16 @@ const userSchema = new Schema(
             enum: ["none", "pending", "approved", "suspended"],
             default: "none",
             index: true,
+        },
+        phone: {
+            type: String,
+            trim: true,
+            match: [/^\+?[0-9\s-]{7,15}$/, "Please use a valid phone number"],
+            default: null,
+        },
+        address: {
+            type: [addressSchema],
+            default: [],
         },
     },
     { timestamps: true },
