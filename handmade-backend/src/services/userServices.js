@@ -56,6 +56,42 @@ export default {
 
         return toUserDTO(user);
     },
+    async getAddress(userId) {
+        const user = await User.findById(userId).select("address");
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        return user.address;
+    },
+    async addAddress(userId, addressData) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        const isFirstAddress = user.address.length === 0;
+        const shouldBeDefault =
+            isFirstAddress || addressData.isDefault === true;
+
+        if (shouldBeDefault) {
+            user.address.forEach((address) => {
+                address.isDefault = false;
+            });
+        }
+
+        user.address.push({ ...addressData, isDefault: shouldBeDefault });
+
+        await user.save();
+
+        return user.address;
+    },
     async getMe(userId) {
         const user = await User.findById(userId);
 

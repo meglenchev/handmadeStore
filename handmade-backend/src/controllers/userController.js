@@ -78,6 +78,35 @@ userController.post("/users/logout", (req, res) => {
     });
 });
 
+userController.get(
+    "/users/account/address",
+    verifyToken(),
+    async (req, res, next) => {
+        try {
+            const address = await userServices.getAddress(req.user._id);
+            res.status(200).json({ address });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+userController.post(
+    "/users/account/address",
+    verifyToken(),
+    async (req, res, next) => {
+        try {
+            const address = await userServices.addAddress(
+                req.user._id,
+                req.body,
+            );
+            res.status(201).json({ address });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
 userController.get("/users/me", verifyToken(), async (req, res, next) => {
     try {
         const user = await userServices.getMe(req.user._id);
