@@ -2,11 +2,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { ACCOUNT_TABS } from '../../utils/constants';
+import { useQuery } from '../../hooks/useQuery';
 
 export function Profile() {
+    const { auth, onLogout } = useContext(AuthContext);
+
     const [activeTab, setActiveTab] = useState('dashboard');
 
-    const { auth, onLogout } = useContext(AuthContext);
+    const addressQuery = useQuery(ACCOUNT_TABS[2].endpoint, null, { enabled: activeTab === 'address' });
+
+    const queriesByTab = {
+        address: addressQuery,
+    };
+
+    const activeTabConfig = ACCOUNT_TABS.find((tab) => tab.id === activeTab);
+    const { data, loading, error, refresh } = queriesByTab[activeTab] || {};
+    const ActiveTabComponent = activeTabConfig.Component;
 
     return (
         <div className="section section-padding">
@@ -34,18 +45,18 @@ export function Profile() {
                             {/* Single Tab Content Start */}
                             <div className="tab-pane fade show active">
                                 <div className={`myaccount-content ${activeTab}`}>
-                                    <p>
-                                        Hello
-                                        <strong>didiv91396</strong>
-                                        (not
-                                        <strong>didiv91396</strong>?<a href="login-register.html">Log out</a>)
-                                    </p>
-                                    <p>
-                                        From your account dashboard you can view your
-                                        <span>recent orders</span>, manage your
-                                        <span>shipping and billing addresses</span>, and
-                                        <span>edit your password and account details</span>.
-                                    </p>
+                                    {loading && <p>Loading...</p>}
+
+                                    {!loading && error && (
+                                        <div className="error-container text-center">
+                                            <p className="error">{error}</p>
+                                            <button className="btn btn-primary2" onClick={refresh}>
+                                                Опитай отново
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {!loading && !error && data && <ActiveTabComponent data={data} refresh={refresh} />}
                                 </div>
                             </div>
                             {/* Single Tab Content End */}

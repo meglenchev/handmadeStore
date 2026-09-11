@@ -1,3 +1,9 @@
+import { ENDPOINTS } from '@/utils/endpoints.js';
+import { Dashboard } from '@/pages/Account/components/Dashboard.jsx';
+import { Orders } from '@/pages/Account/components/Orders.jsx';
+import { Address } from '@/pages/Account/components/Address.jsx';
+import { AccountDetails } from '@/pages/Account/components/AccountDetails.jsx';
+
 export const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
     { to: '/products', label: 'Магазин' },
@@ -8,8 +14,8 @@ export const HEADER_LINKS = [
 ];
 
 export const ACCOUNT_TABS = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'home' },
-    { id: 'orders', label: 'Orders', icon: 'file-alt' },
-    { id: 'address', label: 'Address', icon: 'map-marker-alt' },
-    { id: 'details', label: 'Account Details', icon: 'user' },
+    { id: 'dashboard', label: 'Dashboard', icon: 'home', endpoint: ENDPOINTS.ACCOUNT.DASHBOARD, Component: Dashboard },
+    { id: 'orders', label: 'Orders', icon: 'file-alt', endpoint: ENDPOINTS.ACCOUNT.ORDERS, Component: Orders },
+    { id: 'address', label: 'Address', icon: 'map-marker-alt', endpoint: ENDPOINTS.ACCOUNT.ADDRESS, Component: Address },
+    { id: 'details', label: 'Account Details', icon: 'user', endpoint: ENDPOINTS.ACCOUNT.DETAILS, Component: AccountDetails },
 ];

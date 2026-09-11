@@ -14,4 +14,10 @@ export const ENDPOINTS = {
         REGISTER: '/users/register',
         ME: '/users/me',
     },
+    ACCOUNT: {
+        DASHBOARD: '/users/account/dashboard',
+        ORDERS: '/users/account/orders',
+        ADDRESS: '/users/account/address',
+        DETAILS: '/users/account/details',
+    },
 };
