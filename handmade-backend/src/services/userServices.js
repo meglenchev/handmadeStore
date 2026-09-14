@@ -1,5 +1,6 @@
 import { User } from "../models/User.js";
 import { toUserDTO } from "../utils/userDTO.js";
+import { toUserDetails } from "../utils/userDetails.js";
 
 export default {
     async register(username, email, password, confirmPassword) {
@@ -76,6 +77,7 @@ export default {
             throw err;
         }
 
+        // The first added address automatically becomes the default, regardless of what the client submitted
         const isFirstAddress = user.address.length === 0;
         const shouldBeDefault =
             isFirstAddress || addressData.isDefault === true;
@@ -91,6 +93,17 @@ export default {
         await user.save();
 
         return user.address;
+    },
+    async getUserDetails(userId) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        return toUserDetails(user);
     },
     async getMe(userId) {
         const user = await User.findById(userId);

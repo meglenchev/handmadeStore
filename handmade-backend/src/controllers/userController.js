@@ -2,7 +2,6 @@ import { Router } from "express";
 import userServices from "../services/userServices.js";
 import { generateUserToken, authCookieOptions } from "../utils/token.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
-import { toUserDTO } from "../utils/userDTO.js";
 
 export const userController = Router();
 
@@ -28,7 +27,7 @@ userController.post("/users/register", async (req, res) => {
         res.status(201).json({
             message: "User registered successfully",
             isLoggedIn: true,
-            user: toUserDTO(user),
+            user,
         });
     } catch (err) {
         console.error("Register error:", err);
@@ -52,7 +51,7 @@ userController.post("/users/login", async (req, res) => {
         res.status(200).json({
             message: "User logged in successfully",
             isLoggedIn: true,
-            user: toUserDTO(user),
+            user,
         });
     } catch (err) {
         console.error("Login error:", err);
@@ -107,10 +106,23 @@ userController.post(
     },
 );
 
+userController.get(
+    "/users/account/details",
+    verifyToken(),
+    async (req, res, next) => {
+        try {
+            const user = await userServices.getUserDetails(req.user._id);
+            res.status(200).json({ user });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
 userController.get("/users/me", verifyToken(), async (req, res, next) => {
     try {
         const user = await userServices.getMe(req.user._id);
-        res.status(200).json({ user: toUserDTO(user) });
+        res.status(200).json({ user });
     } catch (err) {
         next(err);
     }

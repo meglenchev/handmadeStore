@@ -3,10 +3,6 @@ import bcrypt from "bcrypt";
 
 const addressSchema = new Schema(
     {
-        label: {
-            type: String,
-            trim: true,
-        }, // "Home", "Work" — по избор на юзъра
         fullName: {
             type: String,
             required: true,
@@ -35,10 +31,6 @@ const addressSchema = new Schema(
         addressLine1: {
             type: String,
             required: true,
-            trim: true,
-        },
-        addressLine2: {
-            type: String,
             trim: true,
         },
         isDefault: { type: Boolean, default: false },
