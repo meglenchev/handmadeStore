@@ -17,5 +17,5 @@ export const ACCOUNT_TABS = [
     { id: 'dashboard', label: 'Dashboard', icon: 'home', endpoint: ENDPOINTS.ACCOUNT.DASHBOARD, Component: Dashboard },
     { id: 'orders', label: 'Orders', icon: 'file-alt', endpoint: ENDPOINTS.ACCOUNT.ORDERS, Component: Orders },
     { id: 'address', label: 'Address', icon: 'map-marker-alt', endpoint: ENDPOINTS.ACCOUNT.ADDRESS, Component: Address },
-    { id: 'details', label: 'Account Details', icon: 'user', endpoint: ENDPOINTS.ACCOUNT.DETAILS, Component: AccountDetails },
+    { id: 'accountDetails', label: 'Account Details', icon: 'user', endpoint: ENDPOINTS.ACCOUNT.DETAILS, Component: AccountDetails },
 ];

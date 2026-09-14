@@ -10,9 +10,13 @@ export function Profile() {
     const [activeTab, setActiveTab] = useState('dashboard');
 
     const addressQuery = useQuery(ACCOUNT_TABS[2].endpoint, null, { enabled: activeTab === 'address' });
+    const dashboardQuery = useQuery(ACCOUNT_TABS[0].endpoint, null, { enabled: activeTab === 'dashboard' });
+    const accountDetailsQuery = useQuery(ACCOUNT_TABS[3].endpoint, null, { enabled: activeTab === 'accountDetails' });
 
     const queriesByTab = {
         address: addressQuery,
+        dashboard: dashboardQuery,
+        accountDetails: accountDetailsQuery,
     };
 
     const activeTabConfig = ACCOUNT_TABS.find((tab) => tab.id === activeTab);
