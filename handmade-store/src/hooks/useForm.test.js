@@ -27,33 +27,37 @@ describe('useForm', () => {
             expect(result.current.formValues.username).toBe('alice');
         });
 
-        it('fully trims values for email/password/confirmPassword fields', () => {
+        it('fully trims values for email/username fields', () => {
             const { result } = renderHook(() =>
-                useForm(vi.fn(), { email: '', password: '', confirmPassword: '' })
+                useForm(vi.fn(), { email: '', username: '' })
             );
 
             act(() => result.current.changeHandler(makeChangeEvent('email', '  test@test.com  ')));
-            act(() => result.current.changeHandler(makeChangeEvent('password', '  secret  ')));
-            act(() => result.current.changeHandler(makeChangeEvent('confirmPassword', '  secret  ')));
+            act(() => result.current.changeHandler(makeChangeEvent('username', '  alice  ')));
 
             expect(result.current.formValues.email).toBe('test@test.com');
-            expect(result.current.formValues.password).toBe('secret');
-            expect(result.current.formValues.confirmPassword).toBe('secret');
+            expect(result.current.formValues.username).toBe('alice');
         });
 
         it('only trims leading whitespace (trimStart) for other fields', () => {
-            const { result } = renderHook(() => useForm(vi.fn(), { name: '' }));
+            const { result } = renderHook(() =>
+                useForm(vi.fn(), { name: '', password: '', confirmPassword: '' })
+            );
 
             act(() => result.current.changeHandler(makeChangeEvent('name', '  John Doe  ')));
+            act(() => result.current.changeHandler(makeChangeEvent('password', '  secret  ')));
+            act(() => result.current.changeHandler(makeChangeEvent('confirmPassword', '  secret  ')));
 
             expect(result.current.formValues.name).toBe('John Doe  ');
+            expect(result.current.formValues.password).toBe('secret  ');
+            expect(result.current.formValues.confirmPassword).toBe('secret  ');
         });
 
         it('clears an existing error for the field being changed', () => {
             const validateFn = vi.fn(() => ({ username: 'Required' }));
             const { result } = renderHook(() => useForm(vi.fn(), { username: '' }, validateFn));
 
-            act(() => result.current.formAction());
+            act(() => result.current.submitHandler());
             expect(result.current.formErrors).toEqual({ username: 'Required' });
 
             act(() => result.current.changeHandler(makeChangeEvent('username', 'alice')));
@@ -67,33 +71,33 @@ describe('useForm', () => {
                 useForm(vi.fn(), { username: '', email: '' }, validateFn)
             );
 
-            act(() => result.current.formAction());
+            act(() => result.current.submitHandler());
             act(() => result.current.changeHandler(makeChangeEvent('username', 'alice')));
 
             expect(result.current.formErrors).toEqual({ email: 'Required' });
         });
     });
 
-    describe('formAction', () => {
+    describe('submitHandler', () => {
         it('calls preventDefault when given an event', () => {
             const preventDefault = vi.fn();
             const { result } = renderHook(() => useForm(vi.fn(), {}));
 
-            act(() => result.current.formAction({ preventDefault }));
+            act(() => result.current.submitHandler({ preventDefault }));
 
             expect(preventDefault).toHaveBeenCalled();
         });
 
         it('does not throw when called without an event', () => {
             const { result } = renderHook(() => useForm(vi.fn(), {}));
-            expect(() => act(() => result.current.formAction())).not.toThrow();
+            expect(() => act(() => result.current.submitHandler())).not.toThrow();
         });
 
         it('calls the callback with formValues when there is no validateFn', () => {
             const callback = vi.fn();
             const { result } = renderHook(() => useForm(callback, { username: 'alice' }));
 
-            act(() => result.current.formAction());
+            act(() => result.current.submitHandler());
 
             expect(callback).toHaveBeenCalledWith({ username: 'alice' });
         });
@@ -103,7 +107,7 @@ describe('useForm', () => {
             const validateFn = vi.fn(() => ({ username: 'Required' }));
             const { result } = renderHook(() => useForm(callback, { username: '' }, validateFn));
 
-            act(() => result.current.formAction());
+            act(() => result.current.submitHandler());
 
             expect(callback).not.toHaveBeenCalled();
             expect(result.current.formErrors).toEqual({ username: 'Required' });
@@ -114,7 +118,7 @@ describe('useForm', () => {
             const validateFn = vi.fn(() => ({}));
             const { result } = renderHook(() => useForm(callback, { username: 'alice' }, validateFn));
 
-            act(() => result.current.formAction());
+            act(() => result.current.submitHandler());
 
             expect(callback).toHaveBeenCalledWith({ username: 'alice' });
             expect(result.current.formErrors).toEqual({});

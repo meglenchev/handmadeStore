@@ -16,11 +16,23 @@ const renderWishlist = () => renderHook(() => useContext(WishlistContext), { wra
 // ---------------------------------------------------------------------------
 // Sample data
 // ---------------------------------------------------------------------------
-const VASE     = { _id: 'abc1', title: 'Ceramic Vase',   newPrice: 35, image: 'vase.jpg'   };
-const SCARF    = { _id: 'abc2', title: 'Knitted Scarf',  newPrice: 25, image: 'scarf.jpg'  };
-const BOWL     = { _id: 'abc3', title: 'Wooden Bowl',    newPrice: 45, image: 'bowl.jpg'   };
+// Raw catalog products, shaped as they come from the API (nested images.gallery).
+const VASE     = { _id: 'abc1', title: 'Ceramic Vase',   newPrice: 35, images: { gallery: ['vase.jpg'] }  };
+const SCARF    = { _id: 'abc2', title: 'Knitted Scarf',  newPrice: 25, images: { gallery: ['scarf.jpg'] } };
+const BOWL     = { _id: 'abc3', title: 'Wooden Bowl',    newPrice: 45, images: { gallery: ['bowl.jpg'] }  };
 // A product with extra fields that should NOT end up in the wishlist.
 const VASE_FAT = { ...VASE, description: 'Lovely vase', stock: 10, category: 'Home' };
+
+// The flat shape toggleWishlist actually persists once a product is added.
+const toStoredItem = (product) => ({
+    _id: product._id,
+    title: product.title,
+    newPrice: product.newPrice,
+    image: product.images.gallery[0],
+});
+const VASE_STORED  = toStoredItem(VASE);
+const SCARF_STORED = toStoredItem(SCARF);
+const BOWL_STORED  = toStoredItem(BOWL);
 
 describe('WishlistContext', () => {
     beforeEach(() => {
@@ -43,7 +55,7 @@ describe('WishlistContext', () => {
         });
 
         it('initializes with the values returned by useLocalStorage', () => {
-            const stored = [VASE, SCARF];
+            const stored = [VASE_STORED, SCARF_STORED];
             useLocalStorage.mockImplementationOnce(() => useState(stored));
 
             const { result } = renderWishlist();
@@ -63,7 +75,7 @@ describe('WishlistContext', () => {
         });
 
         it('matches the number of items in a pre-loaded wishlist', () => {
-            useLocalStorage.mockImplementationOnce(() => useState([VASE, SCARF, BOWL]));
+            useLocalStorage.mockImplementationOnce(() => useState([VASE_STORED, SCARF_STORED, BOWL_STORED]));
 
             const { result } = renderWishlist();
 
@@ -79,7 +91,7 @@ describe('WishlistContext', () => {
         });
 
         it('decrements when an existing item is removed via toggleWishlist', () => {
-            useLocalStorage.mockImplementationOnce(() => useState([VASE, SCARF]));
+            useLocalStorage.mockImplementationOnce(() => useState([VASE_STORED, SCARF_STORED]));
 
             const { result } = renderWishlist();
 
@@ -99,7 +111,7 @@ describe('WishlistContext', () => {
             act(() => { result.current.toggleWishlist(VASE); });
 
             expect(result.current.wishlist).toHaveLength(1);
-            expect(result.current.wishlist[0]).toEqual(VASE);
+            expect(result.current.wishlist[0]).toEqual(VASE_STORED);
         });
 
         it('only stores the required fields: _id, title, newPrice, image', () => {
@@ -107,15 +119,11 @@ describe('WishlistContext', () => {
 
             act(() => { result.current.toggleWishlist(VASE_FAT); });
 
-            expect(result.current.wishlist[0]).toEqual({
-                _id:      VASE._id,
-                title:    VASE.title,
-                newPrice: VASE.newPrice,
-                image:    VASE.image,
-            });
+            expect(result.current.wishlist[0]).toEqual(VASE_STORED);
             expect(result.current.wishlist[0]).not.toHaveProperty('description');
             expect(result.current.wishlist[0]).not.toHaveProperty('stock');
             expect(result.current.wishlist[0]).not.toHaveProperty('category');
+            expect(result.current.wishlist[0]).not.toHaveProperty('images');
         });
 
         it('appends multiple distinct products while keeping previous ones', () => {
@@ -148,7 +156,7 @@ describe('WishlistContext', () => {
     // -----------------------------------------------------------------------
     describe('toggleWishlist — removing a product', () => {
         it('removes the product when it already exists in the wishlist', () => {
-            useLocalStorage.mockImplementationOnce(() => useState([VASE]));
+            useLocalStorage.mockImplementationOnce(() => useState([VASE_STORED]));
 
             const { result } = renderWishlist();
 
@@ -158,7 +166,7 @@ describe('WishlistContext', () => {
         });
 
         it('identifies the product to remove by _id only', () => {
-            useLocalStorage.mockImplementationOnce(() => useState([VASE, SCARF]));
+            useLocalStorage.mockImplementationOnce(() => useState([VASE_STORED, SCARF_STORED]));
 
             const { result } = renderWishlist();
 
@@ -169,7 +177,7 @@ describe('WishlistContext', () => {
         });
 
         it('leaves other products untouched when removing one item', () => {
-            useLocalStorage.mockImplementationOnce(() => useState([VASE, SCARF, BOWL]));
+            useLocalStorage.mockImplementationOnce(() => useState([VASE_STORED, SCARF_STORED, BOWL_STORED]));
 
             const { result } = renderWishlist();
 

@@ -3,11 +3,11 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 async function request(urlPath, options = {}) {
     const response = await fetch(`${BASE_URL}${urlPath}`, {
         credentials: 'include',
+        ...options,
         headers: {
             'Content-Type': 'application/json',
             ...options.headers,
         },
-        ...options,
     });
 
     if (!response.ok) {

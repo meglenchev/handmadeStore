@@ -15,13 +15,15 @@ function mockFetchSuccess(data, status = 200) {
     });
 }
 
-/** Resolves with an HTTP-error response (ok: false). */
+/** Resolves with an HTTP-error response (ok: false). apiClient attempts to read a
+ *  JSON error body before falling back to the status/statusText message, so the
+ *  mock must expose a `json()` that resolves (mirroring a body-less error response). */
 function mockFetchHttpError(status, statusText) {
     return vi.fn().mockResolvedValue({
         ok: false,
         status,
         statusText,
-        json: vi.fn(),
+        json: vi.fn().mockResolvedValue(null),
     });
 }
 
@@ -142,7 +144,12 @@ describe('useQuery', () => {
 
             const fetchMock = vi.fn()
                 .mockResolvedValueOnce({ ok: true, json: vi.fn().mockResolvedValue(firstData) })
-                .mockResolvedValueOnce({ ok: false, status: 500, statusText: 'Internal Server Error' });
+                .mockResolvedValueOnce({
+                    ok: false,
+                    status: 500,
+                    statusText: 'Internal Server Error',
+                    json: vi.fn().mockResolvedValue(null),
+                });
 
             vi.stubGlobal('fetch', fetchMock);
 
@@ -188,8 +195,8 @@ describe('useQuery', () => {
 
             act(() => result.current.refresh());
 
-            await waitFor(() => expect(result.current.error).toBeNull());
-            expect(result.current.data).toEqual(products);
+            await waitFor(() => expect(result.current.data).toEqual(products));
+            expect(result.current.error).toBeNull();
         });
     });
 
