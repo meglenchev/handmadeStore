@@ -27,14 +27,6 @@ export default {
 
             return toUserDTO(user);
         } catch (err) {
-            if (err.code === 11000) {
-                const dupErr = new Error(
-                    "User with the same email or username already exists!",
-                );
-                dupErr.statusCode = 409;
-                throw dupErr;
-            }
-
             throw err;
         }
     },

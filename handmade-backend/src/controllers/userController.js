@@ -9,7 +9,7 @@ export const userController = Router();
 // продуктовите. При 5-6 route-а е хубаво да се извади централен error middleware — контролерите
 // правят само next(err), а един handler форматира отговора и статус кода.
 
-userController.post("/users/register", async (req, res) => {
+userController.post("/users/register", async (req, res, next) => {
     const { username, email, password, confirmPassword } = req.body;
 
     try {
@@ -30,15 +30,11 @@ userController.post("/users/register", async (req, res) => {
             user,
         });
     } catch (err) {
-        console.error("Register error:", err);
-
-        res.status(err.statusCode || 500).json({
-            message: err.statusCode ? err.message : "Error registering user",
-        });
+        next(err);
     }
 });
 
-userController.post("/users/login", async (req, res) => {
+userController.post("/users/login", async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -54,11 +50,7 @@ userController.post("/users/login", async (req, res) => {
             user,
         });
     } catch (err) {
-        console.error("Login error:", err);
-
-        res.status(err.statusCode || 500).json({
-            message: err.statusCode ? err.message : "Error logging in",
-        });
+        next(err);
     }
 });
 
@@ -94,6 +86,16 @@ userController.post(
     "/users/account/address",
     verifyToken(),
     async (req, res, next) => {
+        // prettier-ignore
+        const { 
+            fullName, 
+            phone, 
+            country, 
+            city, 
+            postalCode, 
+            addressLine1 
+        } = req.body;
+
         try {
             const address = await userServices.addAddress(
                 req.user._id,
