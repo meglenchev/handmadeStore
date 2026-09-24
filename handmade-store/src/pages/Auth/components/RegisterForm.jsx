@@ -125,6 +125,12 @@ export function RegisterForm() {
                                 нашата политика на поверителност
                             </p>
                         </div>
+                        {/* TODO: Add styles for better visual representation of this error */}
+                        {submitError && (
+                            <div className="col-12 learts-mb-20">
+                                <span className="error">{submitError}</span>
+                            </div>
+                        )}
                         <div className="col-12 text-center learts-mb-50">
                             <button type="submit" className="btn btn-primary">
                                 Регистрация
