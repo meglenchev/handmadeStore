@@ -9,11 +9,9 @@ export function Address({ data, refresh }) {
 
     return (
         <>
-            {data.address.length > 0 ? (
-                <AddressList addresses={data.address} />
-            ) : (
-                <AddressForm onAddressAdded={handleAddressAdded} />
-            )}
+            {data.address.length > 0 && <AddressList addresses={data.address} />}
+
+            {data.address.length < 2 && <AddressForm onAddressAdded={handleAddressAdded} />}
         </>
     );
 }

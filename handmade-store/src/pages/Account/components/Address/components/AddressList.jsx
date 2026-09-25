@@ -2,7 +2,7 @@ export function AddressList({ addresses }) {
     return (
         <>
             <p>Следните адреси ще се използват по подразбиране на страницата за плащане.</p>
-            <div className="row learts-mb-n30">
+            <div className={addresses.length === 2 ? 'row learts-mb-n30' : 'row'}>
                 {addresses.map((address, index) => (
                     <div className="col-md-6 col-12 learts-mb-30" key={address._id}>
                         <h4 className="title">
