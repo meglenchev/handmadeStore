@@ -58,13 +58,13 @@ export function AddressForm({ onAddressAdded }) {
         }
     };
 
-    const { inputPropertiesRegister, submitHandler } = useForm(
+    const { inputPropertiesRegister, submitHandler, formErrors } = useForm(
         addressSubmitHandler,
         initialValues,
         validateFn,
     );
     return (
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} noValidate>
             <div className="row learts-mb-n30">
                 <div className="col-12 learts-mb-30 learts-mt-30">
                     <fieldset>
@@ -77,8 +77,10 @@ export function AddressForm({ onAddressAdded }) {
                                     type="text"
                                     id="fullName"
                                     {...inputPropertiesRegister('fullName')}
-                                    required
                                 />
+                                {formErrors.fullName && (
+                                    <span className="error">{formErrors.fullName}</span>
+                                )}
                             </div>
 
                             {/* Phone */}
@@ -88,8 +90,10 @@ export function AddressForm({ onAddressAdded }) {
                                     type="tel"
                                     id="phone"
                                     {...inputPropertiesRegister('phone')}
-                                    required
                                 />
+                                {formErrors.phone && (
+                                    <span className="error">{formErrors.phone}</span>
+                                )}
                             </div>
 
                             {/* Country */}
@@ -99,19 +103,19 @@ export function AddressForm({ onAddressAdded }) {
                                     type="text"
                                     id="country"
                                     {...inputPropertiesRegister('country')}
-                                    required
                                 />
+                                {formErrors.country && (
+                                    <span className="error">{formErrors.country}</span>
+                                )}
                             </div>
 
                             {/* City */}
                             <div className="col-12 learts-mb-30">
                                 <label htmlFor="city">Град *</label>
-                                <input
-                                    type="text"
-                                    id="city"
-                                    {...inputPropertiesRegister('city')}
-                                    required
-                                />
+                                <input type="text" id="city" {...inputPropertiesRegister('city')} />
+                                {formErrors.city && (
+                                    <span className="error">{formErrors.city}</span>
+                                )}
                             </div>
 
                             {/* Postal Code */}
@@ -121,8 +125,10 @@ export function AddressForm({ onAddressAdded }) {
                                     type="text"
                                     id="postalCode"
                                     {...inputPropertiesRegister('postalCode')}
-                                    required
                                 />
+                                {formErrors.postalCode && (
+                                    <span className="error">{formErrors.postalCode}</span>
+                                )}
                             </div>
 
                             {/* Address Line 1 */}
@@ -132,8 +138,10 @@ export function AddressForm({ onAddressAdded }) {
                                     type="text"
                                     id="addressLine1"
                                     {...inputPropertiesRegister('addressLine1')}
-                                    required
                                 />
+                                {formErrors.addressLine1 && (
+                                    <span className="error">{formErrors.addressLine1}</span>
+                                )}
                             </div>
                         </div>
                     </fieldset>
