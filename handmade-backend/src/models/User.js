@@ -84,6 +84,12 @@ const userSchema = new Schema(
         address: {
             type: [addressSchema],
             default: [],
+            validate: {
+                validator: function (value) {
+                    return value.length <= 2;
+                },
+                message: "You can have a maximum of 2 addresses!",
+            },
         },
     },
     { timestamps: true },

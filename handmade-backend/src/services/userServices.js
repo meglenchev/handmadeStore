@@ -69,6 +69,12 @@ export default {
             throw err;
         }
 
+        if (user.address.length >= 2) {
+            const err = new Error("You can have a maximum of 2 addresses!");
+            err.statusCode = 409;
+            throw err;
+        }
+
         // The first added address automatically becomes the default, regardless of what the client submitted
         const isFirstAddress = user.address.length === 0;
         const shouldBeDefault =
