@@ -92,6 +92,34 @@ export default {
 
         return user.address;
     },
+    async updateAddress(userId, addressId, addressData) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        const addressIndex = user.address.findIndex(
+            (addr) => addr._id.toString() === addressId,
+        );
+
+        if (addressIndex === -1) {
+            const err = new Error("Address not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        user.address[addressIndex] = {
+            ...user.address[addressIndex],
+            ...addressData,
+        };
+
+        await user.save();
+
+        return user.address;
+    },
     async getUserDetails(userId) {
         const user = await User.findById(userId);
 

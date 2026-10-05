@@ -71,7 +71,9 @@ userController.post("/users/logout", (req, res) => {
 
 userController.get(
     "/users/account/address",
+
     verifyToken(),
+
     async (req, res, next) => {
         try {
             const address = await userServices.getAddress(req.user._id);
@@ -84,7 +86,9 @@ userController.get(
 
 userController.post(
     "/users/account/address",
+
     verifyToken(),
+
     async (req, res, next) => {
         // prettier-ignore
         const { 
@@ -97,11 +101,45 @@ userController.post(
         } = req.body;
 
         try {
-            const address = await userServices.addAddress(
-                req.user._id,
-                req.body,
-            );
+            const address = await userServices.addAddress(req.user._id, {
+                fullName,
+                phone,
+                country,
+                city,
+                postalCode,
+                addressLine1,
+            });
             res.status(201).json({ address });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+userController.patch(
+    "/users/account/address/:addressId",
+
+    verifyToken(),
+
+    async (req, res, next) => {
+        const { addressId } = req.params;
+        const { fullName, phone, country, city, postalCode, addressLine1 } =
+            req.body;
+
+        try {
+            const address = await userServices.updateAddress(
+                req.user._id,
+                addressId,
+                {
+                    fullName,
+                    phone,
+                    country,
+                    city,
+                    postalCode,
+                    addressLine1,
+                },
+            );
+            res.status(200).json({ address });
         } catch (err) {
             next(err);
         }
@@ -110,7 +148,9 @@ userController.post(
 
 userController.get(
     "/users/account/details",
+
     verifyToken(),
+
     async (req, res, next) => {
         try {
             const user = await userServices.getUserDetails(req.user._id);
