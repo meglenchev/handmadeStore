@@ -1,4 +1,4 @@
-export function AddressList({ addresses }) {
+export function AddressList({ addresses, onEdit }) {
     return (
         <>
             <p>Следните адреси ще се използват по подразбиране на страницата за плащане.</p>
@@ -18,9 +18,11 @@ export function AddressList({ addresses }) {
                             <p>Адрес (Ред 1): {address.addressLine1}</p>
                             <p>Телефон: {address.phone}</p>
                         </address>
-                        <a href="#" className="edit-link">
+                        <button
+                            className="btn btn-sm btn-outline-dark learts-mt-20"
+                            onClick={() => onEdit(address._id)}>
                             редактиране
-                        </a>
+                        </button>
                     </div>
                 ))}
             </div>

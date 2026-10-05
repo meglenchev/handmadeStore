@@ -44,15 +44,35 @@ const validateFn = (values) => {
     return errors;
 };
 
-export function AddressForm({ onAddressAdded }) {
+export function AddressForm({ initialAddress, onSuccess, onCancel }) {
+    const isEditMode = Boolean(initialAddress);
+
+    const endpoint = isEditMode
+        ? `${ENDPOINTS.ACCOUNT.ADDRESS}/${initialAddress._id}`
+        : ENDPOINTS.ACCOUNT.ADDRESS;
+
+    const method = isEditMode ? 'PATCH' : 'POST';
+
     const [submitError, setSubmitError] = useState(null);
-    const { mutate, loading } = useMutation(ENDPOINTS.ACCOUNT.ADDRESS);
+
+    const { mutate, loading } = useMutation(endpoint, method);
+
+    const formInitialValues = isEditMode
+        ? {
+              fullName: initialAddress.fullName,
+              phone: initialAddress.phone,
+              country: initialAddress.country,
+              city: initialAddress.city,
+              postalCode: initialAddress.postalCode,
+              addressLine1: initialAddress.addressLine1,
+          }
+        : initialValues;
 
     const addressSubmitHandler = async (formValues) => {
         setSubmitError(null);
         try {
             await mutate(formValues);
-            onAddressAdded();
+            onSuccess();
         } catch (err) {
             setSubmitError(err.message || 'Грешка при добавяне на адреса. Моля, опитайте отново.');
         }
@@ -60,15 +80,19 @@ export function AddressForm({ onAddressAdded }) {
 
     const { inputPropertiesRegister, submitHandler, formErrors } = useForm(
         addressSubmitHandler,
-        initialValues,
+        formInitialValues,
         validateFn,
     );
+
+    const addressLabel = initialAddress?.isDefault ? 'адрес за фактуриране' : 'адрес';
+    const legendText = `${isEditMode ? 'Редактирай' : 'Добави'} ${addressLabel}`;
+
     return (
         <form onSubmit={submitHandler} noValidate>
             <div className="row learts-mb-n30">
                 <div className="col-12 learts-mb-30 learts-mt-30">
                     <fieldset>
-                        <legend>Добави адрес</legend>
+                        <legend>{legendText}</legend>
                         <div className="row learts-mb-n30">
                             {/* Full Name */}
                             <div className="col-12 learts-mb-30">
@@ -152,10 +176,24 @@ export function AddressForm({ onAddressAdded }) {
                         <span className="error">{submitError}</span>
                     </div>
                 )}
-                <div className="col-12 learts-mb-30">
-                    <button className="btn btn-dark btn-outline-hover-dark">
-                        {loading ? 'Добавяне...' : 'Добави адрес'}
-                    </button>
+                <div className="col-12 learts-mb-30 form-buttons">
+                    {isEditMode ? (
+                        <>
+                            <button className="btn btn-primary" type="submit" disabled={loading}>
+                                {loading ? 'Редактиране...' : 'Редактирай'}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onCancel}
+                                className="btn btn-dark btn-outline-hover-dark learts-ml-auto">
+                                Отказ
+                            </button>
+                        </>
+                    ) : (
+                        <button className="btn btn-primary" type="submit" disabled={loading}>
+                            {loading ? 'Добавяне...' : 'Добави адрес'}
+                        </button>
+                    )}
                 </div>
             </div>
         </form>
