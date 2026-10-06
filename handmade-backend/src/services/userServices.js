@@ -2,6 +2,15 @@ import { User } from "../models/User.js";
 import { toUserDTO } from "../utils/userDTO.js";
 import { toUserDetails } from "../utils/userDetails.js";
 
+const ADDRESS_FIELDS = [
+    "fullName",
+    "phone",
+    "country",
+    "city",
+    "postalCode",
+    "addressLine1",
+];
+
 export default {
     async register(username, email, password, confirmPassword) {
         if (password !== confirmPassword) {
@@ -101,20 +110,26 @@ export default {
             throw err;
         }
 
-        const addressIndex = user.address.findIndex(
-            (addr) => addr._id.toString() === addressId,
-        );
-
-        if (addressIndex === -1) {
-            const err = new Error("Address not found");
+        const address = user.address.id(addressId);
+        if (!address) {
+            const err = new Error("Адресът не е намерен!");
             err.statusCode = 404;
             throw err;
         }
 
-        user.address[addressIndex] = {
-            ...user.address[addressIndex],
-            ...addressData,
-        };
+        const updates = Object.fromEntries(
+            ADDRESS_FIELDS.filter(
+                (field) => addressData[field] !== undefined,
+            ).map((field) => [field, addressData[field]]),
+        );
+
+        address.set(updates);
+
+        if (addressData.isDefault === true) {
+            user.address.forEach((a) => {
+                a.isDefault = a._id.equals(address._id);
+            });
+        }
 
         await user.save();
 
