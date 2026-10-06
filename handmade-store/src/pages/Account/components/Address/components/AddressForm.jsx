@@ -12,37 +12,42 @@ const initialValues = {
     addressLine1: '',
 };
 
+const requiredMessages = {
+    fullName: 'Името е задължително!',
+    phone: 'Телефонът е задължителен!',
+    country: 'Държавата е задължителна!',
+    city: 'Градът е задължителен!',
+    postalCode: 'Пощенският код е задължителен!',
+    addressLine1: 'Адресът е задължителен!',
+};
+
+const PHONE_REGEX = /^\+?[0-9\s-]{7,15}$/;
+
 const validateFn = (values) => {
     const errors = {};
 
-    if (!values.fullName) {
-        errors.fullName = 'Името е задължително!';
+    for (const [field, message] of Object.entries(requiredMessages)) {
+        if (!values[field].trim()) {
+            errors[field] = message;
+        }
     }
 
-    if (!values.phone) {
-        errors.phone = 'Телефонът е задължителен!';
-    } else if (!/^\+?[0-9\s-]{7,15}$/.test(values.phone)) {
-        errors.phone = 'Формата на телефона е неправилен!';
-    }
-
-    if (!values.country) {
-        errors.country = 'Държавата е задължителна!';
-    }
-
-    if (!values.city) {
-        errors.city = 'Градът е задължителен!';
-    }
-
-    if (!values.postalCode) {
-        errors.postalCode = 'Пощенския код е задължителен!';
-    }
-
-    if (!values.addressLine1) {
-        errors.addressLine1 = 'Адресът е задължителен!';
+    if (!errors.phone && !PHONE_REGEX.test(values.phone)) {
+        errors.phone = 'Форматът на телефона е неправилен!';
     }
 
     return errors;
 };
+
+function FormField({ name, label, type = 'text', register, errors }) {
+    return (
+        <div className="col-12 learts-mb-30">
+            <label htmlFor={name}>{label} *</label>
+            <input type={type} id={name} {...register(name)} />
+            {errors[name] && <span className="error">{errors[name]}</span>}
+        </div>
+    );
+}
 
 export function AddressForm({ initialAddress, onSuccess, onCancel }) {
     const isEditMode = Boolean(initialAddress);
@@ -58,18 +63,14 @@ export function AddressForm({ initialAddress, onSuccess, onCancel }) {
     const { mutate, loading } = useMutation(endpoint, method);
 
     const formInitialValues = isEditMode
-        ? {
-              fullName: initialAddress.fullName,
-              phone: initialAddress.phone,
-              country: initialAddress.country,
-              city: initialAddress.city,
-              postalCode: initialAddress.postalCode,
-              addressLine1: initialAddress.addressLine1,
-          }
+        ? Object.fromEntries(
+              Object.keys(initialValues).map((key) => [key, initialAddress[key] ?? '']),
+          )
         : initialValues;
 
     const addressSubmitHandler = async (formValues) => {
         setSubmitError(null);
+
         try {
             await mutate(formValues);
             onSuccess();
@@ -84,6 +85,7 @@ export function AddressForm({ initialAddress, onSuccess, onCancel }) {
         validateFn,
     );
 
+    const fieldProps = { register: inputPropertiesRegister, errors: formErrors };
     const addressLabel = initialAddress?.isDefault ? 'адрес за фактуриране' : 'адрес';
     const legendText = `${isEditMode ? 'Редактирай' : 'Добави'} ${addressLabel}`;
 
@@ -94,79 +96,12 @@ export function AddressForm({ initialAddress, onSuccess, onCancel }) {
                     <fieldset>
                         <legend>{legendText}</legend>
                         <div className="row learts-mb-n30">
-                            {/* Full Name */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="fullName">Две имена *</label>
-                                <input
-                                    type="text"
-                                    id="fullName"
-                                    {...inputPropertiesRegister('fullName')}
-                                />
-                                {formErrors.fullName && (
-                                    <span className="error">{formErrors.fullName}</span>
-                                )}
-                            </div>
-
-                            {/* Phone */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="phone">Телефон *</label>
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    {...inputPropertiesRegister('phone')}
-                                />
-                                {formErrors.phone && (
-                                    <span className="error">{formErrors.phone}</span>
-                                )}
-                            </div>
-
-                            {/* Country */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="country">Държава *</label>
-                                <input
-                                    type="text"
-                                    id="country"
-                                    {...inputPropertiesRegister('country')}
-                                />
-                                {formErrors.country && (
-                                    <span className="error">{formErrors.country}</span>
-                                )}
-                            </div>
-
-                            {/* City */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="city">Град *</label>
-                                <input type="text" id="city" {...inputPropertiesRegister('city')} />
-                                {formErrors.city && (
-                                    <span className="error">{formErrors.city}</span>
-                                )}
-                            </div>
-
-                            {/* Postal Code */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="postalCode">Пощенски код *</label>
-                                <input
-                                    type="text"
-                                    id="postalCode"
-                                    {...inputPropertiesRegister('postalCode')}
-                                />
-                                {formErrors.postalCode && (
-                                    <span className="error">{formErrors.postalCode}</span>
-                                )}
-                            </div>
-
-                            {/* Address Line 1 */}
-                            <div className="col-12 learts-mb-30">
-                                <label htmlFor="addressLine1">Адрес *</label>
-                                <input
-                                    type="text"
-                                    id="addressLine1"
-                                    {...inputPropertiesRegister('addressLine1')}
-                                />
-                                {formErrors.addressLine1 && (
-                                    <span className="error">{formErrors.addressLine1}</span>
-                                )}
-                            </div>
+                            <FormField name="fullName" label="Две имена" {...fieldProps} />
+                            <FormField name="phone" label="Телефон" type="tel" {...fieldProps} />
+                            <FormField name="country" label="Държава" {...fieldProps} />
+                            <FormField name="city" label="Град" {...fieldProps} />
+                            <FormField name="postalCode" label="Пощенски код" {...fieldProps} />
+                            <FormField name="addressLine1" label="Адрес" {...fieldProps} />
                         </div>
                     </fieldset>
                 </div>
