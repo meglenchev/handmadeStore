@@ -3293,7 +3293,7 @@ blockquote.learts-blockquote2 .content p,
 /* Label */
 label {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.125;
     display: block;
     margin-bottom: 10px;
@@ -3312,7 +3312,8 @@ label:last-child {
 
 /* Input & Textarea */
 input:not([type='checkbox']):not([type='radio']),
-textarea {
+textarea,
+.user-email {
     font-size: 16px;
     font-weight: 400;
     display: block;

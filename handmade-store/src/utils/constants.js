@@ -2,7 +2,7 @@ import { ENDPOINTS } from '@/utils/endpoints.js';
 import { Dashboard } from '@/pages/Account/components/Dashboard.jsx';
 import { Orders } from '@/pages/Account/components/Orders.jsx';
 import { Address } from '@/pages/Account/components/Address/Address.jsx';
-import { AccountDetails } from '@/pages/Account/components/AccountDetails.jsx';
+import { Details } from '@/pages/Account/components/Details/Details.jsx';
 
 export const HEADER_LINKS = [
     { to: '/', label: 'Начало' },
@@ -40,6 +40,6 @@ export const ACCOUNT_TABS = [
         label: 'Account Details',
         icon: 'user',
         endpoint: ENDPOINTS.ACCOUNT.DETAILS,
-        Component: AccountDetails,
+        Component: Details,
     },
 ];
