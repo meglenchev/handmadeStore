@@ -69,6 +69,7 @@ userController.post("/users/logout", (req, res) => {
     });
 });
 
+/* Get User Address */
 userController.get(
     "/users/account/address",
 
@@ -84,6 +85,7 @@ userController.get(
     },
 );
 
+/* Add User Address */
 userController.post(
     "/users/account/address",
 
@@ -116,6 +118,7 @@ userController.post(
     },
 );
 
+/* Update User Address */
 userController.patch(
     "/users/account/address/:addressId",
 
@@ -146,6 +149,7 @@ userController.patch(
     },
 );
 
+/* Get User Details */
 userController.get(
     "/users/account/details",
 
@@ -161,6 +165,7 @@ userController.get(
     },
 );
 
+/* Get Current User */
 userController.get("/users/me", verifyToken(), async (req, res, next) => {
     try {
         const user = await userServices.getMe(req.user._id);
