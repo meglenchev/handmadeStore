@@ -111,6 +111,7 @@ export default {
         }
 
         const address = user.address.id(addressId);
+
         if (!address) {
             const err = new Error("Адресът не е намерен!");
             err.statusCode = 404;
@@ -143,6 +144,21 @@ export default {
             err.statusCode = 404;
             throw err;
         }
+
+        return toUserDetails(user);
+    },
+    async updateUserDetails(userId, userDetails) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        Object.assign(user, userDetails);
+
+        await user.save();
 
         return toUserDetails(user);
     },

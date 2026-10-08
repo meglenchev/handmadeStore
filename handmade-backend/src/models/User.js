@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const addressSchema = new Schema(
     {
-        fullName: {
+        recipientName: {
             type: String,
             required: true,
             trim: true,
@@ -40,6 +40,12 @@ const addressSchema = new Schema(
 
 const userSchema = new Schema(
     {
+        fullName: {
+            type: String,
+            maxLength: [100, "Name cannot exceed 100 characters"],
+            trim: true,
+            default: "",
+        },
         username: {
             type: String,
             unique: true,

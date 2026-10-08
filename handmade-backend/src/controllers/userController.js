@@ -94,7 +94,7 @@ userController.post(
     async (req, res, next) => {
         // prettier-ignore
         const { 
-            fullName, 
+            recipientName, 
             phone, 
             country, 
             city, 
@@ -104,7 +104,7 @@ userController.post(
 
         try {
             const address = await userServices.addAddress(req.user._id, {
-                fullName,
+                recipientName,
                 phone,
                 country,
                 city,
@@ -126,15 +126,21 @@ userController.patch(
 
     async (req, res, next) => {
         const { addressId } = req.params;
-        const { fullName, phone, country, city, postalCode, addressLine1 } =
-            req.body;
+        const {
+            recipientName,
+            phone,
+            country,
+            city,
+            postalCode,
+            addressLine1,
+        } = req.body;
 
         try {
             const address = await userServices.updateAddress(
                 req.user._id,
                 addressId,
                 {
-                    fullName,
+                    recipientName,
                     phone,
                     country,
                     city,
@@ -158,6 +164,28 @@ userController.get(
     async (req, res, next) => {
         try {
             const user = await userServices.getUserDetails(req.user._id);
+            res.status(200).json({ user });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+/* Update User Details */
+userController.patch(
+    "/users/account/details",
+
+    verifyToken(),
+
+    async (req, res, next) => {
+        const { username, fullName } = req.body;
+
+        try {
+            const user = await userServices.updateUserDetails(req.user._id, {
+                username,
+                fullName,
+            });
+
             res.status(200).json({ user });
         } catch (err) {
             next(err);
