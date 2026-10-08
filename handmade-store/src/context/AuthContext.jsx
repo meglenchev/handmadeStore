@@ -2,13 +2,14 @@ import { useLocalStorage } from '@/hooks/useLocalStorage.jsx';
 import { useMutation } from '@/hooks/useMutation.jsx';
 import { apiGet } from '@/utils/apiClient.js';
 import { ENDPOINTS } from '@/utils/endpoints.js';
-import { createContext, useCallback, useEffect, useState, useMemo } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 
 const AuthContext = createContext({
     auth: null,
     vendorStatus: null,
     isLoggedIn: false,
     isAuthLoading: true,
+    updateUser: () => {},
     onLogin: async () => {},
     onRegister: async () => {},
     onLogout: () => {},
@@ -19,21 +20,41 @@ export function AuthProvider({ children }) {
     const [auth, setAuth] = useLocalStorage('auth', null);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-    const { mutate: login, loading: loginLoading, error: loginError } = useMutation(ENDPOINTS.AUTH.LOGIN);
-    const { mutate: register, loading: registerLoading, error: registerError } = useMutation(ENDPOINTS.AUTH.REGISTER);
+    const {
+        mutate: login,
+        loading: loginLoading,
+        error: loginError,
+    } = useMutation(ENDPOINTS.AUTH.LOGIN);
+    const {
+        mutate: register,
+        loading: registerLoading,
+        error: registerError,
+    } = useMutation(ENDPOINTS.AUTH.REGISTER);
 
     const applySession = useCallback(
         (user) => {
-            setAuth({ _id: user._id, username: user.username, role: user.role });
+            setAuth({
+                _id: user._id,
+                fullName: user.fullName ?? '',
+                username: user.username,
+                role: user.role,
+            });
             setVendorStatus(user.vendorStatus);
         },
-        [setAuth]
+        [setAuth],
     );
 
     const clearSession = useCallback(() => {
         setAuth(null);
         setVendorStatus(null);
     }, [setAuth]);
+
+    const updateUser = useCallback(
+        ({ username, fullName }) => {
+            setAuth({ ...auth, username, fullName });
+        },
+        [auth, setAuth],
+    );
 
     const isLoggedIn = !!auth?._id;
 
@@ -87,25 +108,27 @@ export function AuthProvider({ children }) {
         clearSession();
     }, [clearSession]);
 
-    const authContextValue = useMemo(
-        () => ({
-            auth,
-            isLoggedIn,
-            vendorStatus,
-            isAuthLoading,
-            onLogin,
-            loginLoading,
-            loginError,
-            onRegister,
-            registerLoading,
-            registerError,
-            onLogout,
-        }),
-        [auth, isLoggedIn, vendorStatus, isAuthLoading, onLogin, loginLoading, loginError, onRegister, registerLoading, registerError, onLogout]
-    );
+    const authContextValue = {
+        auth,
+        isLoggedIn,
+        vendorStatus,
+        isAuthLoading,
+        updateUser,
+        onLogin,
+        loginLoading,
+        loginError,
+        onRegister,
+        registerLoading,
+        registerError,
+        onLogout,
+    };
 
     // TODO: Да се замени `null` с loading spinner/skeleton, докато isAuthLoading е true - за да няма чисто бял екран по време на първоначалната проверка на сесията.
-    return <AuthContext.Provider value={authContextValue}>{isAuthLoading ? null : children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={authContextValue}>
+            {isAuthLoading ? null : children}
+        </AuthContext.Provider>
+    );
 }
 
 export default AuthContext;

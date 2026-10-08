@@ -1,10 +1,13 @@
 import { AddressList } from './components/AddressList.jsx';
 import { AddressForm } from './components/AddressForm.jsx';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import AuthContext from '@/context/AuthContext.jsx';
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 export function Address({ data, refresh }) {
+    const { auth } = useContext(AuthContext);
+
     const [editingAddressId, setEditingAddressId] = useState(null);
 
     const editingAddress = data.address.find((a) => a._id === editingAddressId);
@@ -34,7 +37,12 @@ export function Address({ data, refresh }) {
                     onCancel={handleCancelEdit}
                 />
             ) : (
-                data.address.length < 2 && <AddressForm onSuccess={handleAddressAdded} />
+                data.address.length < 2 && (
+                    <AddressForm
+                        defaultRecipientName={auth.fullName}
+                        onSuccess={handleAddressAdded}
+                    />
+                )
             )}
         </>
     );

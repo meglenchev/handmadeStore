@@ -10,7 +10,7 @@ export function AddressList({ addresses, onEdit }) {
                         </h4>
                         <address>
                             <p>
-                                <strong>{address.fullName}</strong>
+                                <strong>{address.recipientName}</strong>
                             </p>
                             <p>Държава: {address.country}</p>
                             <p>Град: {address.city}</p>

@@ -4,7 +4,7 @@ import { ENDPOINTS } from '@/utils/endpoints.js';
 import { useState } from 'react';
 
 const initialValues = {
-    fullName: '',
+    recipientName: '',
     phone: '',
     country: '',
     city: '',
@@ -13,7 +13,7 @@ const initialValues = {
 };
 
 const requiredMessages = {
-    fullName: 'Името е задължително!',
+    recipientName: 'Името е задължително!',
     phone: 'Телефонът е задължителен!',
     country: 'Държавата е задължителна!',
     city: 'Градът е задължителен!',
@@ -49,8 +49,10 @@ function FormField({ name, label, type = 'text', register, errors }) {
     );
 }
 
-export function AddressForm({ initialAddress, onSuccess, onCancel }) {
+export function AddressForm({ initialAddress, defaultRecipientName, onSuccess, onCancel }) {
     const isEditMode = Boolean(initialAddress);
+
+    console.log('Default Recipient Name:', defaultRecipientName);
 
     const endpoint = isEditMode
         ? `${ENDPOINTS.ACCOUNT.ADDRESS}/${initialAddress._id}`
@@ -66,7 +68,7 @@ export function AddressForm({ initialAddress, onSuccess, onCancel }) {
         ? Object.fromEntries(
               Object.keys(initialValues).map((key) => [key, initialAddress[key] ?? '']),
           )
-        : initialValues;
+        : { ...initialValues, recipientName: defaultRecipientName };
 
     const addressSubmitHandler = async (formValues) => {
         setSubmitError(null);
@@ -96,7 +98,7 @@ export function AddressForm({ initialAddress, onSuccess, onCancel }) {
                     <fieldset>
                         <legend>{legendText}</legend>
                         <div className="row learts-mb-n30">
-                            <FormField name="fullName" label="Две имена" {...fieldProps} />
+                            <FormField name="recipientName" label="Две имена" {...fieldProps} />
                             <FormField name="phone" label="Телефон" type="tel" {...fieldProps} />
                             <FormField name="country" label="Държава" {...fieldProps} />
                             <FormField name="city" label="Град" {...fieldProps} />
