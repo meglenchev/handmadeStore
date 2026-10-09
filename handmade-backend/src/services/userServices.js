@@ -3,13 +3,15 @@ import { toUserDTO } from "../utils/userDTO.js";
 import { toUserDetails } from "../utils/userDetails.js";
 
 const ADDRESS_FIELDS = [
-    "fullName",
+    "recipientName",
     "phone",
     "country",
     "city",
     "postalCode",
     "addressLine1",
 ];
+
+const ACCOUNT_FIELDS = ["fullName", "username"];
 
 export default {
     async register(username, email, password, confirmPassword) {
@@ -150,13 +152,15 @@ export default {
     async updateUserDetails(userId, userDetails) {
         const user = await User.findById(userId);
 
-        if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
-        }
+        if (!user) throw httpError(404, "Потребителят не е намерен!");
 
-        Object.assign(user, userDetails);
+        const updates = Object.fromEntries(
+            ACCOUNT_FIELDS.filter((f) => userDetails[f] !== undefined).map(
+                (f) => [f, userDetails[f]],
+            ),
+        );
+
+        user.set(updates);
 
         await user.save();
 
