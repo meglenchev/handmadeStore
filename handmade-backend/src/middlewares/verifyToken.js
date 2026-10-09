@@ -13,6 +13,8 @@ export function verifyToken(allowedRoles = []) {
         try {
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
+            // TODO: проверка на iat срещу user.passwordChangedAt (виж коментара в changePassword).
+
             req.user = decodedToken;
 
             if (

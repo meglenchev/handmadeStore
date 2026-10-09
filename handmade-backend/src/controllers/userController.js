@@ -125,17 +125,17 @@ userController.patch(
     verifyToken(),
 
     async (req, res, next) => {
-        const { addressId } = req.params;
-        const {
-            recipientName,
-            phone,
-            country,
-            city,
-            postalCode,
-            addressLine1,
-        } = req.body;
-
         try {
+            const { addressId } = req.params;
+            const {
+                recipientName,
+                phone,
+                country,
+                city,
+                postalCode,
+                addressLine1,
+            } = req.body;
+
             const address = await userServices.updateAddress(
                 req.user._id,
                 addressId,
@@ -178,15 +178,37 @@ userController.patch(
     verifyToken(),
 
     async (req, res, next) => {
-        const { username, fullName } = req.body;
-
         try {
+            const { username, fullName } = req.body;
+
             const user = await userServices.updateUserDetails(req.user._id, {
                 username,
                 fullName,
             });
 
             res.status(200).json({ user });
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+/* Change User Password */
+userController.patch(
+    "/users/account/password",
+
+    verifyToken(),
+
+    async (req, res, next) => {
+        try {
+            const { currentPassword, newPassword } = req.body;
+
+            await userServices.changePassword(
+                req.user._id,
+                currentPassword,
+                newPassword,
+            );
+            res.status(200).json({ message: "Password changed successfully" });
         } catch (err) {
             next(err);
         }

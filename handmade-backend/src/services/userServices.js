@@ -166,6 +166,35 @@ export default {
 
         return toUserDetails(user);
     },
+    async changePassword(userId, currentPassword, newPassword) {
+        const user = await User.findById(userId).select("+password");
+
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        const isValid = await user.comparePassword(currentPassword);
+
+        if (!isValid) {
+            const err = new Error("Invalid current password!");
+            err.statusCode = 400;
+            throw err;
+        }
+
+        user.password = newPassword;
+
+        await user.save();
+
+        // TODO (сигурност): Старите JWT токени остават валидни до изтичането си (1 час).
+        // Ако някой има откраднато cookie, смяната на паролата не го спира веднага.
+        // За тази фаза на проекта рискът е малък, затова е отложено.
+        // Строго решение: поле `passwordChangedAt` в User модела (да се задава преди save(),
+        // т.е. user.passwordChangedAt = new Date()) и проверка във `verifyToken` дали `iat`
+        // на токена е по-нов от него. Цена: една заявка към базата на всяка защитена
+        // заявка, затова се прави, когато реално се наложи.
+    },
     async getMe(userId) {
         const user = await User.findById(userId);
 
