@@ -52,8 +52,6 @@ function FormField({ name, label, type = 'text', register, errors }) {
 export function AddressForm({ initialAddress, defaultRecipientName, onSuccess, onCancel }) {
     const isEditMode = Boolean(initialAddress);
 
-    console.log('Default Recipient Name:', defaultRecipientName);
-
     const endpoint = isEditMode
         ? `${ENDPOINTS.ACCOUNT.ADDRESS}/${initialAddress._id}`
         : ENDPOINTS.ACCOUNT.ADDRESS;
