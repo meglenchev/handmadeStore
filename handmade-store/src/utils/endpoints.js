@@ -19,5 +19,6 @@ export const ENDPOINTS = {
         ORDERS: '/users/account/orders',
         ADDRESS: '/users/account/address',
         DETAILS: '/users/account/details',
+        CHANGE_PASSWORD: '/users/account/password',
     },
 };
