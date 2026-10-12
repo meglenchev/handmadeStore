@@ -25,7 +25,7 @@ const validateFn = (values) => {
 };
 
 export function LoginForm() {
-    const { onLogin } = useContext(AuthContext);
+    const { onLogin, loginLoading } = useContext(AuthContext);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate();
 
@@ -36,11 +36,19 @@ export function LoginForm() {
             await onLogin(formValues);
             navigate('/', { replace: true });
         } catch (err) {
-            setSubmitError(err.message || 'Грешен имейл или парола.');
+            setSubmitError(
+                err.statusCode === 401
+                    ? 'Невалиден имейл или парола!'
+                    : err.message || 'Възникна грешка. Опитайте отново!',
+            );
         }
     };
 
-    const { inputPropertiesRegister, submitHandler, formErrors } = useForm(loginSubmitHandler, initialValues, validateFn);
+    const { inputPropertiesRegister, submitHandler, formErrors } = useForm(
+        loginSubmitHandler,
+        initialValues,
+        validateFn,
+    );
 
     return (
         <div className="user-login-register bg-light">
@@ -69,11 +77,13 @@ export function LoginForm() {
                                 className={`form-control ${formErrors.password && 'is-invalid'}`}
                                 placeholder="Парола"
                             />
-                            {formErrors.password && <span className="error">{formErrors.password}</span>}
+                            {formErrors.password && (
+                                <span className="error">{formErrors.password}</span>
+                            )}
                         </div>
                         <div className="col-12 text-center learts-mb-50">
                             <button type="submit" className="btn btn-primary2">
-                                Вход
+                                {loginLoading ? 'Влизане...' : 'Вход'}
                             </button>
                         </div>
                         {/* TODO: Add styles for better visual representation of this error */}

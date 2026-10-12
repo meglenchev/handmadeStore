@@ -52,11 +52,19 @@ export function RegisterForm() {
             await onRegister(formValues);
             navigate('/', { replace: true });
         } catch (err) {
-            setSubmitError(err.message || 'Грешка при регистрация. Моля, опитайте отново.');
+            setSubmitError(
+                err.statusCode === 409
+                    ? 'Потребител с тези данни вече съществува!'
+                    : err.message || 'Възникна грешка. Опитайте отново!',
+            );
         }
     };
 
-    const { inputPropertiesRegister, submitHandler, formErrors } = useForm(registerSubmitHandler, initialValues, validateFn);
+    const { inputPropertiesRegister, submitHandler, formErrors } = useForm(
+        registerSubmitHandler,
+        initialValues,
+        validateFn,
+    );
 
     return (
         <div className="user-login-register">
@@ -91,7 +99,9 @@ export function RegisterForm() {
                                 className={formErrors.username && `form-control is-invalid`}
                                 id="registerUsername"
                             />
-                            {formErrors.username && <span className="error">{formErrors.username}</span>}
+                            {formErrors.username && (
+                                <span className="error">{formErrors.username}</span>
+                            )}
                         </div>
                         <div className="col-12 learts-mb-20">
                             <label htmlFor="registerPassword">
@@ -104,7 +114,9 @@ export function RegisterForm() {
                                 className={formErrors.password && `form-control is-invalid`}
                                 id="registerPassword"
                             />
-                            {formErrors.password && <span className="error">{formErrors.password}</span>}
+                            {formErrors.password && (
+                                <span className="error">{formErrors.password}</span>
+                            )}
                         </div>
                         <div className="col-12 learts-mb-20">
                             <label htmlFor="confirmPassword">
@@ -117,12 +129,15 @@ export function RegisterForm() {
                                 className={formErrors.confirmPassword && `form-control is-invalid`}
                                 id="confirmPassword"
                             />
-                            {formErrors.confirmPassword && <span className="error">{formErrors.confirmPassword}</span>}
+                            {formErrors.confirmPassword && (
+                                <span className="error">{formErrors.confirmPassword}</span>
+                            )}
                         </div>
                         <div className="col-12 learts-mb-50">
                             <p>
-                                Вашият личен данни ще бъдат използвани за поддръжка на опита ви през този сайт, за управление на достъпа до вашия акаунт и за други цели, описани в
-                                нашата политика на поверителност
+                                Вашият личен данни ще бъдат използвани за поддръжка на опита ви през
+                                този сайт, за управление на достъпа до вашия акаунт и за други цели,
+                                описани в нашата политика на поверителност
                             </p>
                         </div>
                         {/* TODO: Add styles for better visual representation of this error */}
