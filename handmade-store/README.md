@@ -28,7 +28,7 @@
 - [x] Shared API layer: `apiClient`, `useQuery` (conditional fetch), `useMutation`, unit tests with Vitest
 - [ ] Optimize Search Component: If results > 6, implement a "Load More" button or Lazy Loading to prevent layout shifting
 - [ ] Finish address editing _(in progress — see Bugs)_ + delete / set default address
-- [ ] Wire `AccountDetails` form to the backend (no `onSubmit` / endpoint yet)
+- [x] Wire `AccountDetails` form to the backend (no `onSubmit` / endpoint yet)
 - [ ] Orders tab: replace the hardcoded table with real data from `/users/account/orders`
 - [ ] Checkout page (cart → address → `POST /orders`)
 - [ ] Pages linked in the header but missing: About us, Wishlist, Contact us, Privacy policy (currently fall to 404)
@@ -52,12 +52,12 @@
 ### Bugs
 
 - [ ] **Logout does not log out** — `onLogout` only clears local state; it never calls `POST /users/logout`, so the httpOnly cookie stays and the session is restored on the next reload. Also redirect to `/` after logout.
-- [ ] **Address edit form opens empty** — `AddressForm` passes `initialValues` to `useForm` instead of `formInitialValues`. Legend and submit button also always say "Добави" in edit mode.
-- [ ] **Address edit request fails** — it sends `PATCH /users/account/address/:id`, which does not exist on the backend and is blocked by CORS (see backend README).
+- [x] **Address edit form opens empty** — `AddressForm` passes `initialValues` to `useForm` instead of `formInitialValues`. Legend and submit button also always say "Добави" in edit mode.
+- [x] **Address edit request fails** — it sends `PATCH /users/account/address/:id`, which does not exist on the backend and is blocked by CORS (see backend README).
 - [ ] **Orders tab renders nothing** — `Profile.jsx` has no query for the `orders` tab, so `data` is `undefined` and the component is never shown.
 - [ ] **A stray `0` is rendered next to the price** — `{product.oldPrice && ...}` in `QuickView.jsx` and `DealOfTheDay.jsx`; seed data uses `oldPrice: 0`. Use `oldPrice > 0 && ...`.
 - [ ] **ESLint does not run** (`Plugin "" not found`) — remove the `'prettier'` string from `extends` in `eslint.config.js` (`eslintConfigPrettier` is already added at the end).
-- [ ] `AccountDetails` `useEffect` depends on `[setFormValues]` but reads `data` — add `data` to the dependencies.
+- [x] `AccountDetails` `useEffect` depends on `[setFormValues]` but reads `data` — add `data` to the dependencies.
 
 ### Refactoring
 
