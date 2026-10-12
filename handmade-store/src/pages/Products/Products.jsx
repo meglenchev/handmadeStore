@@ -26,11 +26,21 @@ export function Products() {
 
     const maxPriceParam = searchParams.get('max_price');
     const parsedMaxPrice = maxPriceParam !== null ? Number(maxPriceParam) : null;
-    const maxPrice = Number.isFinite(parsedMaxPrice) && parsedMaxPrice >= 0 ? parsedMaxPrice : MAX_LIMIT;
+    const maxPrice =
+        Number.isFinite(parsedMaxPrice) && parsedMaxPrice >= 0 ? parsedMaxPrice : MAX_LIMIT;
     const activeCategory = searchParams.get('category');
 
-    const { data: products, loading, error, refresh } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
-    const { data: categories, loading: categoriesLoading, error: categoriesError } = useQuery(ENDPOINTS.PRODUCTS.ALL_CATEGORY, []);
+    const {
+        data: products,
+        loading,
+        error,
+        refresh,
+    } = useQuery(ENDPOINTS.PRODUCTS.ALL(location.search), [location.search]);
+    const {
+        data: categories,
+        loading: categoriesLoading,
+        error: categoriesError,
+    } = useQuery(ENDPOINTS.PRODUCTS.ALL_CATEGORY, []);
 
     const handleSortChange = (e) => {
         const selectedSort = e.target.value;
@@ -73,7 +83,13 @@ export function Products() {
     };
 
     if (error) {
-        return <SectionErrorFallback error={new Error(error)} title="Продуктите не могат да се заредят" resetErrorBoundary={refresh} />;
+        return (
+            <SectionErrorFallback
+                error={new Error(error)}
+                title="Продуктите не могат да се заредят"
+                resetErrorBoundary={refresh}
+            />
+        );
     }
 
     return (
@@ -118,12 +134,21 @@ export function Products() {
                 {/* Product Filter End*/}
                 <div className="section section-fluid learts-mt-70">
                     <div className="container">
-                        <div className={`products products-grid row ${GRID_VIEW_CLASSES[gridView]}`}>
+                        <div
+                            className={`products products-grid row ${GRID_VIEW_CLASSES[gridView]}`}>
                             {loading ? (
-                                Array.from({ length: 10 }).map((_, index) => <ProductSkeleton key={index} />)
+                                Array.from({ length: 10 }).map((_, index) => (
+                                    <ProductSkeleton key={index} />
+                                ))
                             ) : products && products.length > 0 ? (
                                 products.map((product) => {
-                                    return <ProductItem key={product._id} product={product} currentFilters={location.search} />;
+                                    return (
+                                        <ProductItem
+                                            key={product._id}
+                                            product={product}
+                                            currentFilters={location.search}
+                                        />
+                                    );
                                 })
                             ) : (
                                 <div className="col-12 text-center section-padding w-100">

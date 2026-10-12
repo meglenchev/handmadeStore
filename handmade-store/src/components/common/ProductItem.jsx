@@ -16,19 +16,32 @@ export function ProductItem({ product, currentFilters }) {
         <div className="col">
             <div className="product">
                 <div className="product-thumb">
-                    <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} state={{ fromFilters: currentFilters }} className="image">
+                    <Link
+                        to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
+                        state={{ fromFilters: currentFilters }}
+                        className="image">
                         <span className="product-badges">
-                            {product.discount < 0 && <span className="onsale">{product.discount > -1 ? -1 : Math.round(product.discount)}%</span>}
+                            {product.discount > 0 && (
+                                <span className="onsale">
+                                    -{Math.max(1, Math.round(product.discount))}%
+                                </span>
+                            )}
                             {product.tags.includes('hit') && <span className="hot">hot</span>}
                             {product.outofstock && (
-                                <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
+                                <span
+                                    className="outofstock hintT-right"
+                                    data-hint="Продуктът е изчерпан">
                                     <FontAwesomeIcon icon="frown" />
                                 </span>
                             )}
                             {product.tags.hit && <span className="hot">hot</span>}
                         </span>
                         <img src={product.images.gallery[0]} alt={product.title} />
-                        <img className="image-hover " src={product.images.gallery[1]} alt={product.title} />
+                        <img
+                            className="image-hover "
+                            src={product.images.gallery[1]}
+                            alt={product.title}
+                        />
                     </Link>
                     <button
                         onClick={() => toggleWishlist(product)}
@@ -39,17 +52,25 @@ export function ProductItem({ product, currentFilters }) {
                 </div>
                 <div className="product-info">
                     <h6 className="title">
-                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} state={{ fromFilters: currentFilters }}>
+                        <Link
+                            to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
+                            state={{ fromFilters: currentFilters }}>
                             {product.title}
                         </Link>
                     </h6>
                     <span className="price">€{product.newPrice.toFixed(2)}</span>
                     <div className="product-buttons">
-                        <button onClick={() => openQuickView(product)} className="btn btn-dark btn-circle hintT-top" data-hint="Бърз преглед">
+                        <button
+                            onClick={() => openQuickView(product)}
+                            className="btn btn-dark btn-circle hintT-top"
+                            data-hint="Бърз преглед">
                             <FontAwesomeIcon icon="search" />
                         </button>
                         {!product.outofstock && (
-                            <button onClick={() => addToCart(product)} className="btn btn-primary btn-circle hintT-top" data-hint="Добавяне в количката">
+                            <button
+                                onClick={() => addToCart(product)}
+                                className="btn btn-primary btn-circle hintT-top"
+                                data-hint="Добавяне в количката">
                                 <FontAwesomeIcon icon="shopping-cart" />
                             </button>
                         )}
