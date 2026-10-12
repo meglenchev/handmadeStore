@@ -41,7 +41,7 @@ const validateFn = (values) => {
 };
 
 export function RegisterForm() {
-    const { onRegister } = useContext(AuthContext);
+    const { onRegister, registerLoading } = useContext(AuthContext);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate();
 
@@ -147,8 +147,11 @@ export function RegisterForm() {
                             </div>
                         )}
                         <div className="col-12 text-center learts-mb-50">
-                            <button type="submit" className="btn btn-primary">
-                                Регистрация
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={registerLoading}>
+                                {registerLoading ? 'Регистриране...' : 'Регистрация'}
                             </button>
                         </div>
                     </div>
