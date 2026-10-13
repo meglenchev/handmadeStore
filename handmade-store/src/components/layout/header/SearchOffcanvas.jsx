@@ -35,7 +35,11 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
     const options = Array.isArray(formattedCategories) ? formattedCategories : [];
     const selectOptions = [{ value: 'all', label: 'Всички категории' }, ...options];
-    const { inputPropertiesRegister, formValues, setFormValues } = useForm(() => {}, initialSearchValues, null);
+    const { inputPropertiesRegister, formValues, setFormValues } = useForm(
+        () => {},
+        initialSearchValues,
+        null,
+    );
 
     const submitSearch = useCallback(async (searchName, searchCategory, abortSignal) => {
         const searchWord = searchName ? searchName.trim() : '';
@@ -97,26 +101,42 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     };
 
     return (
-        <Offcanvas show={activeMenu.search} onHide={() => handleCloseAndClear('search')} placement="start" className="offcanvas-search">
+        <Offcanvas
+            show={activeMenu.search}
+            onHide={() => handleCloseAndClear('search')}
+            placement="start"
+            className="offcanvas-search">
             <Offcanvas.Header>
                 <div className="inner">
                     <div className="offcanvas-search-form">
-                        <button type="button" onClick={() => handleCloseAndClear('search')} className="offcanvas-close">
+                        <button
+                            type="button"
+                            onClick={() => handleCloseAndClear('search')}
+                            className="offcanvas-close">
                             ×
                         </button>
                         <form onSubmit={handleFormSubmit}>
                             <div className="row mb-n3">
                                 <div className="col-lg-8 col-12 mb-3">
-                                    <input type="text" {...inputPropertiesRegister('name')} placeholder="Търсене на продукти..." />
+                                    <input
+                                        type="text"
+                                        {...inputPropertiesRegister('name')}
+                                        placeholder="Търсене на продукти..."
+                                    />
                                 </div>
                                 <div className="col-lg-4 col-12 mb-3">
                                     <Select
                                         options={selectOptions}
                                         styles={customStyles}
                                         defaultValue={{ value: 'all', label: 'Всички категории' }}
-                                        value={selectOptions.find((opt) => opt.value === formValues.category)}
+                                        value={selectOptions.find(
+                                            (opt) => opt.value === formValues.category,
+                                        )}
                                         onChange={(selectedOption) => {
-                                            setFormValues((state) => ({ ...state, category: selectedOption.value }));
+                                            setFormValues((state) => ({
+                                                ...state,
+                                                category: selectedOption.value,
+                                            }));
                                         }}
                                         className="react-select-container"
                                         classNamePrefix="react-select"
@@ -143,22 +163,38 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 <div key={product._id} className="col">
                                     <div className="product">
                                         <div className="product-thumb">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(product._id)} className="image" onClick={() => handleCloseAndClear('search')}>
+                                            <Link
+                                                to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
+                                                className="image"
+                                                onClick={() => handleCloseAndClear('search')}>
                                                 <span className="product-badges">
                                                     {product.outofstock && (
-                                                        <span className="outofstock hintT-right" data-hint="Продуктът е изчерпан">
+                                                        <span
+                                                            className="outofstock hintT-right"
+                                                            data-hint="Продуктът е изчерпан">
                                                             <FontAwesomeIcon icon="frown" />
                                                         </span>
                                                     )}
-                                                    {product.hot && <span className="hot">hot</span>}
+                                                    {product.hot && (
+                                                        <span className="hot">hot</span>
+                                                    )}
                                                 </span>
-                                                <img src={product.images.gallery[0]} alt={product.title} />
-                                                <img className="image-hover " src={product.images.gallery[1]} alt={product.title} />
+                                                <img
+                                                    src={product.images.gallery[0]}
+                                                    alt={product.title}
+                                                />
+                                                <img
+                                                    className="image-hover "
+                                                    src={product.images.gallery[1]}
+                                                    alt={product.title}
+                                                />
                                             </Link>
                                         </div>
                                         <div className="product-info">
                                             <h6 className="title">{product.title}</h6>
-                                            <span className="price">€{product.newPrice.toFixed(2)}</span>
+                                            <span className="price">
+                                                €{product.newPrice.toFixed(2)}
+                                            </span>
                                             <div className="product-buttons">
                                                 <Link
                                                     to={ENDPOINTS.PRODUCTS.DETAILS(product._id)}
@@ -176,7 +212,10 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                     ) : formValues.name.trim() === '' ? (
                         <p className="text-muted">Започнете да пишете, за да намерите продукти.</p>
                     ) : (
-                        <p>Няма намерени продукти.</p>
+                        <div className="col-12 learts-mb-20 error-section">
+                            <FontAwesomeIcon icon="frown" />
+                            <p className="error">Няма намерени продукти.</p>
+                        </div>
                     )}
                 </div>
             </Offcanvas.Body>

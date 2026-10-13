@@ -105,9 +105,9 @@ export function AddressForm({ initialAddress, defaultRecipientName, onSuccess, o
                         </div>
                     </fieldset>
                 </div>
-                {/* TODO: Add styles for better visual representation of this error */}
                 {submitError && (
-                    <div className="col-12 learts-mb-20">
+                    <div className="col-12 learts-mb-20 error-section">
+                        <FontAwesomeIcon icon="frown" />
                         <span className="error">{submitError}</span>
                     </div>
                 )}

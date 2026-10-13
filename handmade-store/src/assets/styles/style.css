@@ -3438,6 +3438,7 @@ form .error {
 }
 
 .error-section .error {
+    color: var(--color-danger);
     margin-top: 0;
 }
 

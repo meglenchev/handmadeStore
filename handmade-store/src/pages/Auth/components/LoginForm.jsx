@@ -87,7 +87,6 @@ export function LoginForm() {
                                 {loginLoading ? 'Влизане...' : 'Вход'}
                             </button>
                         </div>
-                        {/* TODO: Add styles for better visual representation of this error */}
                         {submitError && (
                             <div className="col-12 learts-mb-20 error-section">
                                 <FontAwesomeIcon icon="frown" />

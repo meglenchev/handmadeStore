@@ -141,7 +141,6 @@ export function RegisterForm() {
                                 описани в нашата политика на поверителност
                             </p>
                         </div>
-                        {/* TODO: Add styles for better visual representation of this error */}
                         {submitError && (
                             <div className="col-12 learts-mb-20 error-section">
                                 <FontAwesomeIcon icon="frown" />
