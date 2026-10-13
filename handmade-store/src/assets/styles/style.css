@@ -22,6 +22,7 @@
     --text-dark: #333333;
     /* Background Colors */
     --bg-body: #ffffff;
+    --bg-warm-light: #f4ede7;
     --bg-body-light: #7e7e7e;
     --bg-grey: #f8f9fd;
     --bg-black: #000000;
@@ -572,11 +573,11 @@ hr {
 /* Other */
 body.homepage-bg1 {
     padding: 0 15px 15px !important;
-    background-color: #f4ede7;
+    background-color: var(--bg-warm-light);
 }
 
 body.homepage-bg1 .topbar-section {
-    background-color: #f4ede7 !important;
+    background-color: var(--bg-warm-light) !important;
 }
 
 body.homepage-bg1.offcanvas-open {
@@ -3420,6 +3421,27 @@ form .error {
 }
 
 /*----------------------------------------*/
+/* Error CSS */
+/*----------------------------------------*/
+.error-section {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    background-color: var(--bg-warm-light);
+}
+
+.error-section .svg-inline--fa {
+    margin-right: 10px;
+    font-size: 24px;
+    color: var(--color-primary);
+}
+
+.error-section .error {
+    margin-top: 0;
+}
+
+/*----------------------------------------*/
 /* 05. Header CSS 
 /*----------------------------------------*/
 /* 05.01 Topbar CSS */
@@ -5161,7 +5183,7 @@ body.offcanvas.show .sticky-header {
     padding: 0;
     color: var(--text-dark);
     border-radius: 50%;
-    background-color: #f4ede7;
+    background-color: var(--bg-warm-light);
 }
 
 .offcanvas-social a:hover {
@@ -15290,7 +15312,7 @@ body.offcanvas.show .sticky-header {
     -webkit-transition: all 0.5s ease 0s;
     transition: all 0.5s ease 0s;
     opacity: 0;
-    background-color: #f4ede7;
+    background-color: var(--bg-warm-light);
 }
 
 .portfolio .thumbnail img {
@@ -16093,7 +16115,7 @@ body.offcanvas.show .sticky-header {
 /*----------------------------------------*/
 /* Footer Style One */
 .footer1-section {
-    background-color: #f4ede7;
+    background-color: var(--bg-warm-light);
 }
 
 /* Footer Style One Logo */
@@ -16985,11 +17007,11 @@ input[type='range']::-moz-range-thumb {
 }
 
 .login-register-form form a {
-    color: var(--color-primary);
+    color: var(--color-primary-2);
 }
 
 .login-register-form form a:hover {
-    color: var(--color-primary-2);
+    color: var(--color-primary-2-hover);
 }
 
 /* 18.01.07. Lost Password CSS */

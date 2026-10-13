@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router';
 import { useForm } from '../../../hooks/useForm.js';
 import { useContext, useState } from 'react';
 import AuthContext from '@/context/AuthContext.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const initialValues = {
     email: '',
@@ -88,7 +89,8 @@ export function LoginForm() {
                         </div>
                         {/* TODO: Add styles for better visual representation of this error */}
                         {submitError && (
-                            <div className="col-12 learts-mb-20">
+                            <div className="col-12 learts-mb-20 error-section">
+                                <FontAwesomeIcon icon="frown" />
                                 <span className="error">{submitError}</span>
                             </div>
                         )}
