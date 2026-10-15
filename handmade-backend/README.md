@@ -2,6 +2,19 @@
 
 ## To-Do List
 
+### High priority
+
+- [ ] Finish the `Order` model — import `mongoose` (only `Schema` is imported), define the `arrayLimit` validator, rename `shoppingAddress` → `shippingAddress`
+- [ ] Implement `POST /orders` (submit new order & decrease stock — use a transaction / atomic `$inc` with `stock >= qty` check)
+- [ ] Search: sanitize and escape user input before building the `RegExp` in `getSearchResults` (both `query` and `category`)
+- [x] Seed script for local setup: seed a vendor user, generate slugs in the script, document `MONGODB_URI` in `.env.example` and the root README
+
+### Planned
+
+- [ ] Vendor layer: `vendorController` + route group — apply to become a vendor, admin approval of `vendorStatus`, vendor product management
+- [ ] Product create/update/delete for vendors — use `saveWithUniqueSlug(doc)` instead of `product.save()`; `productServices.create` must set `vendor` (it currently sets `ownerId`, which is not in the schema)
+- [ ] Implement `GET /users/account/orders` for the account Orders tab (frontend already calls it)
+
 ### Phase 1: Environment & Server Setup
 
 - [x] Initialize Node.js project (`type: "module"`)
@@ -12,8 +25,8 @@
 ### Phase 2: Database Modeling & Seeding
 
 - [x] Create `Product` Schema matching frontend data structure
-- [x] Create a Seed script to populate the database with initial products _(currently broken — see Bugs)_
-- [x] Create `Order` Schema for checkout flow _(file does not load yet — see Bugs)_
+- [x] Create a Seed script to populate the database with initial users and products
+- [x] Create `Order` Schema for checkout flow _(to be finished — see High priority)_
 - [x] Create `User` Schema with roles, `vendorStatus`, phone and embedded addresses (max 2)
 
 ### Phase 3: API Architecture (Routes & Controllers)
@@ -23,43 +36,40 @@
 - [x] Implement product search and category filtering endpoint (`/products/search`, `/products/categories`)
 - [x] Implement auth endpoints: register, login, logout, `GET /users/me` (JWT in httpOnly cookie)
 - [x] Implement account endpoints: `GET/POST /users/account/address`, `GET /users/account/details`
-- [ ] Implement `POST /orders` (Submit new order & decrease stock — use a transaction / atomic `$inc` with `stock >= qty` check)
-- [ ] Implement `GET /users/account/orders` (frontend already calls it from the Orders tab)
-- [ ] Implement `PATCH /users/account/address/:addressId` (frontend edit form already calls it)
+- [x] Implement `PATCH /users/account/address/:addressId`
+- [x] Implement `PATCH /users/account/details` (username / full name) and `PATCH /users/account/password` (with current-password check)
 - [ ] Implement `DELETE /users/account/address/:addressId` and "set as default"
-- [ ] Implement `PUT /users/account/details` (username / email / password change with current-password check)
-- [ ] Product create/update/delete for vendors — use `saveWithUniqueSlug(doc)` instead of `product.save()`
+- [ ] Allow changing the email address in account details
 
 ### Phase 4: Integration & Security
 
 - [x] Connect React frontend with the live API endpoints (products, auth, account)
 - [x] Implement error handling middleware (`errorHandler.js`)
-- [ ] Add basic request validation (whitelist allowed fields instead of passing raw `req.body`)
+- [x] Whitelist allowed fields instead of passing raw `req.body`
 - [ ] Real logout / token invalidation (token blacklist or refresh-token rotation)
 
 #### ToDo
 
 - [x] Add Vendor on Product Model when entering auth
 
-### Bugs
+### Maintenance
 
-- [ ] **Seed script fails** — `Product.vendor` is `required`, but `data/products.js` has no `vendor`; also `insertMany` skips the `pre("save")` hook, so every `slug` is `null` and the unique index throws E11000 after the first product. Seed a vendor user first and generate slugs in the script.
-- [ ] **`Product` pre-hooks crash on Mongoose 9** — `pre("save")` and `pre(["updateOne", "findOneAndUpdate"])` call `next()`, which Mongoose 9 no longer passes (`next is not a function`). Rewrite them as plain `async` functions without `next` (like in `User.js`).
-- [ ] **`models/Order.js` cannot be imported** — `mongoose` is not imported (only `Schema`), and `arrayLimit` is not defined. Also rename `shoppingAddress` → `shippingAddress`.
-- [ ] **Search crashes on special characters** — `new RegExp(cleanQuery)` uses raw user input; a query like `(` returns 500 and long patterns allow ReDoS. Escape the input (also for `category`).
-- [ ] **CORS does not allow `PATCH`** — the address edit form sends `PATCH`, the preflight will be rejected. Add it to `methods`.
-- [ ] `app.get("/")` in `index.js` is registered after the `/*splat` 404 handler, so it is unreachable — move it before `routes` or remove it.
-- [ ] `process.exit()` on DB connection failure exits with code `0` — use `process.exit(1)`.
-- [ ] `toUserDetails` takes `fullName` from `address[0]` instead of the default address (`isDefault: true`).
+- [ ] Rewrite the `Product` pre-hooks (`pre("save")` and `pre(["updateOne", "findOneAndUpdate"])`) as plain `async` functions without `next` — Mongoose 9 no longer passes it (like in `User.js`)
+- [ ] `userServices.updateUserDetails` calls `httpError`, which is not defined — use the same `Error` + `statusCode` pattern as the other services
+- [ ] Move `app.get("/")` in `index.js` before `routes` (it is registered after the `/*splat` 404 handler) or remove it
+- [ ] Exit with `process.exit(1)` on DB connection failure (currently exits with code `0`)
+- [x] Allow `PATCH` in the CORS `methods`
+- [x] `toUserDetails` reads `fullName` from the user document
 
 ### Refactoring
 
-- [ ] Move hardcoded values to `.env`: Mongo URL (duplicated in `index.js` and `seed.js`), port `5000`, CORS origin `http://localhost:5173`, JWT expiry. Add a `.env.example`.
-- [ ] Migrate `productController` to `next(err)` + `errorHandler` (handle `CastError` → 400 centrally) and remove the outdated `TODO(refactor)` comment in `userController`.
-- [ ] Remove the unused destructuring of address fields in `POST /users/account/address` — use it to build a whitelisted payload instead of `req.body`.
-- [ ] Remove the unused `getBestSellers` service or expose it via an endpoint; remove the leftover `try { ... } catch (err) { throw err; }` in `register`.
-- [ ] Add a `/api` prefix to all routes (README/frontend currently mix both conventions).
-- [ ] Fix root `README.md` — it references `handmade-server`, the folder is `handmade-backend`; document `npm run seed` and the required `.env` variables.
+- [ ] Move hardcoded values to `.env`: Mongo URL in `index.js` (use `MONGODB_URI` like `seed.js`), port `5000`, CORS origin `http://localhost:5173`, JWT expiry
+- [x] Add a `.env.example`
+- [ ] Migrate `productController` to `next(err)` + `errorHandler` (handle `CastError` → 400 centrally) and remove the outdated `TODO(refactor)` comment in `userController`
+- [x] Build a whitelisted payload from the destructured address fields in `POST /users/account/address`
+- [ ] Remove the unused `getBestSellers` service or expose it via an endpoint; remove the leftover `try { ... } catch (err) { throw err; }` in `register`
+- [ ] Add a `/api` prefix to all routes
+- [x] Root `README.md`: correct backend folder name (`handmade-backend`), document `npm run seed` and the required `.env` variables
 
 ### Final touches
 

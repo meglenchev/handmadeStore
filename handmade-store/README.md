@@ -2,6 +2,18 @@
 
 ## To-Do List
 
+### High priority
+
+- [ ] Checkout flow page (cart → address → `POST /orders`)
+- [ ] Logout: call `POST /users/logout` from `onLogout` so the server clears the auth cookie (currently only local state is cleared), then redirect to `/`
+- [x] Address edit form: load existing data and send `PATCH /users/account/address/:id`
+
+### Planned
+
+- [ ] Vendor UI: "become a vendor" application form, admin screen for approving `vendorStatus`, vendor dashboard for managing own products
+- [ ] Orders tab: add a query for the `orders` tab in `Profile.jsx` and replace the hardcoded table with real data from `/users/account/orders`
+- [ ] Dashboard tab: extend beyond the greeting
+
 ### Phase 1: React Environment Setup
 
 - [x] Initialize the React project (Vite recommended for speed)
@@ -27,10 +39,8 @@
 - [x] Address management: list + add form with validation (max 2)
 - [x] Shared API layer: `apiClient`, `useQuery` (conditional fetch), `useMutation`, unit tests with Vitest
 - [ ] Optimize Search Component: If results > 6, implement a "Load More" button or Lazy Loading to prevent layout shifting
-- [ ] Finish address editing _(in progress — see Bugs)_ + delete / set default address
-- [x] Wire `AccountDetails` form to the backend (no `onSubmit` / endpoint yet)
-- [ ] Orders tab: replace the hardcoded table with real data from `/users/account/orders`
-- [ ] Checkout page (cart → address → `POST /orders`)
+- [ ] Delete / set default address
+- [x] Wire Account Details to the backend (profile form + password change via `PATCH`)
 - [ ] Pages linked in the header but missing: About us, Wishlist, Contact us, Privacy policy (currently fall to 404)
 
 ### Phase 4: Refinement & Testing
@@ -49,14 +59,12 @@
 - [x] To create a `QuickViewContext`
 - [ ] Write a `useCategories()` hook to avoid duplicating the query in two places (search offCanvas, products filters)
 
-### Bugs
+### Maintenance
 
-- [ ] **Logout does not log out** — `onLogout` only clears local state; it never calls `POST /users/logout`, so the httpOnly cookie stays and the session is restored on the next reload. Also redirect to `/` after logout.
-- [x] **Address edit form opens empty** — `AddressForm` passes `initialValues` to `useForm` instead of `formInitialValues`. Legend and submit button also always say "Добави" in edit mode.
-- [x] **Address edit request fails** — it sends `PATCH /users/account/address/:id`, which does not exist on the backend and is blocked by CORS (see backend README).
-- [ ] **Orders tab renders nothing** — `Profile.jsx` has no query for the `orders` tab, so `data` is `undefined` and the component is never shown.
-- [ ] **A stray `0` is rendered next to the price** — `{product.oldPrice && ...}` in `QuickView.jsx` and `DealOfTheDay.jsx`; seed data uses `oldPrice: 0`. Use `oldPrice > 0 && ...`.
-- [ ] **ESLint does not run** (`Plugin "" not found`) — remove the `'prettier'` string from `extends` in `eslint.config.js` (`eslintConfigPrettier` is already added at the end).
+- [ ] Import `FontAwesomeIcon` in `AddressForm.jsx` (used in the submit error section)
+- [ ] Render the old price only when `oldPrice > 0` — `{product.oldPrice && ...}` in `QuickView.jsx` and `DealOfTheDay.jsx` renders a `0` for zero values
+- [ ] ESLint setup: remove the `'prettier'` string from `extends` in `eslint.config.js` (`eslintConfigPrettier` is already added at the end; `npm run lint` fails with `Plugin "" not found`)
+- [ ] Update the `apiClient`, `useQuery` and `useMutation` tests to the current error messages and network-error handling (12 tests still expect the previous behavior)
 - [x] `AccountDetails` `useEffect` depends on `[setFormValues]` but reads `data` — add `data` to the dependencies.
 
 ### Refactoring
@@ -64,7 +72,7 @@
 - [ ] `SearchOffcanvas` uses raw `fetch` + its own `BASE_URL` — switch to `apiGet` from `apiClient`.
 - [ ] `Profile.jsx` picks tabs by index (`ACCOUNT_TABS[2]`, `[0]`, `[3]`) — look them up by `id` or build the queries from `ACCOUNT_TABS`.
 - [ ] Use the `@/` alias consistently (`Profile.jsx` still uses `../../` imports).
-- [ ] `AuthContext`: wrap `onLogin` / `onRegister` in `useCallback` — they are recreated every render, so the `useMemo` value never memoizes.
+- [ ] `AuthContext`: wrap `onLogin` / `onRegister` in `useCallback` and memoize the context value with `useMemo` — both are recreated on every render.
 - [ ] Replace the hardcoded tags in `QuickView` (`handmade`, `learts`, `mug`...) with `productData.tags`.
 - [ ] Unify UI language — account tabs, labels and "Logout" are in English, the rest of the store is in Bulgarian.
 - [ ] Remove unused leftovers: `assets/js/plugins/jquery.scrollUp.min.js`, the `swiper` dependency (not imported anywhere), placeholder `href="#"` / `shopping-cart.html` links.
@@ -72,8 +80,8 @@
 ### Final touches
 
 - [ ] Replace the `null` returned while `isAuthLoading` (AuthContext, ProtectedRoute, PublicOnlyRoute) with a spinner/skeleton
-- [ ] Style the submit error messages in LoginForm, RegisterForm and AddressForm (marked with `TODO`)
+- [x] Style the submit error messages in LoginForm, RegisterForm and AddressForm
 - [ ] Show a loading skeleton instead of `Loading...` in the Account tabs
 - [ ] `index.html`: set `lang="bg"`, fill the meta description, remove `noindex` before release
-- [ ] Add a `.env.example` (`VITE_API_BASE_URL`)
+- [x] Add a `.env.example` (`VITE_API_BASE_URL`)
 - [ ] Add component tests for auth forms, `AddressForm` and `ProtectedRoute`

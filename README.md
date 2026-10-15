@@ -1,46 +1,60 @@
-# Handmade E-commerce Project
+# Handmade Store
 
-This application is split into two parts:
+An online store for handmade products, built as a multi-vendor-ready marketplace (in the spirit of Etsy) for the Bulgarian market. Every product belongs to a vendor account, and user accounts carry a vendor status, so independent makers can be onboarded on top of the existing data model without restructuring it.
 
-1. **[/handmade-store](./handmade-store)** - Client side (React + Vite)
-2. **[/handmade-backend](./handmade-backend)** - Server side (Node.js + Express + MongoDB)
+## Tech stack
 
-## How to run the project locally:
+**Backend** - [`handmade-backend/`](./handmade-backend)
+
+- Node.js (ES modules) + Express 5.2
+- MongoDB + Mongoose 9.6
+- JSON Web Tokens (`jsonwebtoken` 9) stored in an httpOnly cookie (`cookie-parser`)
+- `bcrypt` 6 for password hashing
+- `cors`, `dotenv` 17
+
+**Frontend** - [`handmade-store/`](./handmade-store)
+
+- React 19.1 + Vite 7
+- React Router 7
+- Context API for global state
+- react-bootstrap 2, Font Awesome 7, react-slick, yet-another-react-lightbox, react-countdown
+- Vitest 4 + Testing Library (React 16) + jsdom
+
+## Features
+
+- **Product catalog** with filtering by category, tag (new / sale / hit) and maximum price, and sorting by price. All filters are kept in the URL query string.
+- **Search** in an off-canvas panel, debounced and with an optional category filter.
+- **Product details page** with an image gallery, a lightbox and a quantity selector.
+- **Quick view** modal that opens a product from any listing.
+- **Home page sections**: a hero slider with featured products, "Deal of the day" (the most discounted products, with a countdown) and the latest products by category.
+- **Wishlist** saved in the browser (`localStorage`).
+- **Shopping cart** saved in the browser. Stock and prices are checked against the API (`POST /products/check`) before an item is added and whenever the cart changes.
+- **Authentication**: register, log in, and restore the session on page load (`GET /users/me`). The JWT is kept in an httpOnly cookie.
+- **Route guards**: `ProtectedRoute` for the account area and `PublicOnlyRoute` for the login/register page.
+- **Account area**: a dashboard greeting, address management (add and edit, up to 2 addresses, the first one becomes the default), profile editing (full name, username) and password change with a current-password check.
+- **Shared API layer** (`apiClient`, `useQuery`, `useMutation`) with Vitest unit tests.
+- Lazy-loaded routes and an error boundary with a retry action.
+
+## Getting started
 
 ### Requirements
 
 - [Node.js](https://nodejs.org/) 20.19+ (required by Vite 7 and Mongoose 9)
-- [MongoDB](https://www.mongodb.com/try/download/community) running locally on `mongodb://localhost:27017` (the database `handmade-shop` is created automatically)
-
-### Server (Backend)
-
-1. Navigate to the `handmade-backend` folder
-2. Run `npm install`
-3. Copy `.env.example` to `.env` and fill in the values (see [Environment variables](#environment-variables))
-4. (Optional) Seed the database with sample products: `npm run seed` - this **deletes** all existing products first
-5. Start the server with `npm run dev`
-
-The API runs on **http://localhost:5000**.
-
-### Store (Frontend)
-
-1. Navigate to the `handmade-store` folder
-2. Run `npm install`
-3. Copy `.env.example` to `.env` and fill in the values (see [Environment variables](#environment-variables))
-4. Start the app with `npm run dev`
-
-The app runs on **http://localhost:5173** (the backend only accepts CORS requests from this origin).
+- [MongoDB](https://www.mongodb.com/try/download/community) running locally on `mongodb://localhost:27017` (the `handmade-shop` database is created automatically)
 
 ### Environment variables
+
+Each package has a `.env.example`. Copy it to `.env` and fill in the values.
 
 #### `handmade-backend/.env`
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `JWT_SECRET` | Yes | Secret key used to sign and verify the JWT auth tokens - a long random string (e.g. 64 hex characters). |
-| `NODE_ENV` | No | Runtime mode (`development` or `production`); when set to `production` the auth cookie is sent only over HTTPS (`secure` flag). |
+| `JWT_SECRET` | Yes | Secret used to sign and verify JWT auth tokens - a long random string. |
+| `MONGODB_URI` | For `npm run seed` | MongoDB connection string used by the seed script, e.g. `mongodb://localhost:27017/handmade-shop`. |
+| `NODE_ENV` | No | `development` or `production`. In `production` the auth cookie is sent only over HTTPS (`secure` flag), and the seed script refuses to run. |
 
-Generate a random value for `JWT_SECRET` with:
+Generate a value for `JWT_SECRET` with:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
@@ -50,4 +64,83 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `VITE_API_BASE_URL` | No | Base URL of the backend API without a trailing slash (default: `http://localhost:5000`). |
+| `VITE_API_BASE_URL` | No | Base URL of the backend API, without a trailing slash (default: `http://localhost:5000`). |
+
+### Backend
+
+```bash
+cd handmade-backend
+npm install
+cp .env.example .env   # then set JWT_SECRET
+npm run seed           # optional: sample users and products
+npm run dev            # or: npm start
+```
+
+The API runs on **http://localhost:5000**.
+
+`npm run seed` deletes **all** products and the seed users (any other registered users are kept). It then creates an admin, an approved vendor and a customer account, plus the sample products. The seed accounts and their password are printed to the console.
+
+### Frontend
+
+```bash
+cd handmade-store
+npm install
+cp .env.example .env
+npm run dev
+```
+
+The app runs on **http://localhost:5173**. The backend only accepts CORS requests from this origin.
+
+### Tests
+
+```bash
+cd handmade-store
+npm test          # watch mode
+npm run test:run  # single run
+```
+
+## Project structure
+
+```
+handmadeStore/
+├── handmade-backend/
+│   └── src/
+│       ├── controllers/   # Express routers (products, users)
+│       ├── middlewares/   # verifyToken, errorHandler
+│       ├── models/        # Mongoose schemas
+│       ├── services/      # database logic used by the controllers
+│       ├── utils/         # token, DTOs, slug helpers
+│       ├── data/          # seed data
+│       ├── index.js       # app entry point
+│       ├── routes.js      # router composition
+│       └── seed.js        # database seeder
+├── handmade-store/
+│   └── src/
+│       ├── components/    # layout (header, footer), common, sections
+│       ├── context/       # Auth, Shop (cart), Wishlist, QuickView
+│       ├── hooks/         # useQuery, useMutation, useForm, ... (+ tests)
+│       ├── pages/         # Home, Products, Product, Auth, Account
+│       ├── routes/        # ProtectedRoute, PublicOnlyRoute
+│       └── utils/         # apiClient, endpoints, constants
+├── docs/screenshots/
+├── ARCHITECTURE.md
+└── README.md
+```
+
+## Architecture
+
+Two independent packages: a React SPA that talks to an Express REST API over HTTP with cookie-based JWT authentication. See [ARCHITECTURE.md](./ARCHITECTURE.md) for the data model, auth flow and design decisions.
+
+## Roadmap
+
+- Checkout flow (cart → address → order) and order history in the account area
+- Vendor onboarding: a "become a vendor" application flow
+- Admin approval of vendor applications
+- Vendor dashboard for managing products
+
+## Screenshots
+
+![Home](docs/screenshots/home.png)
+![Catalog](docs/screenshots/catalog.png)
+![Product details](docs/screenshots/product.png)
+![Account](docs/screenshots/account.png)
