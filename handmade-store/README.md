@@ -5,7 +5,8 @@
 ### High priority
 
 - [ ] Checkout flow page (cart → address → `POST /orders`)
-- [ ] Logout: call `POST /users/logout` from `onLogout` so the server clears the auth cookie (currently only local state is cleared), then redirect to `/`
+- [x] Logout: `onLogout` calls `POST /users/logout` (the server clears the cookie and revokes the token) and always clears the local session in `finally`
+- [ ] After logout, redirect to `/` (currently `ProtectedRoute` sends the user to `/auth/login`)
 - [x] Address edit form: load existing data and send `PATCH /users/account/address/:id`
 
 ### Planned

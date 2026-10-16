@@ -106,6 +106,11 @@ export function AuthProvider({ children }) {
 
     const { mutate: logout } = useMutation(ENDPOINTS.AUTH.LOGOUT);
 
+    /**
+     * Изход: вика POST /users/logout (сървърът трие бисквитката и анулира токена),
+     * а във finally чисти локалната сесия (clearSession), така че потребителят излиза
+     * локално дори ако заявката не успее (няма мрежа, 5xx).
+     */
     const onLogout = useCallback(async () => {
         try {
             await logout();
