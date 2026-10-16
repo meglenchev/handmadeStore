@@ -58,15 +58,21 @@ userController.post("/users/login", async (req, res, next) => {
 // JWT остава валиден до своя exp. Ако някой е копирал токена преди logout, още
 // работи. За истински logout (моментално невалидиране) — token blacklist или
 // refresh token ротация.
-userController.post("/users/logout", (req, res) => {
+userController.post("/users/logout", async (req, res, next) => {
     const { maxAge, ...clearOptions } = authCookieOptions;
 
     res.clearCookie("token", clearOptions);
 
-    res.status(200).json({
-        message: "User logged out successfully",
-        isLoggedIn: false,
-    });
+    try {
+        await userServices.revokeToken(req.cookies?.token);
+
+        res.status(200).json({
+            message: "User logged out successfully",
+            isLoggedIn: false,
+        });
+    } catch (err) {
+        next(err);
+    }
 });
 
 /* Get User Address */

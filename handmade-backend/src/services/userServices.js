@@ -1,6 +1,8 @@
 import { User } from "../models/User.js";
 import { toUserDTO } from "../utils/userDTO.js";
 import { toUserDetails } from "../utils/userDetails.js";
+import jwt from "jsonwebtoken";
+import { RevokedToken } from "../models/RevokedToken.js";
 
 const ADDRESS_FIELDS = [
     "recipientName",
@@ -59,6 +61,35 @@ export default {
         }
 
         return toUserDTO(user);
+    },
+    async revokeToken(token) {
+        if (!token) {
+            return;
+        }
+
+        let decodedToken;
+
+        try {
+            decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            // If the token is invalid or expired, we don't need to revoke it
+            return;
+        }
+
+        if (!decodedToken || !decodedToken.jti) {
+            return;
+        }
+
+        await RevokedToken.updateOne(
+            { jti: decodedToken.jti },
+            {
+                $setOnInsert: {
+                    jti: decodedToken.jti,
+                    expiresAt: new Date(decodedToken.exp * 1000),
+                },
+            },
+            { upsert: true },
+        );
     },
     async getAddress(userId) {
         const user = await User.findById(userId).select("address");

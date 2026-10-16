@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { RevokedToken } from "../models/RevokedToken.js";
 
 export function verifyToken(allowedRoles = []) {
     return async (req, res, next) => {
@@ -10,24 +11,26 @@ export function verifyToken(allowedRoles = []) {
                 .json({ message: "Access denied. No token provided." });
         }
 
+        let decodedToken;
+
         try {
-            const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+            decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
             // TODO: проверка на iat срещу user.passwordChangedAt (виж коментара в changePassword).
 
-            req.user = decodedToken;
+            // req.user = decodedToken;
 
-            if (
-                allowedRoles.length > 0 &&
-                !allowedRoles.includes(req.user.role)
-            ) {
-                return res.status(403).json({
-                    message:
-                        "Forbidden: You do not have the required permissions.",
-                });
-            }
+            // if (
+            //     allowedRoles.length > 0 &&
+            //     !allowedRoles.includes(req.user.role)
+            // ) {
+            //     return res.status(403).json({
+            //         message:
+            //             "Forbidden: You do not have the required permissions.",
+            //     });
+            // }
 
-            next();
+            // next();
         } catch (err) {
             if (err.name === "TokenExpiredError") {
                 return res
@@ -36,6 +39,27 @@ export function verifyToken(allowedRoles = []) {
             }
 
             res.status(401).json({ message: "Invalid token." });
+        }
+
+        try {
+            if (
+                !decodedToken.jti ||
+                (await RevokedToken.exists({ jti: decodedToken.jti }))
+            ) {
+                return res.status(401).json({
+                    message: "Session is no longer valid. Please login again!",
+                });
+            }
+        } catch (err) {
+            return next(err); // DB проблем = 500, не "Invalid token"
+        }
+
+        req.user = decodedToken;
+
+        if (allowedRoles.length > 0 && !allowedRoles.includes(req.user.role)) {
+            return res.status(403).json({
+                message: "Forbidden: You do not have the required permissions!",
+            });
         }
     };
 }
