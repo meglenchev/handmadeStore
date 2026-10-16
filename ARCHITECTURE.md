@@ -19,7 +19,7 @@ The two folders are independent packages, each with its own `package.json`, `nod
 
 ## Data model
 
-MongoDB is accessed through Mongoose. Both models below use `timestamps: true`.
+MongoDB is accessed through Mongoose. User and Product use `timestamps: true`.
 
 ### User (`users` collection)
 
@@ -46,6 +46,10 @@ The catalog fields are `title`, `description`, `shortDescription`, `newPrice`, `
 - **`slug`**: unique and generated from the title (Cyrillic is transliterated to Latin). A unique index protects it. `saveWithUniqueSlug()` retries with a numeric suffix on a duplicate-key error, which stays correct under concurrent writes, unlike a check-then-save loop.
 - **`discount`**: a virtual computed from `oldPrice` and `newPrice` and included in JSON output.
 - `category`, `tags` and `code` are lowercased and indexed for filtering.
+
+### RevokedToken (`revoked_tokens` collection)
+
+`jti` (unique) and `expiresAt`. This is the denylist of tokens revoked on logout. A TTL index on `expiresAt` (`expireAfterSeconds: 0`) deletes each entry once the token it refers to would have expired anyway.
 
 ```mermaid
 erDiagram
@@ -82,7 +86,7 @@ erDiagram
 
 ## Authentication and authorization
 
-**Login and registration.** `POST /users/register` and `POST /users/login` validate the credentials. Passwords are compared with `bcrypt.compare`. The server then signs a JWT whose payload holds only `{ _id, role }` and which expires after 1 hour. The token is set as a cookie:
+**Login and registration.** `POST /users/register` and `POST /users/login` validate the credentials. Passwords are compared with `bcrypt.compare`. The server then signs a JWT whose payload holds only `{ _id, role }`, with a unique `jwtid` (`jti`, a `randomUUID`), and which expires after 1 hour. The token is set as a cookie:
 
 ```js
 { httpOnly: true, sameSite: "lax", secure: NODE_ENV === "production", maxAge: 1h }
@@ -90,7 +94,11 @@ erDiagram
 
 The response body returns a small user DTO (`_id`, `fullName`, `username`, `role`, `vendorStatus`), never the token.
 
-**Protecting routes.** The `verifyToken(allowedRoles = [])` middleware reads the cookie, verifies the JWT and sets `req.user`. It responds with 401 when the token is missing, invalid or expired, and with 403 when a list of allowed roles is passed and the user's role is not in it.
+**Protecting routes.** The `verifyToken(allowedRoles = [])` middleware reads the cookie, verifies the JWT, checks that its `jti` is present and not in `revoked_tokens`, and sets `req.user`. It responds with 401 when the token is missing, invalid, expired, has no `jti` or has been revoked (`"Session is no longer valid."`), and with 403 when a list of allowed roles is passed and the user's role is not in it. A database error during the revocation check is passed to `next(err)` and becomes a 500. Tokens issued before `jti` was introduced are therefore rejected, which requires a one-time re-login.
+
+**Logout.** `POST /users/logout` does not require a valid token. It clears the `token` cookie with `res.clearCookie` (the cookie options without `maxAge`) and calls `revokeToken`, which stores the token's `jti` in `revoked_tokens` with `expiresAt` set to the token's `exp`. From then on the token is rejected even if it was copied before logout. The response is `200 { message, isLoggedIn: false }`. On the frontend `onLogout` sends this request and clears the local session in `finally`, so the user is logged out locally even when the server is unreachable. If production runs Mongoose with `autoIndex: false`, the `expiresAt_1` TTL index must be created manually on deploy, otherwise revoked entries are never removed.
+
+**Password change.** Changing the password does not revoke any token yet. Existing tokens stay valid until they expire (at most 1 hour).
 
 **Session restore.** On startup `AuthProvider` calls `GET /users/me`. If the cookie is valid, the user DTO is written to auth state. On a 401 the local state is cleared. While this check runs, the provider renders nothing, so the app never flashes the wrong signed-in/signed-out UI. A non-sensitive copy of the profile (`_id`, `fullName`, `username`, `role`) is cached in `localStorage` for display. The token itself is never readable by JavaScript.
 
@@ -141,7 +149,7 @@ The routes are wrapped in an `ErrorBoundary` with a retry button and a `Suspense
 
 | Context | Responsibility | Persistence |
 | --- | --- | --- |
-| `AuthContext` | Current user, `vendorStatus`, login/register, session restore | Profile copy in `localStorage` |
+| `AuthContext` | Current user, `vendorStatus`, login/register/logout, session restore | Profile copy in `localStorage` |
 | `ShopContext` | Cart items and quantities, stock checks via `POST /products/check`, subtotal and count | Item ids and quantities in `localStorage` |
 | `WishlistContext` | Toggling and counting wishlist items | `localStorage` |
 | `QuickViewContext` | Open/close state and the product shown in the quick view modal | - |
@@ -173,7 +181,8 @@ Hooks are tested with `renderHook` and timers with fake timers.
 - **Marketplace-ready data model from day one.** `Product.vendor` is required and `User.vendorStatus` exists before any seller-facing UI does. Adding an owner to every product later would mean migrating existing data and auditing every query. Building it in from the start makes multi-vendor support an addition rather than a rewrite. The seed script follows the same rule and assigns every sample product to an approved vendor account.
 - **Separate `role` and `vendorStatus`.** Platform permissions and seller lifecycle change independently, so they are modeled independently (see [Data model](#data-model)).
 - **JWT in an httpOnly cookie instead of `localStorage`.** Scripts cannot read an httpOnly cookie, so an XSS bug cannot steal the token. `sameSite: "lax"` limits cross-site sending, and `secure` is enabled in production. The frontend never handles the token. It only learns who the user is from `/users/me`.
-- **A minimal token payload.** The JWT carries only `_id` and `role`. Profile data is loaded from the database, so it is never out of date inside a token.
+- **A minimal token payload.** The JWT carries only `_id` and `role` (plus the standard `jti`, `iat`, `exp` claims). Profile data is loaded from the database, so it is never out of date inside a token.
+- **A `jti` denylist instead of refresh tokens.** Logout must invalidate the token immediately, and a denylist keyed by `jti` does that with one small collection. The cost is one indexed lookup per protected request. The TTL index keeps the collection limited to tokens that have not expired yet.
 - **Defense in depth for password hashes.** `select: false` excludes hashes from reads, and a serialization transform removes them even if a query selects them explicitly.
 - **Embedded addresses.** Addresses belong to exactly one user and are always loaded with them, so embedding avoids joins and keeps writes in a single atomic document update.
 - **Slug uniqueness enforced by the database.** A unique index plus retry on `E11000` is race-free, while checking for an existing slug before saving is not.

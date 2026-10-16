@@ -29,7 +29,7 @@ An online store for handmade products, built as a multi-vendor-ready marketplace
 - **Home page sections**: a hero slider with featured products, "Deal of the day" (the most discounted products, with a countdown) and the latest products by category.
 - **Wishlist** saved in the browser (`localStorage`).
 - **Shopping cart** saved in the browser. Stock and prices are checked against the API (`POST /products/check`) before an item is added and whenever the cart changes.
-- **Authentication**: register, log in, and restore the session on page load (`GET /users/me`). The JWT is kept in an httpOnly cookie.
+- **Authentication**: register, log in, log out with server-side token revocation, and restore the session on page load (`GET /users/me`). The JWT is kept in an httpOnly cookie.
 - **Route guards**: `ProtectedRoute` for the account area and `PublicOnlyRoute` for the login/register page.
 - **Account area**: a dashboard greeting, address management (add and edit, up to 2 addresses, the first one becomes the default), profile editing (full name, username) and password change with a current-password check.
 - **Shared API layer** (`apiClient`, `useQuery`, `useMutation`) with Vitest unit tests.
@@ -130,6 +130,16 @@ handmadeStore/
 ## Architecture
 
 Two independent packages: a React SPA that talks to an Express REST API over HTTP with cookie-based JWT authentication. See [ARCHITECTURE.md](./ARCHITECTURE.md) for the data model, auth flow and design decisions.
+
+### Authentication and logout
+
+- Login and registration issue a JWT (1 hour) with payload `{ _id, role }` and a unique `jti` (`randomUUID`), stored in the httpOnly `token` cookie.
+- `POST /users/logout` (no valid token required) clears the cookie and revokes the token with `revokeToken`: its `jti` is saved in the `revoked_tokens` collection (a denylist) together with `expiresAt` = the token's `exp`. It returns `200 { message, isLoggedIn: false }`.
+- `verifyToken` first runs `jwt.verify`, then rejects tokens whose `jti` is missing or listed in `revoked_tokens` with `401 "Session is no longer valid."`. A database error goes to `next(err)` and becomes a 500.
+- On the frontend `onLogout` calls `POST /users/logout` and clears `localStorage` in `finally`, so the user is logged out locally even if the server does not respond.
+- A TTL index on `expiresAt` (`expireAfterSeconds: 0`) removes revoked entries automatically once the token would have expired, so the denylist does not grow.
+- Tokens issued before `jti` was introduced are rejected, so every user has to log in again once.
+- Mongoose builds the index automatically in development. If production runs with `autoIndex: false`, create the `expiresAt_1` TTL index (`expireAfterSeconds: 0`) on `revoked_tokens` manually on deploy.
 
 ## Roadmap
 
