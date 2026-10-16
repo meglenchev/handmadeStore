@@ -19,6 +19,7 @@ import {
     faBolt,
     faStar,
     faEye,
+    faEyeSlash,
     faExpand,
     faPlay,
     faTableCells,
@@ -34,7 +35,14 @@ import {
     faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { faFacebookF, faInstagram, faYoutube, faTwitter, faGooglePlusG, faPinterest } from '@fortawesome/free-brands-svg-icons';
+import {
+    faFacebookF,
+    faInstagram,
+    faYoutube,
+    faTwitter,
+    faGooglePlusG,
+    faPinterest,
+} from '@fortawesome/free-brands-svg-icons';
 
 library.add(
     faHeart,
@@ -62,6 +70,7 @@ library.add(
     faBolt,
     faStar,
     faEye,
+    faEyeSlash,
     faExpand,
     faPlay,
     faTableCells,
@@ -74,5 +83,5 @@ library.add(
     faHome,
     faFileAlt,
     faMapMarkerAlt,
-    faSignOutAlt
+    faSignOutAlt,
 );

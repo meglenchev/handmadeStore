@@ -45,6 +45,17 @@ export function RegisterForm() {
     const { onRegister, registerLoading } = useContext(AuthContext);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate();
+    const [viewPassword, setViewPassword] = useState({
+        password: false,
+        confirmPassword: false,
+    });
+
+    const toggleViewPassword = (field) => {
+        setViewPassword((prev) => ({
+            ...prev,
+            [field]: !prev[field],
+        }));
+    };
 
     const registerSubmitHandler = async (formValues) => {
         setSubmitError(null);
@@ -73,10 +84,10 @@ export function RegisterForm() {
                 <h2 className="title">Регистрация</h2>
                 <p className="desc">Ако нямате акаунт, регистрирайте се сега!</p>
             </div>
-            <div className="login-register-form">
+            <div className="login-register-form register-form">
                 <form onSubmit={submitHandler}>
                     <div className="row learts-mb-n50">
-                        <div className="col-12 learts-mb-20">
+                        <div className="col-12 learts-mb-20 form-field">
                             <label htmlFor="registerEmail">
                                 Имейл адрес <abbr className="required">*</abbr>
                             </label>
@@ -89,7 +100,7 @@ export function RegisterForm() {
                             />
                             {formErrors.email && <span className="error">{formErrors.email}</span>}
                         </div>
-                        <div className="col-12 learts-mb-20">
+                        <div className="col-12 learts-mb-20 form-field">
                             <label htmlFor="registerUsername">
                                 Юзърнейм <abbr className="required">*</abbr>
                             </label>
@@ -104,32 +115,46 @@ export function RegisterForm() {
                                 <span className="error">{formErrors.username}</span>
                             )}
                         </div>
-                        <div className="col-12 learts-mb-20">
+                        <div className="col-12 learts-mb-20 form-field">
                             <label htmlFor="registerPassword">
                                 Парола <abbr className="required">*</abbr>
                             </label>
                             <input
-                                type="password"
+                                type={viewPassword.password ? 'text' : 'password'}
                                 autoComplete="new-password"
                                 {...inputPropertiesRegister('password')}
                                 className={formErrors.password && `form-control is-invalid`}
                                 id="registerPassword"
                             />
+
+                            <FontAwesomeIcon
+                                icon={viewPassword.password ? 'eye-slash' : 'eye'}
+                                className={`password-toggle-icon ${viewPassword.password ? 'view' : ''}`}
+                                onClick={() => toggleViewPassword('password')}
+                            />
+
                             {formErrors.password && (
                                 <span className="error">{formErrors.password}</span>
                             )}
                         </div>
-                        <div className="col-12 learts-mb-20">
+                        <div className="col-12 learts-mb-20 form-field">
                             <label htmlFor="confirmPassword">
                                 Повтори паролата <abbr className="required">*</abbr>
                             </label>
                             <input
-                                type="password"
+                                type={viewPassword.confirmPassword ? 'text' : 'password'}
                                 autoComplete="new-password"
                                 {...inputPropertiesRegister('confirmPassword')}
                                 className={formErrors.confirmPassword && `form-control is-invalid`}
                                 id="confirmPassword"
                             />
+
+                            <FontAwesomeIcon
+                                icon={viewPassword.confirmPassword ? 'eye-slash' : 'eye'}
+                                className={`password-toggle-icon ${viewPassword.confirmPassword ? 'view' : ''}`}
+                                onClick={() => toggleViewPassword('confirmPassword')}
+                            />
+
                             {formErrors.confirmPassword && (
                                 <span className="error">{formErrors.confirmPassword}</span>
                             )}

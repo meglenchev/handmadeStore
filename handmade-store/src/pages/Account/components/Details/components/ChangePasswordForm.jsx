@@ -2,6 +2,7 @@ import { useForm } from '@/hooks/useForm.js';
 import { useMutation } from '@/hooks/useMutation.jsx';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const initialAccountPasswordValues = {
     currentPassword: '',
@@ -46,6 +47,18 @@ const validateFn = (values) => {
 export function ChangePasswordForm({ refresh }) {
     const [submitError, setSubmitError] = useState(null);
     const { mutate, loading } = useMutation(ENDPOINTS.ACCOUNT.CHANGE_PASSWORD, 'PATCH');
+    const [viewPassword, setViewPassword] = useState({
+        currentPassword: false,
+        newPassword: false,
+        confirmPassword: false,
+    });
+
+    const toggleViewPassword = (field) => {
+        setViewPassword((prev) => ({
+            ...prev,
+            [field]: !prev[field],
+        }));
+    };
 
     const changePasswordSubmitHandler = async (formValues) => {
         setSubmitError(null);
@@ -68,37 +81,52 @@ export function ChangePasswordForm({ refresh }) {
                 <div className="col-12 learts-mb-30 learts-mt-30">
                     <fieldset>
                         <legend>Промяна на парола</legend>
-                        <div className="row learts-mb-n30">
-                            <div className="col-12 learts-mb-30">
+                        <div className="row learts-mb-n30 register-form">
+                            <div className="col-12 learts-mb-30 form-field">
                                 <label htmlFor="currentPassword">Текуща парола</label>
                                 <input
-                                    type="password"
+                                    type={viewPassword.currentPassword ? 'text' : 'password'}
                                     id="currentPassword"
                                     {...inputPropertiesRegister('currentPassword')}
+                                />
+                                <FontAwesomeIcon
+                                    icon={viewPassword.currentPassword ? 'eye-slash' : 'eye'}
+                                    className={`password-toggle-icon ${viewPassword.currentPassword ? 'view' : ''}`}
+                                    onClick={() => toggleViewPassword('currentPassword')}
                                 />
                                 {formErrors.currentPassword && (
                                     <span className="error">{formErrors.currentPassword}</span>
                                 )}
                             </div>
-                            <div className="col-12 learts-mb-30">
+                            <div className="col-12 learts-mb-30 form-field">
                                 <label htmlFor="newPassword">Нова парола</label>
                                 <input
-                                    type="password"
+                                    type={viewPassword.newPassword ? 'text' : 'password'}
                                     id="newPassword"
                                     {...inputPropertiesRegister('newPassword')}
+                                />
+                                <FontAwesomeIcon
+                                    icon={viewPassword.newPassword ? 'eye-slash' : 'eye'}
+                                    className={`password-toggle-icon ${viewPassword.newPassword ? 'view' : ''}`}
+                                    onClick={() => toggleViewPassword('newPassword')}
                                 />
                                 {formErrors.newPassword && (
                                     <span className="error">{formErrors.newPassword}</span>
                                 )}
                             </div>
-                            <div className="col-12 learts-mb-30">
+                            <div className="col-12 learts-mb-30 form-field">
                                 <label htmlFor="confirmPassword">
                                     Потвърждение на новата парола
                                 </label>
                                 <input
-                                    type="password"
+                                    type={viewPassword.confirmPassword ? 'text' : 'password'}
                                     id="confirmPassword"
                                     {...inputPropertiesRegister('confirmPassword')}
+                                />
+                                <FontAwesomeIcon
+                                    icon={viewPassword.confirmPassword ? 'eye-slash' : 'eye'}
+                                    className={`password-toggle-icon ${viewPassword.confirmPassword ? 'view' : ''}`}
+                                    onClick={() => toggleViewPassword('confirmPassword')}
                                 />
                                 {formErrors.confirmPassword && (
                                     <span className="error">{formErrors.confirmPassword}</span>

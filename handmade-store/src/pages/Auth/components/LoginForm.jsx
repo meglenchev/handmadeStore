@@ -29,6 +29,7 @@ export function LoginForm() {
     const { onLogin, loginLoading } = useContext(AuthContext);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate();
+    const [viewPassword, setViewPassword] = useState(false);
 
     const loginSubmitHandler = async (formValues) => {
         setSubmitError(null);
@@ -60,7 +61,7 @@ export function LoginForm() {
             <div className="login-register-form">
                 <form onSubmit={submitHandler} noValidate>
                     <div className="row learts-mb-n50">
-                        <div className="col-12 learts-mb-50">
+                        <div className="col-12 learts-mb-50 form-field">
                             <input
                                 type="email"
                                 autoComplete="email"
@@ -70,14 +71,21 @@ export function LoginForm() {
                             />
                             {formErrors.email && <span className="error">{formErrors.email}</span>}
                         </div>
-                        <div className="col-12 learts-mb-50">
+                        <div className="col-12 learts-mb-50 form-field">
                             <input
-                                type="password"
+                                type={viewPassword ? 'text' : 'password'}
                                 autoComplete="current-password"
                                 {...inputPropertiesRegister('password')}
                                 className={`form-control ${formErrors.password && 'is-invalid'}`}
                                 placeholder="Парола"
                             />
+
+                            <FontAwesomeIcon
+                                icon={viewPassword ? 'eye-slash' : 'eye'}
+                                className={`password-toggle-icon ${viewPassword ? 'view' : ''}`}
+                                onClick={() => setViewPassword(!viewPassword)}
+                            />
+
                             {formErrors.password && (
                                 <span className="error">{formErrors.password}</span>
                             )}

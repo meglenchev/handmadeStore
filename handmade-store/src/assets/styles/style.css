@@ -3291,6 +3291,11 @@ blockquote.learts-blockquote2 .content p,
 }
 
 /* 04.05 Form CSS */
+/* Form field */
+.form-field {
+    position: relative;
+}
+
 /* Label */
 label {
     font-size: 16px;
@@ -3418,6 +3423,29 @@ form .error {
     line-height: 1.5;
     margin-top: 5px;
     color: var(--color-danger);
+}
+
+.password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    padding: 0 10px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition: var(--transition-default);
+    transition: var(--transition-default);
+    text-align: center;
+    cursor: pointer;
+}
+
+.register-form .password-toggle-icon {
+    top: 67%;
+}
+
+.password-toggle-icon.view,
+.password-toggle-icon:hover {
+    color: var(--color-primary-2);
 }
 
 /*----------------------------------------*/
