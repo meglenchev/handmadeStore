@@ -104,9 +104,17 @@ export function AuthProvider({ children }) {
         return result;
     };
 
-    const onLogout = useCallback(() => {
-        clearSession();
-    }, [clearSession]);
+    const { mutate: logout } = useMutation(ENDPOINTS.AUTH.LOGOUT);
+
+    const onLogout = useCallback(async () => {
+        try {
+            await logout();
+        } catch (err) {
+            console.error('Logout request failed:', err.message);
+        } finally {
+            clearSession();
+        }
+    }, [logout, clearSession]);
 
     const authContextValue = {
         auth,

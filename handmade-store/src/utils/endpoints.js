@@ -13,6 +13,7 @@ export const ENDPOINTS = {
         LOGIN: '/users/login',
         REGISTER: '/users/register',
         ME: '/users/me',
+        LOGOUT: '/users/logout',
     },
     ACCOUNT: {
         DASHBOARD: '/users/me',
