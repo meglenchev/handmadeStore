@@ -46,7 +46,8 @@
 - [x] Connect React frontend with the live API endpoints (products, auth, account)
 - [x] Implement error handling middleware (`errorHandler.js`)
 - [x] Whitelist allowed fields instead of passing raw `req.body`
-- [ ] Real logout / token invalidation (token blacklist or refresh-token rotation)
+- [x] Real logout / token invalidation (`jti` denylist in `revoked_tokens` with a TTL index)
+- [ ] Revoke the current token on password change (`revokeToken`); other sessions of the user stay valid until they expire
 
 #### ToDo
 

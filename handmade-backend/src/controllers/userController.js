@@ -54,10 +54,9 @@ userController.post("/users/login", async (req, res, next) => {
     }
 });
 
-// TODO(auth): Това е "мек" logout — трие само cookie-то от браузъра, но самият
-// JWT остава валиден до своя exp. Ако някой е копирал токена преди logout, още
-// работи. За истински logout (моментално невалидиране) — token blacklist или
-// refresh token ротация.
+// Logout: трие бисквитката и анулира токена (jti -> revoked_tokens), така че
+// verifyToken го отхвърля веднага, дори ако е бил копиран преди logout.
+// Без verifyToken нарочно - изтекла/невалидна сесия също трябва да може да излезе.
 userController.post("/users/logout", async (req, res, next) => {
     const { maxAge, ...clearOptions } = authCookieOptions;
 
