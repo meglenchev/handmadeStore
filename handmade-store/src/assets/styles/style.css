@@ -17097,6 +17097,7 @@ input[type='range']::-moz-range-thumb {
 }
 
 .myaccount-tab-list li {
+    position: relative;
     font-weight: 500;
     display: -webkit-box;
     display: -webkit-flex;
@@ -17111,6 +17112,18 @@ input[type='range']::-moz-range-thumb {
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: 14px 20px;
+}
+
+.myaccount-tab-list li.tab--attention::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: 1px;
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: var(--color-danger);
 }
 
 .myaccount-tab-list li + li {
@@ -17139,7 +17152,33 @@ input[type='range']::-moz-range-thumb {
     }
 }
 
-.myaccount-content {
+.profile-reminder {
+    padding: 20px;
+    margin-bottom: 24px;
+    background-color: var(--bg-warm-light);
+}
+
+.profile-reminder p {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.profile-reminder .btn:not(:last-child) {
+    margin-right: 20px;
+}
+
+@media only screen and (max-width: 575px) {
+    .profile-reminder .btn {
+        width: 100%;
+    }
+
+    .profile-reminder .btn:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}
+
+.myaccount-content,
+.profile-reminder {
     font-size: 16px;
     font-weight: 400;
 }

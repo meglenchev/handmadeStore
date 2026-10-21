@@ -3,15 +3,30 @@ import { useState, useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { ACCOUNT_TABS } from '../../utils/constants';
 import { useQuery } from '../../hooks/useQuery';
+import { useProfileCompleteness } from '@/hooks/useProfileCompleteness.js';
+import { ProfileReminder } from './components/ProfileReminder.jsx';
 
 export function Profile() {
     const { auth, onLogout } = useContext(AuthContext);
 
     const [activeTab, setActiveTab] = useState('dashboard');
 
-    const addressQuery = useQuery(ACCOUNT_TABS[2].endpoint, null, { enabled: activeTab === 'address' });
-    const dashboardQuery = useQuery(ACCOUNT_TABS[0].endpoint, null, { enabled: activeTab === 'dashboard' });
-    const accountDetailsQuery = useQuery(ACCOUNT_TABS[3].endpoint, null, { enabled: activeTab === 'accountDetails' });
+    const addressQuery = useQuery(ACCOUNT_TABS[2].endpoint, null);
+
+    const dashboardQuery = useQuery(ACCOUNT_TABS[0].endpoint, null, {
+        enabled: activeTab === 'dashboard',
+    });
+
+    const accountDetailsQuery = useQuery(ACCOUNT_TABS[3].endpoint, null, {
+        enabled: activeTab === 'accountDetails',
+    });
+
+    const { missingName, missingAddress } = useProfileCompleteness(
+        auth.fullName,
+        addressQuery.data?.address,
+    );
+
+    const attention = { accountDetails: missingName, address: missingAddress };
 
     const queriesByTab = {
         address: addressQuery,
@@ -31,7 +46,10 @@ export function Profile() {
                     <div className="col-lg-4 col-12 learts-mb-30">
                         <ul className="myaccount-tab-list nav">
                             {ACCOUNT_TABS.map((tab) => (
-                                <li key={tab.id} className={`nav-item ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+                                <li
+                                    key={tab.id}
+                                    className={`nav-item ${activeTab === tab.id ? 'active' : ''} ${attention[tab.id] ? 'tab--attention' : ''}`}
+                                    onClick={() => setActiveTab(tab.id)}>
                                     {tab.label}
                                     <FontAwesomeIcon icon={tab.icon} />
                                 </li>
@@ -46,6 +64,13 @@ export function Profile() {
                     {/* My Account Tab Content Start */}
                     <div className="col-lg-8 col-12 learts-mb-30">
                         <div className="tab-content">
+                            {activeTab === 'dashboard' && (
+                                <ProfileReminder
+                                    missingName={missingName}
+                                    missingAddress={missingAddress}
+                                    onGoTo={setActiveTab}
+                                />
+                            )}
                             {/* Single Tab Content Start */}
                             <div className="tab-pane fade show active">
                                 <div className={`myaccount-content ${activeTab}`}>
@@ -60,7 +85,9 @@ export function Profile() {
                                         </div>
                                     )}
 
-                                    {!loading && !error && data && <ActiveTabComponent data={data} refresh={refresh} />}
+                                    {!loading && !error && data && (
+                                        <ActiveTabComponent data={data} refresh={refresh} />
+                                    )}
                                 </div>
                             </div>
                             {/* Single Tab Content End */}
