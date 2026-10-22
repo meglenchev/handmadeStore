@@ -8,8 +8,7 @@ import Select from 'react-select';
 import { customStyles } from '@/utils/customStyles.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router';
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+import { apiGet } from '@/utils/apiClient.js';
 
 const initialSearchValues = {
     name: '',
@@ -63,15 +62,11 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                 category: selectedCategory,
             });
 
-            const response = await fetch(`${BASE_URL}${ENDPOINTS.PRODUCTS.SEARCH}?${queryParams}`, {
+            const data = await apiGet(`${ENDPOINTS.PRODUCTS.SEARCH}?${queryParams}`, {
                 signal: abortSignal,
             });
 
-            if (!response.ok) {
-                throw new Error('Грешка при извличане на данните');
-            }
-
-            setProducts(await response.json());
+            setProducts(data);
         } catch (err) {
             if (err.name === 'AbortError') {
                 return;
