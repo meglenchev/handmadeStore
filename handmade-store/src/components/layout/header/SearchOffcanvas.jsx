@@ -18,7 +18,8 @@ const initialSearchValues = {
 
 export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+
+    const [lastSearched, setLastSearched] = useState(null);
 
     const { data } = useQuery(ENDPOINTS.PRODUCTS.ALL_CATEGORY, []);
 
@@ -34,7 +35,9 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
     }, [data]);
 
     const options = Array.isArray(formattedCategories) ? formattedCategories : [];
+
     const selectOptions = [{ value: 'all', label: 'Всички категории' }, ...options];
+
     const { inputPropertiesRegister, formValues, setFormValues } = useForm(
         () => {},
         initialSearchValues,
@@ -43,14 +46,16 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
     const submitSearch = useCallback(async (searchName, searchCategory, abortSignal) => {
         const searchWord = searchName ? searchName.trim() : '';
+
         const selectedCategory = searchCategory || 'all';
+
+        const key = `${searchWord}|${selectedCategory}`;
 
         if (!searchWord) {
             setProducts([]);
+            setLastSearched(key);
             return;
         }
-
-        setIsLoading(true);
 
         try {
             const queryParams = new URLSearchParams({
@@ -66,23 +71,30 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                 throw new Error('Грешка при извличане на данните');
             }
 
-            const data = await response.json();
-            setProducts(data);
-            setIsLoading(false);
+            setProducts(await response.json());
         } catch (err) {
-            if (err.name !== 'AbortError') {
-                console.error('Грешка при търсене:', err.message);
-                setProducts([]);
-                setIsLoading(false);
+            if (err.name === 'AbortError') {
+                return;
             }
+
+            console.error('Грешка при търсене:', err.message);
+            setProducts([]);
         }
+
+        setLastSearched(key);
     }, []);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
     };
 
-    const debouncedSearchTerm = useDebounce(formValues.name, 1000);
+    const debouncedSearchTerm = useDebounce(formValues.name, 500);
+
+    const searchWord = formValues.name.trim();
+
+    const isSearching = `${searchWord}|${formValues.category}` !== lastSearched;
+
+    console.log(isSearching);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -155,7 +167,9 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <div className="inner">
-                    {isLoading ? (
+                    {searchWord === '' ? (
+                        <p className="text-muted">Започнете да пишете, за да намерите продукти.</p>
+                    ) : isSearching ? (
                         <p>Търсене...</p>
                     ) : products.length > 0 ? (
                         <div className="products row row-cols-lg-6 row-cols-md-4 row-cols-sm-3 row-cols-1">
@@ -209,8 +223,6 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
                                 </div>
                             ))}
                         </div>
-                    ) : formValues.name.trim() === '' ? (
-                        <p className="text-muted">Започнете да пишете, за да намерите продукти.</p>
                     ) : (
                         <div className="col-12 learts-mb-20 error-section">
                             <FontAwesomeIcon icon="frown" />
