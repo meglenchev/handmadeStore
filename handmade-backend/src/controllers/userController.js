@@ -10,7 +10,15 @@ export const userController = Router();
 // правят само next(err), а един handler форматира отговора и статус кода.
 
 userController.post("/users/register", async (req, res, next) => {
-    const { username, email, password, confirmPassword } = req.body;
+    const { username, email, password, confirmPassword } = req.body ?? {};
+
+    if (
+        [username, email, password, confirmPassword].some(
+            (v) => typeof v !== "string",
+        )
+    ) {
+        return res.status(400).json({ message: "Invalid input" });
+    }
 
     try {
         const user = await userServices.register(
@@ -35,7 +43,11 @@ userController.post("/users/register", async (req, res, next) => {
 });
 
 userController.post("/users/login", async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body ?? {};
+
+    if (typeof email !== "string" || typeof password !== "string") {
+        return res.status(400).json({ message: "Invalid input" });
+    }
 
     try {
         const user = await userServices.login(email, password);

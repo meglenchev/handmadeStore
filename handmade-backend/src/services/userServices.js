@@ -3,6 +3,7 @@ import { toUserDTO } from "../utils/userDTO.js";
 import { toUserDetails } from "../utils/userDetails.js";
 import jwt from "jsonwebtoken";
 import { RevokedToken } from "../models/RevokedToken.js";
+import { normalizeEmail } from "../utils/normalizeEmail.js";
 
 const ADDRESS_FIELDS = [
     "recipientName",
@@ -17,6 +18,8 @@ const ACCOUNT_FIELDS = ["fullName", "username"];
 
 export default {
     async register(username, email, password, confirmPassword) {
+        const cleanEmail = normalizeEmail(email);
+
         if (password !== confirmPassword) {
             const err = new Error("Passwords are not the same!");
             err.statusCode = 400;
@@ -24,7 +27,7 @@ export default {
         }
 
         const userExist = await User.exists({
-            $or: [{ email }, { username }],
+            $or: [{ email: cleanEmail }, { username }],
         });
 
         if (userExist) {
@@ -36,7 +39,11 @@ export default {
         }
 
         try {
-            const user = await User.create({ username, email, password });
+            const user = await User.create({
+                username,
+                email: cleanEmail,
+                password,
+            });
 
             return toUserDTO(user);
         } catch (err) {
@@ -44,7 +51,9 @@ export default {
         }
     },
     async login(email, password) {
-        const user = await User.findOne({ email }).select("+password");
+        const user = await User.findOne({
+            email: normalizeEmail(email),
+        }).select("+password");
 
         if (!user) {
             const err = new Error("Invalid user or password!");
