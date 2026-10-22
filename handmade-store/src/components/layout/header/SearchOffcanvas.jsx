@@ -94,8 +94,6 @@ export function SearchOffcanvas({ activeMenu, toggleMenu }) {
 
     const isSearching = `${searchWord}|${formValues.category}` !== lastSearched;
 
-    console.log(isSearching);
-
     useEffect(() => {
         const controller = new AbortController();
 
