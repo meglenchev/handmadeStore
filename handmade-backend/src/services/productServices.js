@@ -1,4 +1,5 @@
 import { Product } from "../models/Product.js";
+import { escapeRegex } from "../utils/escapeRegex.js";
 
 export default {
     create(productData, ownerId) {
@@ -123,34 +124,29 @@ export default {
         ]);
     },
     getSearchResults(query, category) {
-        let filter = {};
-        let conditions = [];
+        const cleanQuery = query?.trim() ?? "";
+        const cleanCategory = category?.trim() ?? "";
 
-        const cleanQuery = query ? query.trim() : "";
-
-        if (cleanQuery) {
-            const searchRegex = new RegExp(cleanQuery, "i");
-            conditions.push({
-                $or: [{ title: searchRegex }, { category: searchRegex }],
-            });
+        if (!cleanQuery) {
+            return [];
         }
 
-        if (category && category.trim() !== "" && category !== "all") {
-            conditions.push({
-                category: new RegExp(`^${category.trim()}$`, "i"),
-            });
+        const filter = {
+            title: new RegExp(escapeRegex(cleanQuery), "i"),
+        };
+
+        if (cleanCategory && cleanCategory !== "all") {
+            filter.category = cleanCategory;
         }
 
-        if (conditions.length > 0) {
-            filter = { $and: conditions };
-        }
-
-        return Product.find(filter).select({
-            title: 1,
-            category: 1,
-            newPrice: 1,
-            "images.gallery": { $slice: 2 },
-        });
+        return Product.find(filter)
+            .select({
+                title: 1,
+                category: 1,
+                newPrice: 1,
+                "images.gallery": { $slice: 2 },
+            })
+            .limit(6);
     },
     // TODO(slug): при create/update на продукт използвай saveWithUniqueSlug(doc),
     // НЕ product.save(). Изисква auth да е готов преди да заключиш mutations.
