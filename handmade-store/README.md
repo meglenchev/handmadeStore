@@ -27,7 +27,7 @@
 - [x] Break down the static HTML into reusable components (`Header`, `ProductCard`, `Footer`, etc.)
 - [x] Convert HTML syntax to JSX (e.g., `class` -> `className`, self-closing tags)
 - [x] Organize local assets (images/icons) within the React `public` or `src/assets` folder
-- [ ] Implement the main Layout wrapper _(Header/Footer are still inline in `App.jsx` — extract a `Layout` with `<Outlet />`)_
+- [ ] Implement the main Layout wrapper _(Header/Footer are still inline in `App.jsx` - extract a `Layout` with `<Outlet />`)_
 
 ### Phase 3: Logic Integration
 
@@ -42,12 +42,13 @@
 - [ ] Optimize Search Component: If results > 6, implement a "Load More" button or Lazy Loading to prevent layout shifting
 - [ ] Delete / set default address
 - [x] Wire Account Details to the backend (profile form + password change via `PATCH`)
+- [x] Profile completeness reminder: `ProfileReminder` on the Dashboard tab and a `tab--attention` mark on Address / Account Details (`useProfileCompleteness`)
 - [ ] Pages linked in the header but missing: About us, Wishlist, Contact us, Privacy policy (currently fall to 404)
 
 ### Phase 4: Refinement & Testing
 
 - [ ] Ensure all existing CSS animations and JS interactions work correctly in React
-- [ ] Optimize image loading and component performance (no `loading="lazy"` on any `<img>` yet; main bundle is ~690 kB — lazy-load more routes / split vendor chunks)
+- [ ] Optimize image loading and component performance (no `loading="lazy"` on any `<img>` yet; main bundle is ~690 kB - lazy-load more routes / split vendor chunks)
 - [ ] Final responsive check (ensure nothing broke during migration)
 - [ ] Production build and Deployment
 
@@ -55,7 +56,7 @@
 
 - [x] Replace `bootstrap.bundle.min.js` with the official React library: `npm install react-bootstrap`
 - [x] Replace `jquery.countdown.min.js` with the official React library: `npm install react-countdown`
-- [x] Remove `jquery.magnific-popup.min.js` Use Modal from `react-bootstrap` _(replaced by `react-bootstrap` Modal + `yet-another-react-lightbox`)_
+- [x] Remove `jquery.magnific-popup.min.js` Use Modal from `react-bootstrap` (replaced by `react-bootstrap` Modal + `yet-another-react-lightbox`)
 - [x] Install `react-medium-image-zoom` or `react-image-magnify` for product image quick view zoom
 - [x] To create a `QuickViewContext`
 - [ ] Write a `useCategories()` hook to avoid duplicating the query in two places (search offCanvas, products filters)
@@ -63,19 +64,19 @@
 ### Maintenance
 
 - [ ] Import `FontAwesomeIcon` in `AddressForm.jsx` (used in the submit error section)
-- [ ] Render the old price only when `oldPrice > 0` — `{product.oldPrice && ...}` in `QuickView.jsx` and `DealOfTheDay.jsx` renders a `0` for zero values
+- [ ] Render the old price only when `oldPrice > 0` - `{product.oldPrice && ...}` in `QuickView.jsx` and `DealOfTheDay.jsx` renders a `0` for zero values
 - [ ] ESLint setup: remove the `'prettier'` string from `extends` in `eslint.config.js` (`eslintConfigPrettier` is already added at the end; `npm run lint` fails with `Plugin "" not found`)
 - [ ] Update the `apiClient`, `useQuery` and `useMutation` tests to the current error messages and network-error handling (12 tests still expect the previous behavior)
-- [x] `AccountDetails` `useEffect` depends on `[setFormValues]` but reads `data` — add `data` to the dependencies.
+- [x] `AccountDetails` `useEffect` depends on `[setFormValues]` but reads `data` - add `data` to the dependencies.
 
 ### Refactoring
 
-- [ ] `SearchOffcanvas` uses raw `fetch` + its own `BASE_URL` — switch to `apiGet` from `apiClient`.
-- [ ] `Profile.jsx` picks tabs by index (`ACCOUNT_TABS[2]`, `[0]`, `[3]`) — look them up by `id` or build the queries from `ACCOUNT_TABS`.
+- [x] `SearchOffcanvas` uses raw `fetch` + its own `BASE_URL` - switch to `apiGet` from `apiClient`.
+- [ ] `Profile.jsx` picks tabs by index (`ACCOUNT_TABS[2]`, `[0]`, `[3]`) - look them up by `id` or build the queries from `ACCOUNT_TABS`.
 - [ ] Use the `@/` alias consistently (`Profile.jsx` still uses `../../` imports).
-- [ ] `AuthContext`: wrap `onLogin` / `onRegister` in `useCallback` and memoize the context value with `useMemo` — both are recreated on every render.
+- [ ] `AuthContext`: wrap `onLogin` / `onRegister` in `useCallback` and memoize the context value with `useMemo` - both are recreated on every render.
 - [ ] Replace the hardcoded tags in `QuickView` (`handmade`, `learts`, `mug`...) with `productData.tags`.
-- [ ] Unify UI language — account tabs, labels and "Logout" are in English, the rest of the store is in Bulgarian.
+- [ ] Unify UI language - account tabs, labels and "Logout" are in English, the rest of the store is in Bulgarian.
 - [ ] Remove unused leftovers: `assets/js/plugins/jquery.scrollUp.min.js`, the `swiper` dependency (not imported anywhere), placeholder `href="#"` / `shopping-cart.html` links.
 
 ### Final touches

@@ -6,7 +6,7 @@
 
 - [ ] Finish the `Order` model — import `mongoose` (only `Schema` is imported), define the `arrayLimit` validator, rename `shoppingAddress` → `shippingAddress`
 - [ ] Implement `POST /orders` (submit new order & decrease stock — use a transaction / atomic `$inc` with `stock >= qty` check)
-- [ ] Search: sanitize and escape user input before building the `RegExp` in `getSearchResults` (both `query` and `category`)
+- [x] Search: sanitize and escape user input before building the `RegExp` in `getSearchResults` (both `query` and `category`) _(`query` is escaped with `escapeRegex` and matched against `title` only; `category` is an exact-match filter, not a `RegExp`)_
 - [x] Seed script for local setup: seed a vendor user, generate slugs in the script, document `MONGODB_URI` in `.env.example` and the root README
 
 ### Planned
@@ -46,6 +46,7 @@
 - [x] Connect React frontend with the live API endpoints (products, auth, account)
 - [x] Implement error handling middleware (`errorHandler.js`)
 - [x] Whitelist allowed fields instead of passing raw `req.body`
+- [x] Search input is escaped (`escapeRegex`) against regex errors and ReDoS
 - [x] Real logout / token invalidation (`jti` denylist in `revoked_tokens` with a TTL index)
 - [ ] Revoke the current token on password change (`revokeToken`); other sessions of the user stay valid until they expire
 

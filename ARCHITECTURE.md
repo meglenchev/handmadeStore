@@ -124,7 +124,7 @@ src/
 
 - **Controllers** (`productController`, `userController`) are plain `Router()` instances. They read the request, call a service and send the response.
 - **Services** (`productServices`, `userServices`) hold the queries and the business rules: filters and sorting, the "top discounted" aggregation, the address limit and default address, the current-password check.
-- **Validation** has two layers. Mongoose schema validators cover required fields, lengths, formats and enums. Controllers and services accept only explicitly listed fields (for example `ADDRESS_FIELDS` and `ACCOUNT_FIELDS`), so request bodies are never written to the database as-is.
+- **Validation** has two layers. Mongoose schema validators cover required fields, lengths, formats and enums. Controllers and services accept only explicitly listed fields (for example `ADDRESS_FIELDS` and `ACCOUNT_FIELDS`), so request bodies are never written to the database as-is. The search term is escaped with `escapeRegex` before it goes into a `RegExp`, which prevents regex errors and ReDoS.
 - **DTOs** (`toUserDTO`, `toUserDetails`) decide exactly which user fields leave the server.
 - **Error handling**: the user routes forward errors with `next(err)` to `errorHandler`. It maps Mongoose `ValidationError` to 400 (first message), duplicate keys (`11000`) to 409, and errors carrying a `statusCode` to that status. Anything else becomes a generic 500 message, so internal details are not leaked.
 
@@ -159,7 +159,7 @@ The cart stores only `{ _id, quantity }`. Titles, prices and stock are fetched f
 **Shared API layer:**
 
 - `utils/apiClient.js` wraps `fetch` with the base URL, JSON headers and `credentials: 'include'`. It exposes `apiGet`, `apiPost`, `apiPut`, `apiPatch` and `apiDelete`. Errors become `Error` objects carrying a `statusCode`: 0 for network failures, a user-facing message for 5xx, and the server's message for 4xx. `AbortError` is passed through untouched.
-- `hooks/useQuery(url, initialValue, { enabled })` returns `{ data, loading, error, refresh }`. It cancels in-flight requests with `AbortController`. The `enabled` flag allows conditional fetching, which the account tabs use to load data only for the active tab.
+- `hooks/useQuery(url, initialValue, { enabled })` returns `{ data, loading, error, refresh }`. It cancels in-flight requests with `AbortController`. The `enabled` flag allows conditional fetching, which the account tabs use to load data only for the active tab. The addresses are the exception: they are always loaded, because `useProfileCompleteness` needs them for the profile reminder.
 - `hooks/useMutation(url, method)` returns `{ mutate, data, loading, error }`. `mutate` both stores the error and rethrows it, so forms can show it inline.
 
 **Forms** use a small in-house `useForm(onSubmit, initialValues, validate)` hook. It handles field registration, client-side validation and submit.

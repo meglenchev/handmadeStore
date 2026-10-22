@@ -23,7 +23,7 @@ An online store for handmade products, built as a multi-vendor-ready marketplace
 ## Features
 
 - **Product catalog** with filtering by category, tag (new / sale / hit) and maximum price, and sorting by price. All filters are kept in the URL query string.
-- **Search** in an off-canvas panel, debounced and with an optional category filter.
+- **Search** in an off-canvas panel: matches product titles, with an optional exact category filter. Debounced, up to 6 results, and the input is escaped before it is used in a regular expression.
 - **Product details page** with an image gallery, a lightbox and a quantity selector.
 - **Quick view** modal that opens a product from any listing.
 - **Home page sections**: a hero slider with featured products, "Deal of the day" (the most discounted products, with a countdown) and the latest products by category.
@@ -31,7 +31,7 @@ An online store for handmade products, built as a multi-vendor-ready marketplace
 - **Shopping cart** saved in the browser. Stock and prices are checked against the API (`POST /products/check`) before an item is added and whenever the cart changes.
 - **Authentication**: register, log in, log out with server-side token revocation, and restore the session on page load (`GET /users/me`). The JWT is kept in an httpOnly cookie.
 - **Route guards**: `ProtectedRoute` for the account area and `PublicOnlyRoute` for the login/register page.
-- **Account area**: a dashboard greeting, address management (add and edit, up to 2 addresses, the first one becomes the default), profile editing (full name, username) and password change with a current-password check.
+- **Account area**: a dashboard greeting, address management (add and edit, up to 2 addresses, the first one becomes the default), profile editing (full name, username) and password change with a current-password check. When the full name or an address is missing, the dashboard shows a reminder and the Address / Account Details tabs are marked.
 - **Shared API layer** (`apiClient`, `useQuery`, `useMutation`) with Vitest unit tests.
 - Lazy-loaded routes and an error boundary with a retry action.
 
