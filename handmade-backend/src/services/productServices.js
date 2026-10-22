@@ -124,8 +124,10 @@ export default {
         ]);
     },
     getSearchResults(query, category) {
-        const cleanQuery = query?.trim() ?? "";
-        const cleanCategory = category?.trim() ?? "";
+        const cleanQuery =
+            typeof query === "string" ? query.trim().slice(0, 100) : "";
+        const cleanCategory =
+            typeof category === "string" ? category.trim() : "";
 
         if (!cleanQuery) {
             return [];
