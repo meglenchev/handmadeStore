@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
+import { BCRYPT_SALT_ROUNDS } from "../utils/constants.js";
 
 const addressSchema = new Schema(
     {
@@ -106,7 +107,7 @@ userSchema.pre("save", async function () {
         return;
     }
 
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, BCRYPT_SALT_ROUNDS);
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

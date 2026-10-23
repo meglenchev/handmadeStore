@@ -2,8 +2,14 @@ import { User } from "../models/User.js";
 import { toUserDTO } from "../utils/userDTO.js";
 import { toUserDetails } from "../utils/userDetails.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { RevokedToken } from "../models/RevokedToken.js";
 import { normalizeEmail } from "../utils/normalizeEmail.js";
+import {
+    BCRYPT_SALT_ROUNDS,
+    MAX_PASSWORD_LENGTH,
+    MIN_PASSWORD_LENGTH,
+} from "../utils/constants.js";
 
 const ADDRESS_FIELDS = [
     "recipientName",
@@ -16,14 +22,25 @@ const ADDRESS_FIELDS = [
 
 const ACCOUNT_FIELDS = ["fullName", "username"];
 
+const INVALID_CREDENTIALS = "Invalid user or password!";
+const USER_NOT_FOUND_MSG = "User not found!";
+const DUMMY_HASH = await bcrypt.hash("not-a-real-password", BCRYPT_SALT_ROUNDS);
+
 export default {
     async register(username, email, password, confirmPassword) {
+        if (
+            password.length < MIN_PASSWORD_LENGTH ||
+            password.length > MAX_PASSWORD_LENGTH
+        ) {
+            throw httpError(
+                400,
+                `Password must be between ${MIN_PASSWORD_LENGTH} and ${MAX_PASSWORD_LENGTH} characters.`,
+            );
+        }
         const cleanEmail = normalizeEmail(email);
 
         if (password !== confirmPassword) {
-            const err = new Error("Passwords are not the same!");
-            err.statusCode = 400;
-            throw err;
+            throw httpError(400, "Passwords are not the same!");
         }
 
         const userExist = await User.exists({
@@ -31,11 +48,10 @@ export default {
         });
 
         if (userExist) {
-            const err = new Error(
+            throw httpError(
+                409,
                 "User with the same email or username already exists!",
             );
-            err.statusCode = 409;
-            throw err;
         }
 
         try {
@@ -51,22 +67,23 @@ export default {
         }
     },
     async login(email, password) {
+        if (password.length > MAX_PASSWORD_LENGTH) {
+            throw httpError(401, INVALID_CREDENTIALS);
+        }
+
         const user = await User.findOne({
             email: normalizeEmail(email),
         }).select("+password");
 
         if (!user) {
-            const err = new Error("Invalid user or password!");
-            err.statusCode = 401;
-            throw err;
+            await bcrypt.compare(password, DUMMY_HASH);
+            throw httpError(401, INVALID_CREDENTIALS);
         }
 
         const isValid = await user.comparePassword(password);
 
         if (!isValid) {
-            const err = new Error("Invalid user or password!");
-            err.statusCode = 401;
-            throw err;
+            throw httpError(401, INVALID_CREDENTIALS);
         }
 
         return toUserDTO(user);
@@ -111,9 +128,7 @@ export default {
         const user = await User.findById(userId).select("address");
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         return user.address;
@@ -122,15 +137,11 @@ export default {
         const user = await User.findById(userId);
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         if (user.address.length >= 2) {
-            const err = new Error("You can have a maximum of 2 addresses!");
-            err.statusCode = 409;
-            throw err;
+            throw httpError(409, "You can have a maximum of 2 addresses!");
         }
 
         // The first added address automatically becomes the default, regardless of what the client submitted
@@ -154,17 +165,13 @@ export default {
         const user = await User.findById(userId);
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         const address = user.address.id(addressId);
 
         if (!address) {
-            const err = new Error("Адресът не е намерен!");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, "Address not found!");
         }
 
         const updates = Object.fromEntries(
@@ -189,9 +196,7 @@ export default {
         const user = await User.findById(userId);
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         return toUserDetails(user);
@@ -199,7 +204,9 @@ export default {
     async updateUserDetails(userId, userDetails) {
         const user = await User.findById(userId);
 
-        if (!user) throw httpError(404, "Потребителят не е намерен!");
+        if (!user) {
+            throw httpError(404, USER_NOT_FOUND_MSG);
+        }
 
         const updates = Object.fromEntries(
             ACCOUNT_FIELDS.filter((f) => userDetails[f] !== undefined).map(
@@ -214,20 +221,27 @@ export default {
         return toUserDetails(user);
     },
     async changePassword(userId, currentPassword, newPassword) {
+        if (
+            currentPassword.length > MAX_PASSWORD_LENGTH ||
+            newPassword.length > MAX_PASSWORD_LENGTH ||
+            newPassword < MIN_PASSWORD_LENGTH
+        ) {
+            throw httpError(
+                400,
+                `Password must be between ${MIN_PASSWORD_LENGTH} and ${MAX_PASSWORD_LENGTH} characters.`,
+            );
+        }
+
         const user = await User.findById(userId).select("+password");
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         const isValid = await user.comparePassword(currentPassword);
 
         if (!isValid) {
-            const err = new Error("Invalid current password!");
-            err.statusCode = 400;
-            throw err;
+            throw httpError(400, "Invalid current password!");
         }
 
         user.password = newPassword;
@@ -244,9 +258,7 @@ export default {
         const user = await User.findById(userId);
 
         if (!user) {
-            const err = new Error("User not found");
-            err.statusCode = 404;
-            throw err;
+            throw httpError(404, USER_NOT_FOUND_MSG);
         }
 
         return toUserDTO(user);
