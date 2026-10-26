@@ -117,7 +117,7 @@ userController.post(
             city, 
             postalCode, 
             addressLine1 
-        } = req.body;
+        } = req.body ?? {};
 
         try {
             const address = await userServices.addAddress(req.user._id, {

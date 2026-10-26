@@ -20,11 +20,44 @@ const ADDRESS_FIELDS = [
     "addressLine1",
 ];
 
+const MAX_ADDRESS_FIELD_LENGTH = 200;
+
 const ACCOUNT_FIELDS = ["fullName", "username"];
 
 const INVALID_CREDENTIALS = "Invalid user or password!";
 const USER_NOT_FOUND_MSG = "User not found!";
 const DUMMY_HASH = await bcrypt.hash("not-a-real-password", BCRYPT_SALT_ROUNDS);
+
+function pickAddressFields(body = {}) {
+    const result = {};
+
+    for (const field of ADDRESS_FIELDS) {
+        const value = body[field];
+
+        if (value === undefined) {
+            continue;
+        }
+
+        if (
+            typeof value !== "string" ||
+            value.length > MAX_ADDRESS_FIELD_LENGTH
+        ) {
+            throw httpError(400, `Invalid ${field}`);
+        }
+
+        result[field] = value.trim();
+    }
+
+    if (body.isDefault !== undefined) {
+        if (typeof body.isDefault !== "boolean") {
+            throw httpError(400, "Invalid isDefault");
+        }
+
+        result.isDefault = body.isDefault;
+    }
+
+    return result;
+}
 
 export default {
     async register(username, email, password, confirmPassword) {
@@ -134,6 +167,8 @@ export default {
         return user.address;
     },
     async addAddress(userId, addressData) {
+        const data = pickAddressFields(addressData);
+
         const user = await User.findById(userId);
 
         if (!user) {
@@ -146,8 +181,7 @@ export default {
 
         // The first added address automatically becomes the default, regardless of what the client submitted
         const isFirstAddress = user.address.length === 0;
-        const shouldBeDefault =
-            isFirstAddress || addressData.isDefault === true;
+        const shouldBeDefault = isFirstAddress || data.isDefault === true;
 
         if (shouldBeDefault) {
             user.address.forEach((address) => {
@@ -155,13 +189,19 @@ export default {
             });
         }
 
-        user.address.push({ ...addressData, isDefault: shouldBeDefault });
+        user.address.push({ ...data, isDefault: shouldBeDefault });
 
         await user.save();
 
         return user.address;
     },
     async updateAddress(userId, addressId, addressData) {
+        const updates = pickAddressFields(addressData);
+
+        if (updates.isDefault === false) {
+            delete updates.isDefault;
+        }
+
         const user = await User.findById(userId);
 
         if (!user) {
@@ -174,15 +214,9 @@ export default {
             throw httpError(404, "Address not found!");
         }
 
-        const updates = Object.fromEntries(
-            ADDRESS_FIELDS.filter(
-                (field) => addressData[field] !== undefined,
-            ).map((field) => [field, addressData[field]]),
-        );
-
         address.set(updates);
 
-        if (addressData.isDefault === true) {
+        if (updates.isDefault === true) {
             user.address.forEach((a) => {
                 a.isDefault = a._id.equals(address._id);
             });
