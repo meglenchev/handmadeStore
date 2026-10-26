@@ -10,6 +10,7 @@ import {
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH,
 } from "../utils/constants.js";
+import { httpError } from "../utils/httpError.js";
 
 const ADDRESS_FIELDS = [
     "recipientName",
