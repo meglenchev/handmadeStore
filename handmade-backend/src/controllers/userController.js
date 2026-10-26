@@ -42,6 +42,8 @@ userController.post("/users/register", async (req, res, next) => {
     }
 });
 
+// TODO: добави rate limiting за неуспешни опити (по IP и по имейл) преди production.
+// Виж README.md -> TODO -> "Rate limiting на входа".
 userController.post("/users/login", async (req, res, next) => {
     const { email, password } = req.body ?? {};
 

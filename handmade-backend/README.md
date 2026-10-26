@@ -54,6 +54,17 @@
 
 - [x] Add Vendor on Product Model when entering auth
 
+### Login rate limiting (before production deploy)
+
+- [ ] **Login rate limiting**
+    - Limit failed login attempts per IP (e.g. 30 per 15 min) and per email (e.g. 10 per 15 min)
+    - Count only failed attempts (401 responses); a successful login resets the email counter
+    - When the limit is exceeded: respond with 429 and a `Retry-After` header
+    - Use temporary throttling, not permanent account lockout
+    - Add a separate, simpler limit for registration (e.g. 10 per hour per IP)
+    - Behind a reverse proxy: set `app.set("trust proxy", 1)` so `req.ip` is the real client IP
+    - If running multiple server instances: store counters in a shared store (e.g. MongoDB with a TTL index)
+
 ### Maintenance
 
 - [ ] Rewrite the `Product` pre-hooks (`pre("save")` and `pre(["updateOne", "findOneAndUpdate"])`) as plain `async` functions without `next` — Mongoose 9 no longer passes it (like in `User.js`)
