@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const orderItemSchema = new Schema(
     {
@@ -38,10 +38,13 @@ const orderSchema = new Schema(
         items: {
             type: [orderItemSchema],
             required: true,
-            validate: [arrayLimit, "Order must have at least one item"],
+            validate: [
+                (items) => items.length > 0,
+                "Order must have at least one item",
+            ],
         },
-        shoppingAddress: {
-            fullName: { type: String, required: true },
+        shippingAddress: {
+            recipientName: { type: String, required: true },
             phone: { type: String, required: true },
             country: { type: String, required: true },
             city: { type: String, required: true },
@@ -78,4 +81,4 @@ const orderSchema = new Schema(
 
 orderSchema.index({ user: 1, createdAt: -1 });
 
-export const Order = mongoose.model("Order", orderSchema, "orders");
+export const Order = model("Order", orderSchema, "orders");

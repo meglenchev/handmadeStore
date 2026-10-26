@@ -6,7 +6,10 @@ import productServices from "../services/productServices.js";
 
 export const productController = Router();
 
-productController.get("/products", async (req, res) => {
+const MAX_LATEST_LIMIT = 50;
+const MAX_CART_PRODUCTS = 50;
+
+productController.get("/products", async (req, res, next) => {
     try {
         const { tag, category, code, sort, max_price } = req.query;
         const products = await productServices.getAll({
@@ -17,112 +20,103 @@ productController.get("/products", async (req, res) => {
             max_price,
         });
         res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 
-productController.get("/products/latest", async (req, res) => {
+productController.get("/products/latest", async (req, res, next) => {
     try {
         const category = req.query.category;
-        const limit = parseInt(req.query.limit) || 6;
+        const limit = Math.min(
+            Math.max(parseInt(req.query.limit) || 6, 1),
+            MAX_LATEST_LIMIT,
+        );
         const latestProducts = await productServices.getLatest(category, limit);
         res.json(latestProducts);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 
-productController.get("/products/:productId/details", async (req, res) => {
-    const productId = req.params.productId;
+productController.get(
+    "/products/:productId/details",
+    async (req, res, next) => {
+        const productId = req.params.productId;
 
-    try {
-        const product = await productServices.getOne(productId);
+        try {
+            const product = await productServices.getOne(productId);
 
-        if (!product) {
-            return res.status(404).json({
-                message: "Product not found",
-            });
+            if (!product) {
+                return res.status(404).json({
+                    message: "Product not found",
+                });
+            }
+
+            res.json(product);
+        } catch (err) {
+            console.error("Error fetching product details:", err);
+
+            // Error due to invalid ID format for MongoDB
+            if (err.name === "CastError") {
+                return res
+                    .status(400)
+                    .json({ message: "Invalid Product ID format" });
+            }
+
+            // Error due to any other unexpected issues (server-side)
+            next(err);
         }
+    },
+);
 
-        res.json(product);
-    } catch (error) {
-        console.error("Error fetching product details:", error);
-
-        // Error due to invalid ID format for MongoDB
-        if (error.name === "CastError") {
-            return res.status(400).json({
-                message: "Invalid Product ID format",
-                error: error.message,
-            });
-        }
-
-        // Error due to any other unexpected issues (server-side)
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
-    }
-});
-
-productController.get("/products/discounted", async (req, res) => {
+productController.get("/products/discounted", async (req, res, next) => {
     try {
         const discountedProducts = await productServices.getTopDiscounted();
         res.json(discountedProducts);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 
-productController.get("/products/special", async (req, res) => {
+productController.get("/products/special", async (req, res, next) => {
     try {
         const specialProducts = await productServices.getSpecialProducts();
         res.json(specialProducts);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 
-productController.post("/products/check", async (req, res) => {
+productController.post("/products/check", async (req, res, next) => {
     try {
-        const { productIds } = req.body;
-        if (!Array.isArray(productIds) || productIds.length === 0) {
+        const { productIds } = req.body ?? {};
+        if (
+            !Array.isArray(productIds) ||
+            productIds.length === 0 ||
+            productIds.length > MAX_CART_PRODUCTS ||
+            productIds.some((id) => typeof id !== "string")
+        ) {
             return res.status(400).json({
-                message: "Product IDs must be a non-empty array",
+                message: `Product IDs must be an array of 1 to ${MAX_CART_PRODUCTS} strings`,
             });
         }
 
         const cartProducts = await productServices.getCartProducts(productIds);
         res.json(cartProducts);
-    } catch (error) {
+    } catch (err) {
         // Error due to invalid ID format for MongoDB
-        if (error.name === "CastError") {
-            return res.status(400).json({
-                message: "Invalid Product ID format",
-                error: error.message,
-            });
+        if (err.name === "CastError") {
+            return res
+                .status(400)
+                .json({ message: "Invalid Product ID format" });
         }
 
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+        next(err);
     }
 });
 
-productController.get("/products/search", async (req, res) => {
+productController.get("/products/search", async (req, res, next) => {
     try {
         const { query, category } = req.query;
         const searchResults = await productServices.getSearchResults(
@@ -130,23 +124,17 @@ productController.get("/products/search", async (req, res) => {
             category,
         );
         res.status(200).json(searchResults);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 
-productController.get("/products/categories", async (req, res) => {
+productController.get("/products/categories", async (req, res, next) => {
     try {
         const categories = await productServices.getProductsCategory();
         res.status(200).json(categories);
-    } catch (error) {
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: error.message,
-        });
+    } catch (err) {
+        next(err);
     }
 });
 

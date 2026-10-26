@@ -4,15 +4,15 @@
 
 ### High priority
 
-- [ ] Finish the `Order` model — import `mongoose` (only `Schema` is imported), define the `arrayLimit` validator, rename `shoppingAddress` → `shippingAddress`
-- [ ] Implement `POST /orders` (submit new order & decrease stock — use a transaction / atomic `$inc` with `stock >= qty` check)
+- [x] Finish the `Order` model - import `mongoose` (only `Schema` is imported), define the `arrayLimit` validator, rename `shoppingAddress` → `shippingAddress`
+- [ ] Implement `POST /orders` (submit new order & decrease stock - use a transaction / atomic `$inc` with `stock >= qty` check)
 - [x] Search: sanitize and escape user input before building the `RegExp` in `getSearchResults` (both `query` and `category`) _(`query` is escaped with `escapeRegex` and matched against `title` only; `category` is an exact-match filter, not a `RegExp`)_
 - [x] Seed script for local setup: seed a vendor user, generate slugs in the script, document `MONGODB_URI` in `.env.example` and the root README
 
 ### Planned
 
-- [ ] Vendor layer: `vendorController` + route group — apply to become a vendor, admin approval of `vendorStatus`, vendor product management
-- [ ] Product create/update/delete for vendors — use `saveWithUniqueSlug(doc)` instead of `product.save()`; `productServices.create` must set `vendor` (it currently sets `ownerId`, which is not in the schema)
+- [ ] Vendor layer: `vendorController` + route group - apply to become a vendor, admin approval of `vendorStatus`, vendor product management
+- [ ] Product create/update/delete for vendors - use `saveWithUniqueSlug(doc)` instead of `product.save()`; `productServices.create` must set `vendor` (it currently sets `ownerId`, which is not in the schema)
 - [ ] Implement `GET /users/account/orders` for the account Orders tab (frontend already calls it)
 
 ### Phase 1: Environment & Server Setup
@@ -26,7 +26,7 @@
 
 - [x] Create `Product` Schema matching frontend data structure
 - [x] Create a Seed script to populate the database with initial users and products
-- [x] Create `Order` Schema for checkout flow _(to be finished — see High priority)_
+- [x] Create `Order` Schema for checkout flow _(to be finished - see High priority)_
 - [x] Create `User` Schema with roles, `vendorStatus`, phone and embedded addresses (max 2)
 
 ### Phase 3: API Architecture (Routes & Controllers)
@@ -67,8 +67,8 @@
 
 ### Maintenance
 
-- [ ] Rewrite the `Product` pre-hooks (`pre("save")` and `pre(["updateOne", "findOneAndUpdate"])`) as plain `async` functions without `next` — Mongoose 9 no longer passes it (like in `User.js`)
-- [ ] `userServices.updateUserDetails` calls `httpError`, which is not defined — use the same `Error` + `statusCode` pattern as the other services
+- [ ] Rewrite the `Product` pre-hooks (`pre("save")` and `pre(["updateOne", "findOneAndUpdate"])`) as plain `async` functions without `next` - Mongoose 9 no longer passes it (like in `User.js`)
+- [ ] `userServices.updateUserDetails` calls `httpError`, which is not defined - use the same `Error` + `statusCode` pattern as the other services
 - [ ] Move `app.get("/")` in `index.js` before `routes` (it is registered after the `/*splat` 404 handler) or remove it
 - [ ] Exit with `process.exit(1)` on DB connection failure (currently exits with code `0`)
 - [x] Allow `PATCH` in the CORS `methods`
