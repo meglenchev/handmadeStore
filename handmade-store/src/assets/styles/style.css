@@ -970,6 +970,20 @@ body.homepage-bg1.offcanvas-open {
     }
 }
 
+/* Display */
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.justify-center {
+    justify-content: content;
+}
+.items-center {
+    align-items: center;
+}
+
 /* Margin */
 .learts-mb-10 {
     margin-bottom: 10px;
@@ -1131,8 +1145,24 @@ body.homepage-bg1.offcanvas-open {
     margin-top: -100px;
 }
 
+.learts-ml-10 {
+    margin-left: 10px;
+}
+
+.learts-ml-15 {
+    margin-left: 15px;
+}
+
+.learts-ml-20 {
+    margin-left: 20px;
+}
+
 .learts-ml-auto {
     margin-left: auto;
+}
+
+.learts-mr-auto {
+    margin-right: auto;
 }
 
 /* Padding */
@@ -2634,6 +2664,19 @@ body.homepage-bg1.offcanvas-open {
     color: var(--color-dark-hover);
     border-color: var(--color-dark-hover);
     background-color: transparent;
+}
+
+.btn-remove {
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 5px;
+    color: var(--text-body-light);
+    border: none;
+    background-color: transparent;
+}
+
+.btn-remove:hover {
+    color: red;
 }
 
 /* 04.07 Tooltip CSS */
@@ -4467,7 +4510,7 @@ body.offcanvas.show .sticky-header {
     }
 }
 
-.offcanvas .inner .empty-minicart-message {
+.empty-cart-message {
     text-align: center;
     font-weight: 400;
     padding: 50px 0;
@@ -4886,20 +4929,10 @@ body.offcanvas.show .sticky-header {
     color: var(--text-dark);
 }
 
-.minicart-product-list li .content .remove {
-    font-size: 24px;
-    line-height: 1;
+.minicart-product-list li .content .btn-remove {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0 5px;
-    color: var(--text-body-light);
-    border: none;
-    background-color: transparent;
-}
-
-.minicart-product-list li .content .remove:hover {
-    color: red;
 }
 
 /* OffCanvas Search */
@@ -16657,7 +16690,6 @@ input[type='range']::-moz-range-thumb {
 
 /* Cart Totals */
 .cart-totals {
-    float: right;
     width: 400px;
     padding: 40px 30px;
     text-align: center;

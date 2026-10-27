@@ -4,7 +4,11 @@ import { Link } from 'react-router';
 
 export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFromCart }) {
     return (
-        <Offcanvas show={activeMenu.cart} onHide={() => toggleMenu('cart')} placement="end" className="offcanvas-cart">
+        <Offcanvas
+            show={activeMenu.cart}
+            onHide={() => toggleMenu('cart')}
+            placement="end"
+            className="offcanvas-cart">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Количка</span>
@@ -18,21 +22,30 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                             <ul className="minicart-product-list">
                                 {cart.map((item) => (
                                     <li key={item._id}>
-                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')} className="image">
+                                        <Link
+                                            to={ENDPOINTS.PRODUCTS.DETAILS(item._id)}
+                                            onClick={() => toggleMenu('cart')}
+                                            className="image">
                                             <img src={item.images.gallery[0]} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('cart')} className="title">
+                                            <Link
+                                                to={ENDPOINTS.PRODUCTS.DETAILS(item._id)}
+                                                onClick={() => toggleMenu('cart')}
+                                                className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">
-                                                {item.quantity} x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                                {item.quantity} x{' '}
+                                                <span className="amount">
+                                                    €{item.newPrice.toFixed(2)}
+                                                </span>
                                             </span>
                                             <button
                                                 onClick={() => {
                                                     removeFromCart(item);
                                                 }}
-                                                className="remove">
+                                                className="btn-remove">
                                                 ×
                                             </button>
                                         </div>
@@ -46,18 +59,23 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                                 <span className="amount">€{subtotal}</span>
                             </div>
                             <div className="buttons">
-                                <Link to="/shopping-cart" className="btn btn-dark btn-hover-primary">
+                                <Link
+                                    to="/cart"
+                                    onClick={() => toggleMenu('cart')}
+                                    className="btn btn-dark btn-hover-primary">
                                     преглед на количката
                                 </Link>
                                 <Link href="/checkout" className="btn btn-primary">
                                     плати
                                 </Link>
                             </div>
-                            <p className="minicart-message">Безплатна доставка за поръчки над €60 евро!</p>
+                            <p className="minicart-message">
+                                Безплатна доставка за поръчки над €60 евро!
+                            </p>
                         </div>
                     </>
                 ) : (
-                    <h3 className="title empty-minicart-message">Количка е празна!</h3>
+                    <h3 className="title empty-cart-message">Количка е празна!</h3>
                 )}
             </div>
         </Offcanvas>

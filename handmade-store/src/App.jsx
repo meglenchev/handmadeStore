@@ -14,8 +14,16 @@ import { PublicOnlyRoute } from './routes/PublicOnlyRoute.jsx';
 import { NotFound } from './pages/NotFound.jsx';
 import { Profile } from './pages/Account/Profile.jsx';
 
-const Product = lazy(() => import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })));
-const Login = lazy(() => import('./pages/Auth/Login.jsx').then((module) => ({ default: module.Login })));
+const Product = lazy(() =>
+    import('./pages/Product/Product.jsx').then((module) => ({ default: module.Product })),
+);
+const Login = lazy(() =>
+    import('./pages/Auth/Login.jsx').then((module) => ({ default: module.Login })),
+);
+
+const Cart = lazy(() =>
+    import('./pages/Cart/Cart.jsx').then((module) => ({ default: module.Cart })),
+);
 
 function ErrorFallback({ resetErrorBoundary }) {
     return (
@@ -23,7 +31,9 @@ function ErrorFallback({ resetErrorBoundary }) {
             <div className="container">
                 <div className="content-404 text-center error-container">
                     <h1 className="title">Нещо се обърка</h1>
-                    <p className="learts-mb-30">Възникна неочаквана грешка. Моля, опитайте отново.</p>
+                    <p className="learts-mb-30">
+                        Възникна неочаквана грешка. Моля, опитайте отново.
+                    </p>
                     <button onClick={resetErrorBoundary} className="btn btn-danger">
                         Опитай отново
                     </button>
@@ -43,7 +53,10 @@ function App() {
             <ScrollToTopOnNavigation />
             <Header />
             <main>
-                <ErrorBoundary FallbackComponent={ErrorFallback} onError={logError} onReset={() => window.location.reload()}>
+                <ErrorBoundary
+                    FallbackComponent={ErrorFallback}
+                    onError={logError}
+                    onReset={() => window.location.reload()}>
                     <Suspense
                         fallback={
                             <div className="loader">
@@ -54,6 +67,7 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/products/:productId/details" element={<Product />} />
                             <Route path="/products" element={<Products />} />
+                            <Route path="/cart" element={<Cart />} />
                             <Route element={<PublicOnlyRoute />}>
                                 <Route path="/auth/login" element={<Login />} />
                             </Route>
