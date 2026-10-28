@@ -6,7 +6,11 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
     const wishlistItems = wishlist || [];
 
     return (
-        <Offcanvas show={activeMenu.wishlist} onHide={() => toggleMenu('wishlist')} placement="end" className="offcanvas-wishlist">
+        <Offcanvas
+            show={activeMenu.wishlist}
+            onHide={() => toggleMenu('wishlist')}
+            placement="end"
+            className="offcanvas-wishlist">
             <div className="inner">
                 <Offcanvas.Header className="head">
                     <span className="title">Любми</span>
@@ -20,17 +24,28 @@ export function WishlistOffcanvas({ activeMenu, toggleMenu, wishlist, toggleWish
                             <ul className="minicart-product-list">
                                 {wishlistItems.map((item) => (
                                     <li key={item._id}>
-                                        <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('wishlist')} className="image">
+                                        <Link
+                                            to={ENDPOINTS.PRODUCTS.DETAILS(item._id)}
+                                            onClick={() => toggleMenu('wishlist')}
+                                            className="image">
                                             <img src={item.image} alt={item.title} />
                                         </Link>
                                         <div className="content">
-                                            <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)} onClick={() => toggleMenu('wishlist')} className="title">
+                                            <Link
+                                                to={ENDPOINTS.PRODUCTS.DETAILS(item._id)}
+                                                onClick={() => toggleMenu('wishlist')}
+                                                className="title">
                                                 {item.title}
                                             </Link>
                                             <span className="quantity-price">
-                                                1 x <span className="amount">€{item.newPrice.toFixed(2)}</span>
+                                                1 x{' '}
+                                                <span className="amount">
+                                                    €{item.newPrice.toFixed(2)}
+                                                </span>
                                             </span>
-                                            <button onClick={() => toggleWishlist(item)} className="remove">
+                                            <button
+                                                onClick={() => toggleWishlist(item)}
+                                                className="btn-remove">
                                                 ×
                                             </button>
                                         </div>
