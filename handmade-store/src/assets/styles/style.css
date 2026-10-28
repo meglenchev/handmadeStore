@@ -627,6 +627,10 @@ body.homepage-bg1.offcanvas-open {
     animation: slideIn 0.3s ease-out;
 }
 
+.custom-notification.warning {
+    border-left-color: var(--color-warning);
+}
+
 .custom-notification.success {
     border-left-color: var(--color-success);
 }
@@ -644,6 +648,10 @@ body.homepage-bg1.offcanvas-open {
 
 .custom-notification.error .icon .svg-inline--fa {
     color: var(--color-primary-hover);
+}
+
+.custom-notification.warning .icon .svg-inline--fa {
+    color: var(--color-warning);
 }
 
 @keyframes slideIn {
@@ -13570,6 +13578,12 @@ body.offcanvas.show .sticky-header {
     line-height: 1;
     cursor: pointer;
     color: var(--text-dark);
+    background-color: transparent;
+    border: none;
+}
+
+.product-quantity .qty-btn:disabled {
+    opacity: 0;
 }
 
 .product-quantity .input-qty {

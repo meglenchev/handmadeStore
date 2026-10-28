@@ -1,12 +1,15 @@
+import ShopContext from '@/context/ShopContext.jsx';
 import { ENDPOINTS } from '@/utils/endpoints.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from 'react';
 import { Link } from 'react-router';
 
-export function Product({ item, removeFromCart }) {
+export function Product({ item }) {
+    const { updateQuantity, removeFromCart } = useContext(ShopContext);
     return (
         <tr>
             <td className="thumbnail">
-                <Link to="product-details.html">
+                <Link to={ENDPOINTS.PRODUCTS.DETAILS(item._id)}>
                     <img src={item.images.gallery[0]} alt={item.title} />
                 </Link>
             </td>
@@ -18,17 +21,24 @@ export function Product({ item, removeFromCart }) {
             </td>
             <td className="quantity">
                 <div className="product-quantity">
-                    <span className="qty-btn minus">
+                    <button
+                        type="button"
+                        className="qty-btn minus"
+                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                        disabled={item.quantity <= 1}>
                         <FontAwesomeIcon icon="minus" />
-                    </span>
-                    <input type="text" className="input-qty" defaultValue="1" readOnly />
-                    <span className="qty-btn plus">
+                    </button>
+                    <input type="text" className="input-qty" value={item.quantity} readOnly />
+                    <button
+                        type="button"
+                        className="qty-btn plus"
+                        onClick={() => updateQuantity(item._id, item.quantity + 1)}>
                         <FontAwesomeIcon icon="plus" />
-                    </span>
+                    </button>
                 </div>
             </td>
             <td className="subtotal">
-                <span>€{item.newPrice.toFixed(2)}</span>
+                <span>€{(item.newPrice * item.quantity).toFixed(2)}</span>
             </td>
             <td className="remove">
                 <button

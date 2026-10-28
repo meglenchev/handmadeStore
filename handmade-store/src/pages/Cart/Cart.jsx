@@ -5,7 +5,7 @@ import { Product } from './components/Product.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function Cart() {
-    const { cart, cartCount, subtotal, removeFromCart, notification } = useContext(ShopContext);
+    const { cart, subtotal } = useContext(ShopContext);
 
     return (
         <>
@@ -41,12 +41,7 @@ export function Cart() {
                                 </thead>
                                 <tbody>
                                     {cart.map((item) => (
-                                        <Product
-                                            key={item._id}
-                                            cart={cart}
-                                            item={item}
-                                            removeFromCart={removeFromCart}
-                                        />
+                                        <Product key={item._id} item={item} />
                                     ))}
                                 </tbody>
                             </table>
