@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 
-export function useProductQuantity(productData, cart) {
+export function useProductQuantity(productData, onMaxReached) {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        if (productData) {
-            const cartItem = cart?.find((item) => item._id === productData._id);
-            setQuantity(cartItem ? cartItem.quantity : 1);
-        }
-    }, [productData, cart]);
+        setQuantity(1);
+    }, [productData?._id]);
 
     const handleMinus = () => {
         if (quantity > 1) setQuantity((prev) => prev - 1);
@@ -20,7 +17,10 @@ export function useProductQuantity(productData, cart) {
         if (quantity < maxAvailable) {
             setQuantity((prev) => prev + 1);
         } else {
-            alert(`Достигнахте максималното налично количество на склад (${maxAvailable} бр.)`);
+            onMaxReached?.(
+                `Достигнахте максималното налично количество на склад (${maxAvailable} бр.)`,
+                'warning',
+            );
         }
     };
 

@@ -47,7 +47,7 @@ export function ShopProvider({ children }) {
             if (currentQuantity + amount > maxAvailable) {
                 showNotification(
                     `Не можете да добавите повече бройки. От продукт "${apiProduct.title}" има останали само ${maxAvailable} бройки на склад.`,
-                    'error',
+                    'warning',
                 );
                 return;
             }
@@ -130,6 +130,7 @@ export function ShopProvider({ children }) {
                 cart: detailedCart,
                 addToCart,
                 updateQuantity,
+                showNotification,
                 notification,
                 subtotal,
                 removeFromCart,

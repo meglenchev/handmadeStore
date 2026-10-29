@@ -19,8 +19,8 @@ import 'yet-another-react-lightbox/plugins/thumbnails.css';
 export function Product() {
     const { productId } = useParams();
     const { data, loading, error } = useQuery(ENDPOINTS.PRODUCTS.DETAILS(productId), {});
-    const { cart, addToCart } = useContext(ShopContext);
-    const { quantity, handleMinus, handlePlus } = useProductQuantity(data, cart);
+    const { addToCart, showNotification } = useContext(ShopContext);
+    const { quantity, handleMinus, handlePlus } = useProductQuantity(data, showNotification);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
     const [activeTab, setActiveTab] = useState('description');
     const [lightboxIndex, setLightboxIndex] = useState(-1);
@@ -81,7 +81,11 @@ export function Product() {
                                     data-hint="Кликнете, за да видите видео">
                                     <FontAwesomeIcon icon="play" />
                                 </a>
-                                <ProductGallery images={data?.images?.gallery} title={data?.title} onImageClick={setLightboxIndex} />
+                                <ProductGallery
+                                    images={data?.images?.gallery}
+                                    title={data?.title}
+                                    onImageClick={setLightboxIndex}
+                                />
                                 <Lightbox
                                     open={lightboxIndex >= 0}
                                     index={lightboxIndex}
@@ -104,7 +108,10 @@ export function Product() {
                                 <div className="product-price">
                                     {data.oldPrice ? (
                                         <>
-                                            <span className="old">€{data.oldPrice?.toFixed(2)}</span>-<span>€{data.newPrice?.toFixed(2)}</span>
+                                            <span className="old">
+                                                €{data.oldPrice?.toFixed(2)}
+                                            </span>
+                                            -<span>€{data.newPrice?.toFixed(2)}</span>
                                         </>
                                     ) : (
                                         <span>€{data.newPrice?.toFixed(2)}</span>
@@ -112,16 +119,28 @@ export function Product() {
                                 </div>
                                 <div className="product-description">{data.shortDescription}</div>
 
-                                <ProductVariations size={data.size} stock={data.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
+                                <ProductVariations
+                                    size={data.size}
+                                    stock={data.stock}
+                                    handleMinus={handleMinus}
+                                    handlePlus={handlePlus}
+                                    quantity={quantity}
+                                />
 
                                 <div className="product-buttons">
                                     <button
                                         onClick={() => toggleWishlist(data)}
                                         className={`btn btn-outline-dark btn-circle hintT-top ${isInWishlist ? 'added' : ''}`}
-                                        data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
+                                        data-hint={
+                                            isInWishlist
+                                                ? 'Премахване от любими'
+                                                : 'Добавяне в любими'
+                                        }>
                                         <FontAwesomeIcon icon="heart" />
                                     </button>
-                                    <button onClick={() => addToCart(data, quantity)} className="btn btn-primary">
+                                    <button
+                                        onClick={() => addToCart(data, quantity)}
+                                        className="btn btn-primary">
                                         <FontAwesomeIcon icon="shopping-cart" /> Добави в количката
                                     </button>
                                 </div>
@@ -135,7 +154,10 @@ export function Product() {
                                                 <td className="value">
                                                     <ul className="product-category">
                                                         <li>
-                                                            <Link to={`/products?category=${data.category}`}>{data.category}</Link>
+                                                            <Link
+                                                                to={`/products?category=${data.category}`}>
+                                                                {data.category}
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -172,7 +194,9 @@ export function Product() {
                                                     <ProductShare
                                                         productUrl={`${window.location.origin}/products/${data?.id}/details`}
                                                         productTitle={data?.title}
-                                                        productImage={data?.images?.gallery[0] || ''}
+                                                        productImage={
+                                                            data?.images?.gallery[0] || ''
+                                                        }
                                                     />
                                                 </td>
                                             </tr>
@@ -188,10 +212,14 @@ export function Product() {
             <div className="section section-padding border-bottom">
                 <div className="container">
                     <ul className="nav product-info-tab-list">
-                        <li className={activeTab === 'description' ? 'active' : ''} onClick={() => setActiveTab('description')}>
+                        <li
+                            className={activeTab === 'description' ? 'active' : ''}
+                            onClick={() => setActiveTab('description')}>
                             Description
                         </li>
-                        <li className={activeTab === 'additional' ? 'active' : ''} onClick={() => setActiveTab('additional')}>
+                        <li
+                            className={activeTab === 'additional' ? 'active' : ''}
+                            onClick={() => setActiveTab('additional')}>
                             Additional information
                         </li>
                     </ul>
@@ -221,7 +249,10 @@ export function Product() {
                                                 <tr>
                                                     <td>Category</td>
                                                     <td>
-                                                        <Link to={`/products?category=${data.category}`}>{data.category}</Link>
+                                                        <Link
+                                                            to={`/products?category=${data.category}`}>
+                                                            {data.category}
+                                                        </Link>
                                                     </td>
                                                 </tr>
                                             </tbody>

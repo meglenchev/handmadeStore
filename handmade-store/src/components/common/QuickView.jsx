@@ -12,10 +12,10 @@ import { Link } from 'react-router';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
-    const { cart, addToCart } = useContext(ShopContext);
+    const { addToCart, showNotification } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
-    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, cart);
+    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, showNotification);
 
     if (!productData) {
         return null;
@@ -32,7 +32,10 @@ export function QuickView() {
                 <div className="row learts-mb-n30">
                     {/* Product Images Start */}
                     <div className="col-lg-6 col-12 learts-mb-30">
-                        <ProductGallery images={productData.images.gallery} title={productData.title} />
+                        <ProductGallery
+                            images={productData.images.gallery}
+                            title={productData.title}
+                        />
                     </div>
                     {/* Product Summery Start */}
                     <div className="col-lg-6 col-12 position-relative learts-mb-30">
@@ -41,7 +44,10 @@ export function QuickView() {
                             <div className="product-price">
                                 {productData.oldPrice && (
                                     <>
-                                        <span className="old">€{productData.oldPrice.toFixed(2)}</span> -
+                                        <span className="old">
+                                            €{productData.oldPrice.toFixed(2)}
+                                        </span>{' '}
+                                        -
                                     </>
                                 )}
                                 €{productData.newPrice.toFixed(2)}
@@ -50,18 +56,32 @@ export function QuickView() {
                                 <p>{productData.shortDescription}</p>
                             </div>
 
-                            <ProductVariations size={productData.size} stock={productData.stock} handleMinus={handleMinus} handlePlus={handlePlus} quantity={quantity} />
+                            <ProductVariations
+                                size={productData.size}
+                                stock={productData.stock}
+                                handleMinus={handleMinus}
+                                handlePlus={handlePlus}
+                                quantity={quantity}
+                            />
 
                             <div className="product-buttons">
                                 <button
                                     onClick={() => toggleWishlist(productData)}
                                     className={`btn btn-outline-dark btn-circle hintT-top ${isInWishlist ? 'added' : ''}`}
-                                    data-hint={isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'}>
+                                    data-hint={
+                                        isInWishlist ? 'Премахване от любими' : 'Добавяне в любими'
+                                    }>
                                     <FontAwesomeIcon icon="heart" />
                                 </button>
 
-                                <button onClick={() => addToCart(productData, quantity)} className="btn btn-primary" disabled={productData.outofstock}>
-                                    <FontAwesomeIcon icon="shopping-cart" /> {productData.outofstock ? 'Продукта не е наличен' : 'Добавяне в количката'}
+                                <button
+                                    onClick={() => addToCart(productData, quantity)}
+                                    className="btn btn-primary"
+                                    disabled={productData.outofstock}>
+                                    <FontAwesomeIcon icon="shopping-cart" />{' '}
+                                    {productData.outofstock
+                                        ? 'Продукта не е наличен'
+                                        : 'Добавяне в количката'}
                                 </button>
                             </div>
                             <div className="product-meta mb-0">
@@ -74,7 +94,10 @@ export function QuickView() {
                                             <td className="value">
                                                 <ul className="product-category">
                                                     <li>
-                                                        <Link to={`/products?category=${productData.category}`}>{productData.category}</Link>
+                                                        <Link
+                                                            to={`/products?category=${productData.category}`}>
+                                                            {productData.category}
+                                                        </Link>
                                                     </li>
                                                 </ul>
                                             </td>
