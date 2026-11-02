@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 
 export function Product({ item }) {
     const { updateQuantity, removeFromCart } = useContext(ShopContext);
+
     return (
         <tr>
             <td className="thumbnail">
@@ -32,7 +33,8 @@ export function Product({ item }) {
                     <button
                         type="button"
                         className="qty-btn plus"
-                        onClick={() => updateQuantity(item._id, item.quantity + 1)}>
+                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                        disabled={item.quantity >= item.stock}>
                         <FontAwesomeIcon icon="plus" />
                     </button>
                 </div>

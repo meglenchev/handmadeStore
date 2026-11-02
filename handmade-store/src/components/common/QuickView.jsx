@@ -12,10 +12,16 @@ import { Link } from 'react-router';
 
 export function QuickView() {
     const { showQuickView, productData, onCloseQuickView } = useContext(QuickViewContext);
-    const { addToCart, showNotification } = useContext(ShopContext);
+    const { cart, addToCart, showNotification } = useContext(ShopContext);
     const { toggleWishlist, wishlist } = useContext(WishlistContext);
 
-    const { quantity, handleMinus, handlePlus } = useProductQuantity(productData, showNotification);
+    const inCartQuantity = cart.find((item) => item._id === productData?._id)?.quantity ?? 0;
+
+    const { quantity, handleMinus, handlePlus } = useProductQuantity(
+        productData,
+        inCartQuantity,
+        showNotification,
+    );
 
     if (!productData) {
         return null;
@@ -62,6 +68,7 @@ export function QuickView() {
                                 handleMinus={handleMinus}
                                 handlePlus={handlePlus}
                                 quantity={quantity}
+                                inCartQuantity={inCartQuantity}
                             />
 
                             <div className="product-buttons">
@@ -77,11 +84,16 @@ export function QuickView() {
                                 <button
                                     onClick={() => addToCart(productData, quantity)}
                                     className="btn btn-primary"
-                                    disabled={productData.outofstock}>
+                                    disabled={
+                                        productData.outofstock ||
+                                        inCartQuantity >= productData.stock
+                                    }>
                                     <FontAwesomeIcon icon="shopping-cart" />{' '}
                                     {productData.outofstock
                                         ? 'Продукта не е наличен'
-                                        : 'Добавяне в количката'}
+                                        : inCartQuantity >= productData.stock
+                                          ? 'Достигнато е максималното количество'
+                                          : 'Добавяне в количката'}
                                 </button>
                             </div>
                             <div className="product-meta mb-0">

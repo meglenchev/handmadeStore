@@ -1,6 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export function ProductVariations({ size, stock, handleMinus, handlePlus, quantity }) {
+export function ProductVariations({
+    size,
+    stock,
+    handleMinus,
+    handlePlus,
+    quantity,
+    inCartQuantity,
+}) {
     return (
         <div className="product-variations">
             <table>
@@ -28,13 +35,26 @@ export function ProductVariations({ size, stock, handleMinus, handlePlus, quanti
                             </td>
                             <td className="value">
                                 <div className="product-quantity">
-                                    <span onClick={handleMinus} className="qty-btn minus">
+                                    <button
+                                        type="button"
+                                        onClick={handleMinus}
+                                        className="qty-btn minus"
+                                        disabled={quantity <= 1}>
                                         <FontAwesomeIcon icon="minus" />
-                                    </span>
-                                    <input type="text" className="input-qty" value={quantity} readOnly />
-                                    <span onClick={handlePlus} className="qty-btn plus">
+                                    </button>
+                                    <input
+                                        type="text"
+                                        className="input-qty"
+                                        value={quantity}
+                                        readOnly
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handlePlus}
+                                        className="qty-btn plus"
+                                        disabled={inCartQuantity >= stock || quantity >= stock}>
                                         <FontAwesomeIcon icon="plus" />
-                                    </span>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

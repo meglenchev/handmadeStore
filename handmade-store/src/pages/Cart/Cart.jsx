@@ -31,11 +31,11 @@ export function Cart() {
                                 <thead>
                                     <tr>
                                         <th className="name" colSpan="2">
-                                            Продуцт
+                                            Продукт
                                         </th>
                                         <th className="price">Цена</th>
                                         <th className="quantity">Количество</th>
-                                        <th className="subtotal">Тотал</th>
+                                        <th className="subtotal">Общо</th>
                                         <th className="remove">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -61,13 +61,10 @@ export function Cart() {
                                 <div className="col-auto">
                                     <div className="form-buttons">
                                         <Link
-                                            className="btn btn-light btn-hover-dark"
+                                            className="btn btn-dark btn-outline-hover-dark"
                                             to="/products">
                                             Продължи пазаруването
                                         </Link>
-                                        <button className="btn btn-dark btn-outline-hover-dark learts-ml-20">
-                                            Обнови количката
-                                        </button>
                                     </div>
                                 </div>
                             </div>
