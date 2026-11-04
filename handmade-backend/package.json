@@ -5,7 +5,9 @@
     "scripts": {
         "start": "node src/index.js",
         "dev": "node --watch src/index.js",
-        "seed": "node src/seed.js"
+        "seed": "node src/scripts/seed.js",
+        "seed:ekatte": "node --env-file=.env src/scripts/seed-ekatte.js",
+        "seed:ekatte:dry": "node src/scripts/seed-ekatte.js --dry-run"
     },
     "dependencies": {
         "bcrypt": "^6.0.0",

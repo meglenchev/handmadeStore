@@ -1,10 +1,10 @@
 import "dotenv/config";
 import mongoose from "mongoose";
 import { pathToFileURL } from "node:url";
-import { products } from "./data/products.js";
-import { Product } from "./models/Product.js";
-import { User } from "./models/User.js";
-import { slugify } from "./utils/slugify.js";
+import { products } from "../data/products.js";
+import { Product } from "../models/Product.js";
+import { User } from "../models/User.js";
+import { slugify } from "../utils/slugify.js";
 
 // Същото име на базата като в index.js, за да добавяме в базата, която сървърът ползва.
 const DB_NAME = "handmade-shop";
