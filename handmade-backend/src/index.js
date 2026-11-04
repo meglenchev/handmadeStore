@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import mongoose from "mongoose";
+import { connectDB } from "./config/db.js";
 import cors from "cors";
 import { routes } from "./routes.js";
 import cookieParser from "cookie-parser";
@@ -8,17 +8,13 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-const url = "mongodb://localhost:27017/handmade-shop";
-
 try {
-    await mongoose.connect(url, {
-        dbName: "handmade-shop",
-    });
+    await connectDB();
 
-    console.log("Successfully conntected to MDB");
+    console.log("Successfully connected to MDB");
 } catch (error) {
-    console.log(`Cannot connect to DB ${error.message}`);
-    process.exit();
+    console.error(`Cannot connect to DB: ${error.message}`);
+    process.exit(1);
 }
 
 app.use(
