@@ -2,7 +2,8 @@ import { useContext } from 'react';
 import { Link } from 'react-router';
 import ShopContext from '@/context/ShopContext.jsx';
 import { Product } from './components/Product.jsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FEATURES } from '../../config/features.js';
+import { CartCoupon } from './components/CartCoupon.jsx';
 
 export function Cart() {
     const { cart, subtotal } = useContext(ShopContext);
@@ -46,19 +47,8 @@ export function Cart() {
                                 </tbody>
                             </table>
                             <div className="row justify-content-between mb-n3">
-                                <div className="col-auto mb-3">
-                                    <div className="cart-coupon">
-                                        <input
-                                            type="text"
-                                            placeholder="Въведете кода за отстъпка"
-                                            disabled
-                                        />
-                                        <button className="btn">
-                                            <FontAwesomeIcon icon="gift" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="col-auto">
+                                {FEATURES.coupons && <CartCoupon />}
+                                <div className="col-auto learts-ml-auto">
                                     <div className="form-buttons">
                                         <Link
                                             className="btn btn-dark btn-outline-hover-dark"
