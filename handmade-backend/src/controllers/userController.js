@@ -234,6 +234,16 @@ userController.patch(
     },
 );
 
+/* Get User Profile */
+userController.get("/users/profile", verifyToken(), async (req, res, next) => {
+    try {
+        const user = await userServices.getProfile(req.user._id);
+        res.status(200).json({ user });
+    } catch (err) {
+        next(err);
+    }
+});
+
 /* Get Current User */
 userController.get("/users/me", verifyToken(), async (req, res, next) => {
     try {

@@ -289,6 +289,19 @@ export default {
         // ще остават валидни до изтичането си (до 1 час) — за тях е нужно отделно решение
         // (напр. passwordChangedAt/tokenVersion в User и проверка на iat във verifyToken).
     },
+    async getProfile(userId) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            throw httpError(404, USER_NOT_FOUND_MSG);
+        }
+
+        return {
+            fullName: user.fullName ?? "",
+            email: user.email,
+            address: user.address?.[0] ?? null,
+        };
+    },
     async getMe(userId) {
         const user = await User.findById(userId);
 
