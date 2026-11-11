@@ -16784,17 +16784,44 @@ input[type='range']::-moz-range-thumb {
     margin-bottom: 20px;
 }
 
-.checkout-coupon .coupon-toggle a {
+.checkout-coupon .coupon-toggle .btn-coupon-toggle {
     color: var(--text-dark);
+    border: none;
+    background-color: transparent;
     border-bottom: 1px solid var(--color-dark);
+    padding: 0;
+    margin-left: 10px;
+}
+
+.checkout-coupon .coupon-toggle .btn-coupon-toggle:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 /* Coupon Form */
 .coupon-form {
+    overflow: hidden;
     max-width: 500px;
     margin-bottom: 0;
-    padding: 30px;
+    padding: 0 30px;
     background-color: #f8f9fa;
+    max-height: 0;
+    opacity: 0;
+    transition:
+        max-height 0.5s ease-out,
+        opacity 0.4s ease-out,
+        padding 0.5s ease-out;
+}
+
+.coupon-form.is-open {
+    overflow: visible;
+    padding: 30px;
+    max-height: 500px;
+    opacity: 1;
+    transition:
+        max-height 0.5s ease-out,
+        opacity 0.4s ease-out,
+        padding 0.5s ease-out;
 }
 
 .coupon-form p {

@@ -25,6 +25,10 @@ const Cart = lazy(() =>
     import('./pages/Cart/Cart.jsx').then((module) => ({ default: module.Cart })),
 );
 
+const Checkout = lazy(() =>
+    import('./pages/Checkout/Checkout.jsx').then((module) => ({ default: module.Checkout })),
+);
+
 function ErrorFallback({ resetErrorBoundary }) {
     return (
         <div className="section">
@@ -68,6 +72,7 @@ function App() {
                             <Route path="/products/:productId/details" element={<Product />} />
                             <Route path="/products" element={<Products />} />
                             <Route path="/cart" element={<Cart />} />
+                            <Route path="/checkout" element={<Checkout />} />
                             <Route element={<PublicOnlyRoute />}>
                                 <Route path="/auth/login" element={<Login />} />
                             </Route>

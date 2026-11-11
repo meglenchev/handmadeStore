@@ -65,7 +65,10 @@ export function CartOffcanvas({ activeMenu, toggleMenu, cart, subtotal, removeFr
                                     className="btn btn-dark btn-hover-primary">
                                     преглед на количката
                                 </Link>
-                                <Link href="/checkout" className="btn btn-primary">
+                                <Link
+                                    to="/checkout"
+                                    onClick={() => toggleMenu('cart')}
+                                    className="btn btn-primary">
                                     плати
                                 </Link>
                             </div>
